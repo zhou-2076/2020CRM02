@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.KcGoodsInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.KcGoodsInfo" >
+    <constructor >
+      <idArg column="PRODUCT_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="PRODUCT_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRODUCT_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GGSM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="WAREHOUSE_ID" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="KC_NUM" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="COST" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="RENALL" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="SELL" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="ORDER_REMARK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_MODIFY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PRODUCT_ID, PRODUCT_NAME, "PRODUCT_TYPE", GGSM, UNIT, WAREHOUSE_ID, KC_NUM, COST, 
+    RENALL, SELL, ORDER_REMARK, COMPANY_ID, LAST_MODIFY_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.KcGoodsInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from KC_GOODS_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from KC_GOODS_INFO
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from KC_GOODS_INFO
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.KcGoodsInfoExample" >
+    delete from KC_GOODS_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.KcGoodsInfo" >
+    insert into KC_GOODS_INFO (PRODUCT_ID, PRODUCT_NAME, "PRODUCT_TYPE", 
+      GGSM, UNIT, WAREHOUSE_ID, 
+      KC_NUM, COST, RENALL, 
+      SELL, ORDER_REMARK, COMPANY_ID, 
+      LAST_MODIFY_DATE)
+    values (#{productId,jdbcType=DECIMAL}, #{productName,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, 
+      #{ggsm,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{warehouseId,jdbcType=DECIMAL}, 
+      #{kcNum,jdbcType=DECIMAL}, #{cost,jdbcType=DECIMAL}, #{renall,jdbcType=DECIMAL}, 
+      #{sell,jdbcType=DECIMAL}, #{orderRemark,jdbcType=VARCHAR}, #{companyId,jdbcType=DECIMAL}, 
+      #{lastModifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.KcGoodsInfo" >
+    insert into KC_GOODS_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME,
+      </if>
+      <if test="productType != null" >
+        "PRODUCT_TYPE",
+      </if>
+      <if test="ggsm != null" >
+        GGSM,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="warehouseId != null" >
+        WAREHOUSE_ID,
+      </if>
+      <if test="kcNum != null" >
+        KC_NUM,
+      </if>
+      <if test="cost != null" >
+        COST,
+      </if>
+      <if test="renall != null" >
+        RENALL,
+      </if>
+      <if test="sell != null" >
+        SELL,
+      </if>
+      <if test="orderRemark != null" >
+        ORDER_REMARK,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null" >
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="ggsm != null" >
+        #{ggsm,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=DECIMAL},
+      </if>
+      <if test="kcNum != null" >
+        #{kcNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="renall != null" >
+        #{renall,jdbcType=DECIMAL},
+      </if>
+      <if test="sell != null" >
+        #{sell,jdbcType=DECIMAL},
+      </if>
+      <if test="orderRemark != null" >
+        #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.KcGoodsInfoExample" resultType="java.lang.Integer" >
+    select count(*) from KC_GOODS_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update KC_GOODS_INFO
+    <set >
+      <if test="record.productId != null" >
+        PRODUCT_ID = #{record.productId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productName != null" >
+        PRODUCT_NAME = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productType != null" >
+        "PRODUCT_TYPE" = #{record.productType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ggsm != null" >
+        GGSM = #{record.ggsm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null" >
+        UNIT = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseId != null" >
+        WAREHOUSE_ID = #{record.warehouseId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kcNum != null" >
+        KC_NUM = #{record.kcNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cost != null" >
+        COST = #{record.cost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.renall != null" >
+        RENALL = #{record.renall,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sell != null" >
+        SELL = #{record.sell,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderRemark != null" >
+        ORDER_REMARK = #{record.orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update KC_GOODS_INFO
+    set PRODUCT_ID = #{record.productId,jdbcType=DECIMAL},
+      PRODUCT_NAME = #{record.productName,jdbcType=VARCHAR},
+      "PRODUCT_TYPE" = #{record.productType,jdbcType=VARCHAR},
+      GGSM = #{record.ggsm,jdbcType=VARCHAR},
+      UNIT = #{record.unit,jdbcType=VARCHAR},
+      WAREHOUSE_ID = #{record.warehouseId,jdbcType=DECIMAL},
+      KC_NUM = #{record.kcNum,jdbcType=DECIMAL},
+      COST = #{record.cost,jdbcType=DECIMAL},
+      RENALL = #{record.renall,jdbcType=DECIMAL},
+      SELL = #{record.sell,jdbcType=DECIMAL},
+      ORDER_REMARK = #{record.orderRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.KcGoodsInfo" >
+    update KC_GOODS_INFO
+    <set >
+      <if test="productName != null" >
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null" >
+        "PRODUCT_TYPE" = #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="ggsm != null" >
+        GGSM = #{ggsm,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseId != null" >
+        WAREHOUSE_ID = #{warehouseId,jdbcType=DECIMAL},
+      </if>
+      <if test="kcNum != null" >
+        KC_NUM = #{kcNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        COST = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="renall != null" >
+        RENALL = #{renall,jdbcType=DECIMAL},
+      </if>
+      <if test="sell != null" >
+        SELL = #{sell,jdbcType=DECIMAL},
+      </if>
+      <if test="orderRemark != null" >
+        ORDER_REMARK = #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.KcGoodsInfo" >
+    update KC_GOODS_INFO
+    set PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      "PRODUCT_TYPE" = #{productType,jdbcType=VARCHAR},
+      GGSM = #{ggsm,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      WAREHOUSE_ID = #{warehouseId,jdbcType=DECIMAL},
+      KC_NUM = #{kcNum,jdbcType=DECIMAL},
+      COST = #{cost,jdbcType=DECIMAL},
+      RENALL = #{renall,jdbcType=DECIMAL},
+      SELL = #{sell,jdbcType=DECIMAL},
+      ORDER_REMARK = #{orderRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </update>
+</mapper>

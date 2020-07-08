@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.XsDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.XsDetail" >
+    <constructor >
+      <idArg column="SALE_DETAIL_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="SALE_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="GOOD_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="GOOD_NUM" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="GOOD_PRICE" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="SALE_DETAIL_REMARK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_MODIFY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SALE_DETAIL_ID, SALE_ID, GOOD_ID, GOOD_NUM, GOOD_PRICE, SALE_DETAIL_REMARK, COMPANY_ID, 
+    LAST_MODIFY_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.XsDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from XS_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from XS_DETAIL
+    where SALE_DETAIL_ID = #{saleDetailId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from XS_DETAIL
+    where SALE_DETAIL_ID = #{saleDetailId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.XsDetailExample" >
+    delete from XS_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.XsDetail" >
+    insert into XS_DETAIL (SALE_DETAIL_ID, SALE_ID, GOOD_ID, 
+      GOOD_NUM, GOOD_PRICE, SALE_DETAIL_REMARK, 
+      COMPANY_ID, LAST_MODIFY_DATE)
+    values (#{saleDetailId,jdbcType=DECIMAL}, #{saleId,jdbcType=DECIMAL}, #{goodId,jdbcType=DECIMAL}, 
+      #{goodNum,jdbcType=DECIMAL}, #{goodPrice,jdbcType=DECIMAL}, #{saleDetailRemark,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=DECIMAL}, #{lastModifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.XsDetail" >
+    insert into XS_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="saleDetailId != null" >
+        SALE_DETAIL_ID,
+      </if>
+      <if test="saleId != null" >
+        SALE_ID,
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID,
+      </if>
+      <if test="goodNum != null" >
+        GOOD_NUM,
+      </if>
+      <if test="goodPrice != null" >
+        GOOD_PRICE,
+      </if>
+      <if test="saleDetailRemark != null" >
+        SALE_DETAIL_REMARK,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="saleDetailId != null" >
+        #{saleDetailId,jdbcType=DECIMAL},
+      </if>
+      <if test="saleId != null" >
+        #{saleId,jdbcType=DECIMAL},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=DECIMAL},
+      </if>
+      <if test="goodNum != null" >
+        #{goodNum,jdbcType=DECIMAL},
+      </if>
+      <if test="goodPrice != null" >
+        #{goodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleDetailRemark != null" >
+        #{saleDetailRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.XsDetailExample" resultType="java.lang.Integer" >
+    select count(*) from XS_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update XS_DETAIL
+    <set >
+      <if test="record.saleDetailId != null" >
+        SALE_DETAIL_ID = #{record.saleDetailId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleId != null" >
+        SALE_ID = #{record.saleId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodId != null" >
+        GOOD_ID = #{record.goodId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodNum != null" >
+        GOOD_NUM = #{record.goodNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodPrice != null" >
+        GOOD_PRICE = #{record.goodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleDetailRemark != null" >
+        SALE_DETAIL_REMARK = #{record.saleDetailRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update XS_DETAIL
+    set SALE_DETAIL_ID = #{record.saleDetailId,jdbcType=DECIMAL},
+      SALE_ID = #{record.saleId,jdbcType=DECIMAL},
+      GOOD_ID = #{record.goodId,jdbcType=DECIMAL},
+      GOOD_NUM = #{record.goodNum,jdbcType=DECIMAL},
+      GOOD_PRICE = #{record.goodPrice,jdbcType=DECIMAL},
+      SALE_DETAIL_REMARK = #{record.saleDetailRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.XsDetail" >
+    update XS_DETAIL
+    <set >
+      <if test="saleId != null" >
+        SALE_ID = #{saleId,jdbcType=DECIMAL},
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID = #{goodId,jdbcType=DECIMAL},
+      </if>
+      <if test="goodNum != null" >
+        GOOD_NUM = #{goodNum,jdbcType=DECIMAL},
+      </if>
+      <if test="goodPrice != null" >
+        GOOD_PRICE = #{goodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleDetailRemark != null" >
+        SALE_DETAIL_REMARK = #{saleDetailRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SALE_DETAIL_ID = #{saleDetailId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.XsDetail" >
+    update XS_DETAIL
+    set SALE_ID = #{saleId,jdbcType=DECIMAL},
+      GOOD_ID = #{goodId,jdbcType=DECIMAL},
+      GOOD_NUM = #{goodNum,jdbcType=DECIMAL},
+      GOOD_PRICE = #{goodPrice,jdbcType=DECIMAL},
+      SALE_DETAIL_REMARK = #{saleDetailRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
+    where SALE_DETAIL_ID = #{saleDetailId,jdbcType=DECIMAL}
+  </update>
+</mapper>

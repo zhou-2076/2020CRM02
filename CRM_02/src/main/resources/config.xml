@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<!-- 全局二级缓存默认是开启的，可不设 -->
+		<setting name="cacheEnabled" value="true"/>
+		<!-- 开启驼峰命名法则，就会将形如stu_id列的值自动映射到stuId属性的值 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<!-- 配置分页插件 -->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<property name="reasonable" value="true"/><!-- 合理化，解决出现0页的问题 -->
+		</plugin>
+	</plugins>
+</configuration>

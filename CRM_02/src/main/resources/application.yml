@@ -1,0 +1,26 @@
+server:
+  port: 8080                      #端口号，默认是8080，可不配
+  servlet:
+    context-path: /CRM02  #上下文根路径
+
+    encoding: 
+      charset: utf-8              #字符编码，默认是utf-8
+      enabled: true               #启用字符编码
+      force: true                 #强制使用字符编码
+      
+
+      
+spring:
+  mvc: 
+    view:
+      prefix: /WEB-INF/           #前缀
+      suffix: .jsp                #后缀
+  datasource:
+   driver-class-name: oracle.jdbc.driver.OracleDriver
+   url: jdbc:oracle:thin:@42.51.78.5:1521:orcl
+   username: CRM2
+   password: scit_190506_crm2
+
+   
+mybatis:
+  config-location: classpath:config.xml            #加载mybatis配置文件

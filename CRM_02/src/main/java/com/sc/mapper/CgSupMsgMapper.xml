@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.CgSupMsgMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.CgSupMsg" >
+    <constructor >
+      <idArg column="GYS_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="GYS_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GYS_SHORT_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="LXR" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TEL" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="MOBLE_PHONE" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CZ" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="YB" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="EMIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="KH_YH" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="YH_ZH" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="COMPANY_ZY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SF_YX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="OPERATER_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="BZ_XX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_TIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GYS_ID, GYS_NAME, GYS_SHORT_NAME, LXR, TEL, MOBLE_PHONE, CZ, ADDRESS, YB, EMIL, KH_YH, 
+    YH_ZH, COMPANY_ZY, SF_YX, OPERATER_ID, BZ_XX, COMPANY_ID, LAST_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.CgSupMsgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from CG_SUP_MSG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CG_SUP_MSG
+    where GYS_ID = #{gysId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CG_SUP_MSG
+    where GYS_ID = #{gysId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.CgSupMsgExample" >
+    delete from CG_SUP_MSG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.CgSupMsg" >
+    insert into CG_SUP_MSG (GYS_ID, GYS_NAME, GYS_SHORT_NAME, 
+      LXR, TEL, MOBLE_PHONE, 
+      CZ, ADDRESS, YB, EMIL, 
+      KH_YH, YH_ZH, COMPANY_ZY, 
+      SF_YX, OPERATER_ID, BZ_XX, 
+      COMPANY_ID, LAST_TIME)
+    values (#{gysId,jdbcType=DECIMAL}, #{gysName,jdbcType=VARCHAR}, #{gysShortName,jdbcType=VARCHAR}, 
+      #{lxr,jdbcType=VARCHAR}, #{tel,jdbcType=DECIMAL}, #{moblePhone,jdbcType=DECIMAL}, 
+      #{cz,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{yb,jdbcType=DECIMAL}, #{emil,jdbcType=VARCHAR}, 
+      #{khYh,jdbcType=VARCHAR}, #{yhZh,jdbcType=DECIMAL}, #{companyZy,jdbcType=VARCHAR}, 
+      #{sfYx,jdbcType=VARCHAR}, #{operaterId,jdbcType=DECIMAL}, #{bzXx,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=DECIMAL}, #{lastTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.CgSupMsg" >
+    insert into CG_SUP_MSG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gysId != null" >
+        GYS_ID,
+      </if>
+      <if test="gysName != null" >
+        GYS_NAME,
+      </if>
+      <if test="gysShortName != null" >
+        GYS_SHORT_NAME,
+      </if>
+      <if test="lxr != null" >
+        LXR,
+      </if>
+      <if test="tel != null" >
+        TEL,
+      </if>
+      <if test="moblePhone != null" >
+        MOBLE_PHONE,
+      </if>
+      <if test="cz != null" >
+        CZ,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="yb != null" >
+        YB,
+      </if>
+      <if test="emil != null" >
+        EMIL,
+      </if>
+      <if test="khYh != null" >
+        KH_YH,
+      </if>
+      <if test="yhZh != null" >
+        YH_ZH,
+      </if>
+      <if test="companyZy != null" >
+        COMPANY_ZY,
+      </if>
+      <if test="sfYx != null" >
+        SF_YX,
+      </if>
+      <if test="operaterId != null" >
+        OPERATER_ID,
+      </if>
+      <if test="bzXx != null" >
+        BZ_XX,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gysId != null" >
+        #{gysId,jdbcType=DECIMAL},
+      </if>
+      <if test="gysName != null" >
+        #{gysName,jdbcType=VARCHAR},
+      </if>
+      <if test="gysShortName != null" >
+        #{gysShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="lxr != null" >
+        #{lxr,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=DECIMAL},
+      </if>
+      <if test="moblePhone != null" >
+        #{moblePhone,jdbcType=DECIMAL},
+      </if>
+      <if test="cz != null" >
+        #{cz,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="yb != null" >
+        #{yb,jdbcType=DECIMAL},
+      </if>
+      <if test="emil != null" >
+        #{emil,jdbcType=VARCHAR},
+      </if>
+      <if test="khYh != null" >
+        #{khYh,jdbcType=VARCHAR},
+      </if>
+      <if test="yhZh != null" >
+        #{yhZh,jdbcType=DECIMAL},
+      </if>
+      <if test="companyZy != null" >
+        #{companyZy,jdbcType=VARCHAR},
+      </if>
+      <if test="sfYx != null" >
+        #{sfYx,jdbcType=VARCHAR},
+      </if>
+      <if test="operaterId != null" >
+        #{operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="bzXx != null" >
+        #{bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.CgSupMsgExample" resultType="java.lang.Integer" >
+    select count(*) from CG_SUP_MSG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CG_SUP_MSG
+    <set >
+      <if test="record.gysId != null" >
+        GYS_ID = #{record.gysId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gysName != null" >
+        GYS_NAME = #{record.gysName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gysShortName != null" >
+        GYS_SHORT_NAME = #{record.gysShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxr != null" >
+        LXR = #{record.lxr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null" >
+        TEL = #{record.tel,jdbcType=DECIMAL},
+      </if>
+      <if test="record.moblePhone != null" >
+        MOBLE_PHONE = #{record.moblePhone,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cz != null" >
+        CZ = #{record.cz,jdbcType=DECIMAL},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yb != null" >
+        YB = #{record.yb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.emil != null" >
+        EMIL = #{record.emil,jdbcType=VARCHAR},
+      </if>
+      <if test="record.khYh != null" >
+        KH_YH = #{record.khYh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yhZh != null" >
+        YH_ZH = #{record.yhZh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.companyZy != null" >
+        COMPANY_ZY = #{record.companyZy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfYx != null" >
+        SF_YX = #{record.sfYx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operaterId != null" >
+        OPERATER_ID = #{record.operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bzXx != null" >
+        BZ_XX = #{record.bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastTime != null" >
+        LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CG_SUP_MSG
+    set GYS_ID = #{record.gysId,jdbcType=DECIMAL},
+      GYS_NAME = #{record.gysName,jdbcType=VARCHAR},
+      GYS_SHORT_NAME = #{record.gysShortName,jdbcType=VARCHAR},
+      LXR = #{record.lxr,jdbcType=VARCHAR},
+      TEL = #{record.tel,jdbcType=DECIMAL},
+      MOBLE_PHONE = #{record.moblePhone,jdbcType=DECIMAL},
+      CZ = #{record.cz,jdbcType=DECIMAL},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      YB = #{record.yb,jdbcType=DECIMAL},
+      EMIL = #{record.emil,jdbcType=VARCHAR},
+      KH_YH = #{record.khYh,jdbcType=VARCHAR},
+      YH_ZH = #{record.yhZh,jdbcType=DECIMAL},
+      COMPANY_ZY = #{record.companyZy,jdbcType=VARCHAR},
+      SF_YX = #{record.sfYx,jdbcType=VARCHAR},
+      OPERATER_ID = #{record.operaterId,jdbcType=DECIMAL},
+      BZ_XX = #{record.bzXx,jdbcType=VARCHAR},
+      COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.CgSupMsg" >
+    update CG_SUP_MSG
+    <set >
+      <if test="gysName != null" >
+        GYS_NAME = #{gysName,jdbcType=VARCHAR},
+      </if>
+      <if test="gysShortName != null" >
+        GYS_SHORT_NAME = #{gysShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="lxr != null" >
+        LXR = #{lxr,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=DECIMAL},
+      </if>
+      <if test="moblePhone != null" >
+        MOBLE_PHONE = #{moblePhone,jdbcType=DECIMAL},
+      </if>
+      <if test="cz != null" >
+        CZ = #{cz,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="yb != null" >
+        YB = #{yb,jdbcType=DECIMAL},
+      </if>
+      <if test="emil != null" >
+        EMIL = #{emil,jdbcType=VARCHAR},
+      </if>
+      <if test="khYh != null" >
+        KH_YH = #{khYh,jdbcType=VARCHAR},
+      </if>
+      <if test="yhZh != null" >
+        YH_ZH = #{yhZh,jdbcType=DECIMAL},
+      </if>
+      <if test="companyZy != null" >
+        COMPANY_ZY = #{companyZy,jdbcType=VARCHAR},
+      </if>
+      <if test="sfYx != null" >
+        SF_YX = #{sfYx,jdbcType=VARCHAR},
+      </if>
+      <if test="operaterId != null" >
+        OPERATER_ID = #{operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="bzXx != null" >
+        BZ_XX = #{bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where GYS_ID = #{gysId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.CgSupMsg" >
+    update CG_SUP_MSG
+    set GYS_NAME = #{gysName,jdbcType=VARCHAR},
+      GYS_SHORT_NAME = #{gysShortName,jdbcType=VARCHAR},
+      LXR = #{lxr,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=DECIMAL},
+      MOBLE_PHONE = #{moblePhone,jdbcType=DECIMAL},
+      CZ = #{cz,jdbcType=DECIMAL},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      YB = #{yb,jdbcType=DECIMAL},
+      EMIL = #{emil,jdbcType=VARCHAR},
+      KH_YH = #{khYh,jdbcType=VARCHAR},
+      YH_ZH = #{yhZh,jdbcType=DECIMAL},
+      COMPANY_ZY = #{companyZy,jdbcType=VARCHAR},
+      SF_YX = #{sfYx,jdbcType=VARCHAR},
+      OPERATER_ID = #{operaterId,jdbcType=DECIMAL},
+      BZ_XX = #{bzXx,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      LAST_TIME = #{lastTime,jdbcType=TIMESTAMP}
+    where GYS_ID = #{gysId,jdbcType=DECIMAL}
+  </update>
+</mapper>

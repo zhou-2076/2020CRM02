@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.BgPersonageScheduleMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.BgPersonageSchedule" >
+    <constructor >
+      <idArg column="SCHEDULE_ARRANGE_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="ARRANGE_CATEGORY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ARRANGE_THEME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="START_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="START_TIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="FILL_PERSOMMEL_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="ARRANGE_DESCRIBE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_MODIFY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SCHEDULE_ARRANGE_ID, ARRANGE_CATEGORY, ARRANGE_THEME, START_DATE, START_TIME, FILL_PERSOMMEL_ID, 
+    ARRANGE_DESCRIBE, COMPANY_ID, LAST_MODIFY_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.BgPersonageScheduleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from BG_PERSONAGE_SCHEDULE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BG_PERSONAGE_SCHEDULE
+    where SCHEDULE_ARRANGE_ID = #{scheduleArrangeId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from BG_PERSONAGE_SCHEDULE
+    where SCHEDULE_ARRANGE_ID = #{scheduleArrangeId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.BgPersonageScheduleExample" >
+    delete from BG_PERSONAGE_SCHEDULE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.BgPersonageSchedule" >
+    insert into BG_PERSONAGE_SCHEDULE (SCHEDULE_ARRANGE_ID, ARRANGE_CATEGORY, 
+      ARRANGE_THEME, START_DATE, START_TIME, 
+      FILL_PERSOMMEL_ID, ARRANGE_DESCRIBE, COMPANY_ID, 
+      LAST_MODIFY_DATE)
+    values (#{scheduleArrangeId,jdbcType=DECIMAL}, #{arrangeCategory,jdbcType=VARCHAR}, 
+      #{arrangeTheme,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{fillPersommelId,jdbcType=DECIMAL}, #{arrangeDescribe,jdbcType=VARCHAR}, #{companyId,jdbcType=DECIMAL}, 
+      #{lastModifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.BgPersonageSchedule" >
+    insert into BG_PERSONAGE_SCHEDULE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scheduleArrangeId != null" >
+        SCHEDULE_ARRANGE_ID,
+      </if>
+      <if test="arrangeCategory != null" >
+        ARRANGE_CATEGORY,
+      </if>
+      <if test="arrangeTheme != null" >
+        ARRANGE_THEME,
+      </if>
+      <if test="startDate != null" >
+        START_DATE,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="fillPersommelId != null" >
+        FILL_PERSOMMEL_ID,
+      </if>
+      <if test="arrangeDescribe != null" >
+        ARRANGE_DESCRIBE,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scheduleArrangeId != null" >
+        #{scheduleArrangeId,jdbcType=DECIMAL},
+      </if>
+      <if test="arrangeCategory != null" >
+        #{arrangeCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="arrangeTheme != null" >
+        #{arrangeTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fillPersommelId != null" >
+        #{fillPersommelId,jdbcType=DECIMAL},
+      </if>
+      <if test="arrangeDescribe != null" >
+        #{arrangeDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.BgPersonageScheduleExample" resultType="java.lang.Integer" >
+    select count(*) from BG_PERSONAGE_SCHEDULE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update BG_PERSONAGE_SCHEDULE
+    <set >
+      <if test="record.scheduleArrangeId != null" >
+        SCHEDULE_ARRANGE_ID = #{record.scheduleArrangeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.arrangeCategory != null" >
+        ARRANGE_CATEGORY = #{record.arrangeCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arrangeTheme != null" >
+        ARRANGE_THEME = #{record.arrangeTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null" >
+        START_DATE = #{record.startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fillPersommelId != null" >
+        FILL_PERSOMMEL_ID = #{record.fillPersommelId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.arrangeDescribe != null" >
+        ARRANGE_DESCRIBE = #{record.arrangeDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BG_PERSONAGE_SCHEDULE
+    set SCHEDULE_ARRANGE_ID = #{record.scheduleArrangeId,jdbcType=DECIMAL},
+      ARRANGE_CATEGORY = #{record.arrangeCategory,jdbcType=VARCHAR},
+      ARRANGE_THEME = #{record.arrangeTheme,jdbcType=VARCHAR},
+      START_DATE = #{record.startDate,jdbcType=TIMESTAMP},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      FILL_PERSOMMEL_ID = #{record.fillPersommelId,jdbcType=DECIMAL},
+      ARRANGE_DESCRIBE = #{record.arrangeDescribe,jdbcType=VARCHAR},
+      COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.BgPersonageSchedule" >
+    update BG_PERSONAGE_SCHEDULE
+    <set >
+      <if test="arrangeCategory != null" >
+        ARRANGE_CATEGORY = #{arrangeCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="arrangeTheme != null" >
+        ARRANGE_THEME = #{arrangeTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fillPersommelId != null" >
+        FILL_PERSOMMEL_ID = #{fillPersommelId,jdbcType=DECIMAL},
+      </if>
+      <if test="arrangeDescribe != null" >
+        ARRANGE_DESCRIBE = #{arrangeDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SCHEDULE_ARRANGE_ID = #{scheduleArrangeId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.BgPersonageSchedule" >
+    update BG_PERSONAGE_SCHEDULE
+    set ARRANGE_CATEGORY = #{arrangeCategory,jdbcType=VARCHAR},
+      ARRANGE_THEME = #{arrangeTheme,jdbcType=VARCHAR},
+      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      FILL_PERSOMMEL_ID = #{fillPersommelId,jdbcType=DECIMAL},
+      ARRANGE_DESCRIBE = #{arrangeDescribe,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
+    where SCHEDULE_ARRANGE_ID = #{scheduleArrangeId,jdbcType=DECIMAL}
+  </update>
+</mapper>

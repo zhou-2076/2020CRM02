@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.CgOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.CgOrder" >
+    <constructor >
+      <idArg column="CG_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CG_TITLE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CG_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="GYS_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="DK_JE" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="FP_NUMBER" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="FK_QK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CG_JZ" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="JH_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="JH_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="JH_FS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="OPERATER_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="BZ_XX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_TIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CG_ID, CG_TITLE, CG_DATE, GYS_ID, DK_JE, FP_NUMBER, FK_QK, CG_JZ, JH_DATE, JH_ADDRESS, 
+    JH_FS, OPERATER_ID, BZ_XX, COMPANY_ID, LAST_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.CgOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from CG_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CG_ORDER
+    where CG_ID = #{cgId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CG_ORDER
+    where CG_ID = #{cgId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.CgOrderExample" >
+    delete from CG_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.CgOrder" >
+  <selectKey keyProperty="cgId" resultType="java.lang.Long" order="AFTER" >
+        select zny1.CURRVAL from DUAL
+    </selectKey><!-- 获取主键的值 -->
+    insert into CG_ORDER (CG_ID, CG_TITLE, CG_DATE, 
+      GYS_ID, DK_JE, FP_NUMBER, 
+      FK_QK, CG_JZ, JH_DATE, 
+      JH_ADDRESS, JH_FS, OPERATER_ID, 
+      BZ_XX, COMPANY_ID, LAST_TIME
+      )
+    values (#{cgId,jdbcType=DECIMAL}, #{cgTitle,jdbcType=VARCHAR}, #{cgDate,jdbcType=TIMESTAMP}, 
+      #{gysId,jdbcType=DECIMAL}, #{dkJe,jdbcType=DECIMAL}, #{fpNumber,jdbcType=DECIMAL}, 
+      #{fkQk,jdbcType=VARCHAR}, #{cgJz,jdbcType=VARCHAR}, #{jhDate,jdbcType=TIMESTAMP}, 
+      #{jhAddress,jdbcType=VARCHAR}, #{jhFs,jdbcType=VARCHAR}, #{operaterId,jdbcType=DECIMAL}, 
+      #{bzXx,jdbcType=VARCHAR}, #{companyId,jdbcType=DECIMAL}, #{lastTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.CgOrder" >
+    insert into CG_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cgId != null" >
+        CG_ID,
+      </if>
+      <if test="cgTitle != null" >
+        CG_TITLE,
+      </if>
+      <if test="cgDate != null" >
+        CG_DATE,
+      </if>
+      <if test="gysId != null" >
+        GYS_ID,
+      </if>
+      <if test="dkJe != null" >
+        DK_JE,
+      </if>
+      <if test="fpNumber != null" >
+        FP_NUMBER,
+      </if>
+      <if test="fkQk != null" >
+        FK_QK,
+      </if>
+      <if test="cgJz != null" >
+        CG_JZ,
+      </if>
+      <if test="jhDate != null" >
+        JH_DATE,
+      </if>
+      <if test="jhAddress != null" >
+        JH_ADDRESS,
+      </if>
+      <if test="jhFs != null" >
+        JH_FS,
+      </if>
+      <if test="operaterId != null" >
+        OPERATER_ID,
+      </if>
+      <if test="bzXx != null" >
+        BZ_XX,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cgId != null" >
+        #{cgId,jdbcType=DECIMAL},
+      </if>
+      <if test="cgTitle != null" >
+        #{cgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="cgDate != null" >
+        #{cgDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gysId != null" >
+        #{gysId,jdbcType=DECIMAL},
+      </if>
+      <if test="dkJe != null" >
+        #{dkJe,jdbcType=DECIMAL},
+      </if>
+      <if test="fpNumber != null" >
+        #{fpNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="fkQk != null" >
+        #{fkQk,jdbcType=VARCHAR},
+      </if>
+      <if test="cgJz != null" >
+        #{cgJz,jdbcType=VARCHAR},
+      </if>
+      <if test="jhDate != null" >
+        #{jhDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jhAddress != null" >
+        #{jhAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="jhFs != null" >
+        #{jhFs,jdbcType=VARCHAR},
+      </if>
+      <if test="operaterId != null" >
+        #{operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="bzXx != null" >
+        #{bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.CgOrderExample" resultType="java.lang.Integer" >
+    select count(*) from CG_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CG_ORDER
+    <set >
+      <if test="record.cgId != null" >
+        CG_ID = #{record.cgId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cgTitle != null" >
+        CG_TITLE = #{record.cgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cgDate != null" >
+        CG_DATE = #{record.cgDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gysId != null" >
+        GYS_ID = #{record.gysId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dkJe != null" >
+        DK_JE = #{record.dkJe,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fpNumber != null" >
+        FP_NUMBER = #{record.fpNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fkQk != null" >
+        FK_QK = #{record.fkQk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cgJz != null" >
+        CG_JZ = #{record.cgJz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jhDate != null" >
+        JH_DATE = #{record.jhDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jhAddress != null" >
+        JH_ADDRESS = #{record.jhAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jhFs != null" >
+        JH_FS = #{record.jhFs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operaterId != null" >
+        OPERATER_ID = #{record.operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bzXx != null" >
+        BZ_XX = #{record.bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastTime != null" >
+        LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CG_ORDER
+    set CG_ID = #{record.cgId,jdbcType=DECIMAL},
+      CG_TITLE = #{record.cgTitle,jdbcType=VARCHAR},
+      CG_DATE = #{record.cgDate,jdbcType=TIMESTAMP},
+      GYS_ID = #{record.gysId,jdbcType=DECIMAL},
+      DK_JE = #{record.dkJe,jdbcType=DECIMAL},
+      FP_NUMBER = #{record.fpNumber,jdbcType=DECIMAL},
+      FK_QK = #{record.fkQk,jdbcType=VARCHAR},
+      CG_JZ = #{record.cgJz,jdbcType=VARCHAR},
+      JH_DATE = #{record.jhDate,jdbcType=TIMESTAMP},
+      JH_ADDRESS = #{record.jhAddress,jdbcType=VARCHAR},
+      JH_FS = #{record.jhFs,jdbcType=VARCHAR},
+      OPERATER_ID = #{record.operaterId,jdbcType=DECIMAL},
+      BZ_XX = #{record.bzXx,jdbcType=VARCHAR},
+      COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.CgOrder" >
+    update CG_ORDER
+    <set >
+      <if test="cgTitle != null" >
+        CG_TITLE = #{cgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="cgDate != null" >
+        CG_DATE = #{cgDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gysId != null" >
+        GYS_ID = #{gysId,jdbcType=DECIMAL},
+      </if>
+      <if test="dkJe != null" >
+        DK_JE = #{dkJe,jdbcType=DECIMAL},
+      </if>
+      <if test="fpNumber != null" >
+        FP_NUMBER = #{fpNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="fkQk != null" >
+        FK_QK = #{fkQk,jdbcType=VARCHAR},
+      </if>
+      <if test="cgJz != null" >
+        CG_JZ = #{cgJz,jdbcType=VARCHAR},
+      </if>
+      <if test="jhDate != null" >
+        JH_DATE = #{jhDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jhAddress != null" >
+        JH_ADDRESS = #{jhAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="jhFs != null" >
+        JH_FS = #{jhFs,jdbcType=VARCHAR},
+      </if>
+      <if test="operaterId != null" >
+        OPERATER_ID = #{operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="bzXx != null" >
+        BZ_XX = #{bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CG_ID = #{cgId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.CgOrder" >
+    update CG_ORDER
+    set CG_TITLE = #{cgTitle,jdbcType=VARCHAR},
+      CG_DATE = #{cgDate,jdbcType=TIMESTAMP},
+      GYS_ID = #{gysId,jdbcType=DECIMAL},
+      DK_JE = #{dkJe,jdbcType=DECIMAL},
+      FP_NUMBER = #{fpNumber,jdbcType=DECIMAL},
+      FK_QK = #{fkQk,jdbcType=VARCHAR},
+      CG_JZ = #{cgJz,jdbcType=VARCHAR},
+      JH_DATE = #{jhDate,jdbcType=TIMESTAMP},
+      JH_ADDRESS = #{jhAddress,jdbcType=VARCHAR},
+      JH_FS = #{jhFs,jdbcType=VARCHAR},
+      OPERATER_ID = #{operaterId,jdbcType=DECIMAL},
+      BZ_XX = #{bzXx,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      LAST_TIME = #{lastTime,jdbcType=TIMESTAMP}
+    where CG_ID = #{cgId,jdbcType=DECIMAL}
+  </update>
+</mapper>

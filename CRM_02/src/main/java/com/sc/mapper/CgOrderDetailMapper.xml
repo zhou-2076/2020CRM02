@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.CgOrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.CgOrderDetail" >
+    <constructor >
+      <idArg column="CG_XQ_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CG_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CP_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CP_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CP_NUM" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CP_JG" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="SF_RK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="OPERATER_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="BZ_XX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_TIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CG_XQ_ID, CG_ID, CP_ID, CP_NAME, CP_NUM, CP_JG, SF_RK, OPERATER_ID, BZ_XX, CONPANY_ID, 
+    LAST_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.CgOrderDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from CG_ORDER_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CG_ORDER_DETAIL
+    where CG_XQ_ID = #{cgXqId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CG_ORDER_DETAIL
+    where CG_XQ_ID = #{cgXqId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.CgOrderDetailExample" >
+    delete from CG_ORDER_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.CgOrderDetail" >
+    insert into CG_ORDER_DETAIL (CG_XQ_ID, CG_ID, CP_ID, 
+      CP_NAME, CP_NUM, CP_JG, 
+      SF_RK, OPERATER_ID, BZ_XX, 
+      CONPANY_ID, LAST_TIME)
+    values (#{cgXqId,jdbcType=DECIMAL}, #{cgId,jdbcType=DECIMAL}, #{cpId,jdbcType=DECIMAL}, 
+      #{cpName,jdbcType=VARCHAR}, #{cpNum,jdbcType=DECIMAL}, #{cpJg,jdbcType=DECIMAL}, 
+      #{sfRk,jdbcType=VARCHAR}, #{operaterId,jdbcType=DECIMAL}, #{bzXx,jdbcType=VARCHAR}, 
+      #{conpanyId,jdbcType=DECIMAL}, #{lastTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.CgOrderDetail" >
+    insert into CG_ORDER_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cgXqId != null" >
+        CG_XQ_ID,
+      </if>
+      <if test="cgId != null" >
+        CG_ID,
+      </if>
+      <if test="cpId != null" >
+        CP_ID,
+      </if>
+      <if test="cpName != null" >
+        CP_NAME,
+      </if>
+      <if test="cpNum != null" >
+        CP_NUM,
+      </if>
+      <if test="cpJg != null" >
+        CP_JG,
+      </if>
+      <if test="sfRk != null" >
+        SF_RK,
+      </if>
+      <if test="operaterId != null" >
+        OPERATER_ID,
+      </if>
+      <if test="bzXx != null" >
+        BZ_XX,
+      </if>
+      <if test="conpanyId != null" >
+        CONPANY_ID,
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cgXqId != null" >
+        #{cgXqId,jdbcType=DECIMAL},
+      </if>
+      <if test="cgId != null" >
+        #{cgId,jdbcType=DECIMAL},
+      </if>
+      <if test="cpId != null" >
+        #{cpId,jdbcType=DECIMAL},
+      </if>
+      <if test="cpName != null" >
+        #{cpName,jdbcType=VARCHAR},
+      </if>
+      <if test="cpNum != null" >
+        #{cpNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cpJg != null" >
+        #{cpJg,jdbcType=DECIMAL},
+      </if>
+      <if test="sfRk != null" >
+        #{sfRk,jdbcType=VARCHAR},
+      </if>
+      <if test="operaterId != null" >
+        #{operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="bzXx != null" >
+        #{bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="conpanyId != null" >
+        #{conpanyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.CgOrderDetailExample" resultType="java.lang.Integer" >
+    select count(*) from CG_ORDER_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CG_ORDER_DETAIL
+    <set >
+      <if test="record.cgXqId != null" >
+        CG_XQ_ID = #{record.cgXqId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cgId != null" >
+        CG_ID = #{record.cgId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cpId != null" >
+        CP_ID = #{record.cpId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cpName != null" >
+        CP_NAME = #{record.cpName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpNum != null" >
+        CP_NUM = #{record.cpNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cpJg != null" >
+        CP_JG = #{record.cpJg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sfRk != null" >
+        SF_RK = #{record.sfRk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operaterId != null" >
+        OPERATER_ID = #{record.operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bzXx != null" >
+        BZ_XX = #{record.bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conpanyId != null" >
+        CONPANY_ID = #{record.conpanyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastTime != null" >
+        LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CG_ORDER_DETAIL
+    set CG_XQ_ID = #{record.cgXqId,jdbcType=DECIMAL},
+      CG_ID = #{record.cgId,jdbcType=DECIMAL},
+      CP_ID = #{record.cpId,jdbcType=DECIMAL},
+      CP_NAME = #{record.cpName,jdbcType=VARCHAR},
+      CP_NUM = #{record.cpNum,jdbcType=DECIMAL},
+      CP_JG = #{record.cpJg,jdbcType=DECIMAL},
+      SF_RK = #{record.sfRk,jdbcType=VARCHAR},
+      OPERATER_ID = #{record.operaterId,jdbcType=DECIMAL},
+      BZ_XX = #{record.bzXx,jdbcType=VARCHAR},
+      CONPANY_ID = #{record.conpanyId,jdbcType=DECIMAL},
+      LAST_TIME = #{record.lastTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.CgOrderDetail" >
+    update CG_ORDER_DETAIL
+    <set >
+      <if test="cgId != null" >
+        CG_ID = #{cgId,jdbcType=DECIMAL},
+      </if>
+      <if test="cpId != null" >
+        CP_ID = #{cpId,jdbcType=DECIMAL},
+      </if>
+      <if test="cpName != null" >
+        CP_NAME = #{cpName,jdbcType=VARCHAR},
+      </if>
+      <if test="cpNum != null" >
+        CP_NUM = #{cpNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cpJg != null" >
+        CP_JG = #{cpJg,jdbcType=DECIMAL},
+      </if>
+      <if test="sfRk != null" >
+        SF_RK = #{sfRk,jdbcType=VARCHAR},
+      </if>
+      <if test="operaterId != null" >
+        OPERATER_ID = #{operaterId,jdbcType=DECIMAL},
+      </if>
+      <if test="bzXx != null" >
+        BZ_XX = #{bzXx,jdbcType=VARCHAR},
+      </if>
+      <if test="conpanyId != null" >
+        CONPANY_ID = #{conpanyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CG_XQ_ID = #{cgXqId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.CgOrderDetail" >
+    update CG_ORDER_DETAIL
+    set CG_ID = #{cgId,jdbcType=DECIMAL},
+      CP_ID = #{cpId,jdbcType=DECIMAL},
+      CP_NAME = #{cpName,jdbcType=VARCHAR},
+      CP_NUM = #{cpNum,jdbcType=DECIMAL},
+      CP_JG = #{cpJg,jdbcType=DECIMAL},
+      SF_RK = #{sfRk,jdbcType=VARCHAR},
+      OPERATER_ID = #{operaterId,jdbcType=DECIMAL},
+      BZ_XX = #{bzXx,jdbcType=VARCHAR},
+      CONPANY_ID = #{conpanyId,jdbcType=DECIMAL},
+      LAST_TIME = #{lastTime,jdbcType=TIMESTAMP}
+    where CG_XQ_ID = #{cgXqId,jdbcType=DECIMAL}
+  </update>
+</mapper>

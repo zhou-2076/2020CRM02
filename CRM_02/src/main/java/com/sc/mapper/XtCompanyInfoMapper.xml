@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.XtCompanyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.XtCompanyInfo" >
+    <constructor >
+      <idArg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="COMPANY_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_CODE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EMLIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="LIAISON" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ADD" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TEL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MP" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="FAX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BANK_DEPOSIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BANK_ACC" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EFFECT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORDER_REMARK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="LAST_MODIFY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    COMPANY_ID, COMPANY_NAME, COMPANY_CODE, EMLIL, LIAISON, COMPANY_ADD, "TEL", MP, 
+    "FAX", BANK_DEPOSIT, BANK_ACC, EFFECT, ORDER_REMARK, LAST_MODIFY_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.XtCompanyInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from XT_COMPANY_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from XT_COMPANY_INFO
+    where COMPANY_ID = #{companyId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from XT_COMPANY_INFO
+    where COMPANY_ID = #{companyId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.XtCompanyInfoExample" >
+    delete from XT_COMPANY_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.XtCompanyInfo" >
+    insert into XT_COMPANY_INFO (COMPANY_ID, COMPANY_NAME, COMPANY_CODE, 
+      EMLIL, LIAISON, COMPANY_ADD, 
+      "TEL", MP, "FAX", BANK_DEPOSIT, 
+      BANK_ACC, EFFECT, ORDER_REMARK, 
+      LAST_MODIFY_DATE)
+    values (#{companyId,jdbcType=DECIMAL}, #{companyName,jdbcType=VARCHAR}, #{companyCode,jdbcType=VARCHAR}, 
+      #{emlil,jdbcType=VARCHAR}, #{liaison,jdbcType=VARCHAR}, #{companyAdd,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{mp,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{bankDeposit,jdbcType=VARCHAR}, 
+      #{bankAcc,jdbcType=VARCHAR}, #{effect,jdbcType=VARCHAR}, #{orderRemark,jdbcType=VARCHAR}, 
+      #{lastModifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.XtCompanyInfo" >
+    insert into XT_COMPANY_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="companyName != null" >
+        COMPANY_NAME,
+      </if>
+      <if test="companyCode != null" >
+        COMPANY_CODE,
+      </if>
+      <if test="emlil != null" >
+        EMLIL,
+      </if>
+      <if test="liaison != null" >
+        LIAISON,
+      </if>
+      <if test="companyAdd != null" >
+        COMPANY_ADD,
+      </if>
+      <if test="TEL!= null" >
+        "TEL",
+      </if>
+      <if test="mp != null" >
+        MP,
+      </if>
+      <if test="fax != null" >
+        "FAX",
+      </if>
+      <if test="bankDeposit != null" >
+        BANK_DEPOSIT,
+      </if>
+      <if test="bankAcc != null" >
+        BANK_ACC,
+      </if>
+      <if test="effect != null" >
+        EFFECT,
+      </if>
+      <if test="orderRemark != null" >
+        ORDER_REMARK,
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="emlil != null" >
+        #{emlil,jdbcType=VARCHAR},
+      </if>
+      <if test="liaison != null" >
+        #{liaison,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAdd != null" >
+        #{companyAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="TEL!= null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="mp != null" >
+        #{mp,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="bankDeposit != null" >
+        #{bankDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAcc != null" >
+        #{bankAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="effect != null" >
+        #{effect,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRemark != null" >
+        #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyDate != null" >
+        #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.XtCompanyInfoExample" resultType="java.lang.Integer" >
+    select count(*) from XT_COMPANY_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update XT_COMPANY_INFO
+    <set >
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.companyName != null" >
+        COMPANY_NAME = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyCode != null" >
+        COMPANY_CODE = #{record.companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emlil != null" >
+        EMLIL = #{record.emlil,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liaison != null" >
+        LIAISON = #{record.liaison,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyAdd != null" >
+        COMPANY_ADD = #{record.companyAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.TEL!= null" >
+        "TEL" = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mp != null" >
+        MP = #{record.mp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fax != null" >
+        "FAX" = #{record.fax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankDeposit != null" >
+        BANK_DEPOSIT = #{record.bankDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankAcc != null" >
+        BANK_ACC = #{record.bankAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.effect != null" >
+        EFFECT = #{record.effect,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderRemark != null" >
+        ORDER_REMARK = #{record.orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update XT_COMPANY_INFO
+    set COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      COMPANY_NAME = #{record.companyName,jdbcType=VARCHAR},
+      COMPANY_CODE = #{record.companyCode,jdbcType=VARCHAR},
+      EMLIL = #{record.emlil,jdbcType=VARCHAR},
+      LIAISON = #{record.liaison,jdbcType=VARCHAR},
+      COMPANY_ADD = #{record.companyAdd,jdbcType=VARCHAR},
+      "TEL" = #{record.tel,jdbcType=VARCHAR},
+      MP = #{record.mp,jdbcType=VARCHAR},
+      "FAX" = #{record.fax,jdbcType=VARCHAR},
+      BANK_DEPOSIT = #{record.bankDeposit,jdbcType=VARCHAR},
+      BANK_ACC = #{record.bankAcc,jdbcType=VARCHAR},
+      EFFECT = #{record.effect,jdbcType=VARCHAR},
+      ORDER_REMARK = #{record.orderRemark,jdbcType=VARCHAR},
+      LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.XtCompanyInfo" >
+    update XT_COMPANY_INFO
+    <set >
+      <if test="companyName != null" >
+        COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="emlil != null" >
+        EMLIL = #{emlil,jdbcType=VARCHAR},
+      </if>
+      <if test="liaison != null" >
+        LIAISON = #{liaison,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAdd != null" >
+        COMPANY_ADD = #{companyAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="TEL!= null" >
+        "TEL" = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="mp != null" >
+        MP = #{mp,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        "FAX" = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="bankDeposit != null" >
+        BANK_DEPOSIT = #{bankDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAcc != null" >
+        BANK_ACC = #{bankAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="effect != null" >
+        EFFECT = #{effect,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRemark != null" >
+        ORDER_REMARK = #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COMPANY_ID = #{companyId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.XtCompanyInfo" >
+    update XT_COMPANY_INFO
+    set COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+      COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+      EMLIL = #{emlil,jdbcType=VARCHAR},
+      LIAISON = #{liaison,jdbcType=VARCHAR},
+      COMPANY_ADD = #{companyAdd,jdbcType=VARCHAR},
+      "TEL" = #{tel,jdbcType=VARCHAR},
+      MP = #{mp,jdbcType=VARCHAR},
+      "FAX" = #{fax,jdbcType=VARCHAR},
+      BANK_DEPOSIT = #{bankDeposit,jdbcType=VARCHAR},
+      BANK_ACC = #{bankAcc,jdbcType=VARCHAR},
+      EFFECT = #{effect,jdbcType=VARCHAR},
+      ORDER_REMARK = #{orderRemark,jdbcType=VARCHAR},
+      LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
+    where COMPANY_ID = #{companyId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.XsOutMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.XsOut" >
+    <constructor >
+      <idArg column="SALE_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="MAKE_SALE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="INVOICE" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="USER_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CUSTOM_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="SALE_AMOUNT" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="SALE_OUT_STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="REBATE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORDER_STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="OUT_REMARK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_MODIFY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SALE_ID, MAKE_SALE_DATE, INVOICE, USER_ID, CUSTOM_ID, SALE_AMOUNT, SALE_OUT_STATUS, 
+    REBATE, ORDER_STATUS, OUT_REMARK, COMPANY_ID, LAST_MODIFY_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.XsOutExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from XS_OUT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from XS_OUT
+    where SALE_ID = #{saleId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from XS_OUT
+    where SALE_ID = #{saleId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.XsOutExample" >
+    delete from XS_OUT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.XsOut" >
+    insert into XS_OUT (SALE_ID, MAKE_SALE_DATE, INVOICE, 
+      USER_ID, CUSTOM_ID, SALE_AMOUNT, 
+      SALE_OUT_STATUS, REBATE, ORDER_STATUS, 
+      OUT_REMARK, COMPANY_ID, LAST_MODIFY_DATE
+      )
+    values (#{saleId,jdbcType=DECIMAL}, #{makeSaleDate,jdbcType=TIMESTAMP}, #{invoice,jdbcType=DECIMAL}, 
+      #{userId,jdbcType=DECIMAL}, #{customId,jdbcType=DECIMAL}, #{saleAmount,jdbcType=DECIMAL}, 
+      #{saleOutStatus,jdbcType=VARCHAR}, #{rebate,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, 
+      #{outRemark,jdbcType=VARCHAR}, #{companyId,jdbcType=DECIMAL}, #{lastModifyDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.XsOut" >
+    insert into XS_OUT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="saleId != null" >
+        SALE_ID,
+      </if>
+      <if test="makeSaleDate != null" >
+        MAKE_SALE_DATE,
+      </if>
+      <if test="invoice != null" >
+        INVOICE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="customId != null" >
+        CUSTOM_ID,
+      </if>
+      <if test="saleAmount != null" >
+        SALE_AMOUNT,
+      </if>
+      <if test="saleOutStatus != null" >
+        SALE_OUT_STATUS,
+      </if>
+      <if test="rebate != null" >
+        REBATE,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS,
+      </if>
+      <if test="outRemark != null" >
+        OUT_REMARK,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="saleId != null" >
+        #{saleId,jdbcType=DECIMAL},
+      </if>
+      <if test="makeSaleDate != null" >
+        #{makeSaleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoice != null" >
+        #{invoice,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="customId != null" >
+        #{customId,jdbcType=DECIMAL},
+      </if>
+      <if test="saleAmount != null" >
+        #{saleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="saleOutStatus != null" >
+        #{saleOutStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="rebate != null" >
+        #{rebate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="outRemark != null" >
+        #{outRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.XsOutExample" resultType="java.lang.Integer" >
+    select count(*) from XS_OUT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update XS_OUT
+    <set >
+      <if test="record.saleId != null" >
+        SALE_ID = #{record.saleId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.makeSaleDate != null" >
+        MAKE_SALE_DATE = #{record.makeSaleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.invoice != null" >
+        INVOICE = #{record.invoice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.customId != null" >
+        CUSTOM_ID = #{record.customId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleAmount != null" >
+        SALE_AMOUNT = #{record.saleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleOutStatus != null" >
+        SALE_OUT_STATUS = #{record.saleOutStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rebate != null" >
+        REBATE = #{record.rebate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderStatus != null" >
+        ORDER_STATUS = #{record.orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outRemark != null" >
+        OUT_REMARK = #{record.outRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update XS_OUT
+    set SALE_ID = #{record.saleId,jdbcType=DECIMAL},
+      MAKE_SALE_DATE = #{record.makeSaleDate,jdbcType=TIMESTAMP},
+      INVOICE = #{record.invoice,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=DECIMAL},
+      CUSTOM_ID = #{record.customId,jdbcType=DECIMAL},
+      SALE_AMOUNT = #{record.saleAmount,jdbcType=DECIMAL},
+      SALE_OUT_STATUS = #{record.saleOutStatus,jdbcType=VARCHAR},
+      REBATE = #{record.rebate,jdbcType=VARCHAR},
+      ORDER_STATUS = #{record.orderStatus,jdbcType=VARCHAR},
+      OUT_REMARK = #{record.outRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.XsOut" >
+    update XS_OUT
+    <set >
+      <if test="makeSaleDate != null" >
+        MAKE_SALE_DATE = #{makeSaleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoice != null" >
+        INVOICE = #{invoice,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="customId != null" >
+        CUSTOM_ID = #{customId,jdbcType=DECIMAL},
+      </if>
+      <if test="saleAmount != null" >
+        SALE_AMOUNT = #{saleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="saleOutStatus != null" >
+        SALE_OUT_STATUS = #{saleOutStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="rebate != null" >
+        REBATE = #{rebate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="outRemark != null" >
+        OUT_REMARK = #{outRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SALE_ID = #{saleId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.XsOut" >
+    update XS_OUT
+    set MAKE_SALE_DATE = #{makeSaleDate,jdbcType=TIMESTAMP},
+      INVOICE = #{invoice,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      CUSTOM_ID = #{customId,jdbcType=DECIMAL},
+      SALE_AMOUNT = #{saleAmount,jdbcType=DECIMAL},
+      SALE_OUT_STATUS = #{saleOutStatus,jdbcType=VARCHAR},
+      REBATE = #{rebate,jdbcType=VARCHAR},
+      ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      OUT_REMARK = #{outRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
+    where SALE_ID = #{saleId,jdbcType=DECIMAL}
+  </update>
+</mapper>

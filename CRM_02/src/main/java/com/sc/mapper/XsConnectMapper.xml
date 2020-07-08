@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.XsConnectMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.XsConnect" >
+    <constructor >
+      <idArg column="CONNECT_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CUSTOM_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="CONNECT_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONNECT_ENAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="POSITION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="DEPART" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MOBILEPHONE" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="PHONE_OFFICE" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="EMAIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONNECT_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONNECT_REMARK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="LAST_MODIFY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CONNECT_ID, CUSTOM_ID, CONNECT_NAME, CONNECT_ENAME, POSITION, DEPART, MOBILEPHONE, 
+    PHONE_OFFICE, EMAIL, CONNECT_ADDRESS, CONNECT_REMARK, COMPANY_ID, LAST_MODIFY_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.XsConnectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from XS_CONNECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from XS_CONNECT
+    where CONNECT_ID = #{connectId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from XS_CONNECT
+    where CONNECT_ID = #{connectId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.XsConnectExample" >
+    delete from XS_CONNECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.XsConnect" >
+    insert into XS_CONNECT (CONNECT_ID, CUSTOM_ID, CONNECT_NAME, 
+      CONNECT_ENAME, POSITION, DEPART, 
+      MOBILEPHONE, PHONE_OFFICE, EMAIL, 
+      CONNECT_ADDRESS, CONNECT_REMARK, COMPANY_ID, 
+      LAST_MODIFY_DATE)
+    values (#{connectId,jdbcType=DECIMAL}, #{customId,jdbcType=DECIMAL}, #{connectName,jdbcType=VARCHAR}, 
+      #{connectEname,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{depart,jdbcType=VARCHAR}, 
+      #{mobilephone,jdbcType=DECIMAL}, #{phoneOffice,jdbcType=DECIMAL}, #{email,jdbcType=VARCHAR}, 
+      #{connectAddress,jdbcType=VARCHAR}, #{connectRemark,jdbcType=VARCHAR}, #{companyId,jdbcType=DECIMAL}, 
+      #{lastModifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.XsConnect" >
+    insert into XS_CONNECT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="connectId != null" >
+        CONNECT_ID,
+      </if>
+      <if test="customId != null" >
+        CUSTOM_ID,
+      </if>
+      <if test="connectName != null" >
+        CONNECT_NAME,
+      </if>
+      <if test="connectEname != null" >
+        CONNECT_ENAME,
+      </if>
+      <if test="position != null" >
+        POSITION,
+      </if>
+      <if test="depart != null" >
+        DEPART,
+      </if>
+      <if test="mobilephone != null" >
+        MOBILEPHONE,
+      </if>
+      <if test="phoneOffice != null" >
+        PHONE_OFFICE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="connectAddress != null" >
+        CONNECT_ADDRESS,
+      </if>
+      <if test="connectRemark != null" >
+        CONNECT_REMARK,
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="connectId != null" >
+        #{connectId,jdbcType=DECIMAL},
+      </if>
+      <if test="customId != null" >
+        #{customId,jdbcType=DECIMAL},
+      </if>
+      <if test="connectName != null" >
+        #{connectName,jdbcType=VARCHAR},
+      </if>
+      <if test="connectEname != null" >
+        #{connectEname,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="depart != null" >
+        #{depart,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneOffice != null" >
+        #{phoneOffice,jdbcType=DECIMAL},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="connectAddress != null" >
+        #{connectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="connectRemark != null" >
+        #{connectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.XsConnectExample" resultType="java.lang.Integer" >
+    select count(*) from XS_CONNECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update XS_CONNECT
+    <set >
+      <if test="record.connectId != null" >
+        CONNECT_ID = #{record.connectId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.customId != null" >
+        CUSTOM_ID = #{record.customId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.connectName != null" >
+        CONNECT_NAME = #{record.connectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.connectEname != null" >
+        CONNECT_ENAME = #{record.connectEname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        POSITION = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depart != null" >
+        DEPART = #{record.depart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilephone != null" >
+        MOBILEPHONE = #{record.mobilephone,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phoneOffice != null" >
+        PHONE_OFFICE = #{record.phoneOffice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.connectAddress != null" >
+        CONNECT_ADDRESS = #{record.connectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.connectRemark != null" >
+        CONNECT_REMARK = #{record.connectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update XS_CONNECT
+    set CONNECT_ID = #{record.connectId,jdbcType=DECIMAL},
+      CUSTOM_ID = #{record.customId,jdbcType=DECIMAL},
+      CONNECT_NAME = #{record.connectName,jdbcType=VARCHAR},
+      CONNECT_ENAME = #{record.connectEname,jdbcType=VARCHAR},
+      POSITION = #{record.position,jdbcType=VARCHAR},
+      DEPART = #{record.depart,jdbcType=VARCHAR},
+      MOBILEPHONE = #{record.mobilephone,jdbcType=DECIMAL},
+      PHONE_OFFICE = #{record.phoneOffice,jdbcType=DECIMAL},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      CONNECT_ADDRESS = #{record.connectAddress,jdbcType=VARCHAR},
+      CONNECT_REMARK = #{record.connectRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.XsConnect" >
+    update XS_CONNECT
+    <set >
+      <if test="customId != null" >
+        CUSTOM_ID = #{customId,jdbcType=DECIMAL},
+      </if>
+      <if test="connectName != null" >
+        CONNECT_NAME = #{connectName,jdbcType=VARCHAR},
+      </if>
+      <if test="connectEname != null" >
+        CONNECT_ENAME = #{connectEname,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="depart != null" >
+        DEPART = #{depart,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        MOBILEPHONE = #{mobilephone,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneOffice != null" >
+        PHONE_OFFICE = #{phoneOffice,jdbcType=DECIMAL},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="connectAddress != null" >
+        CONNECT_ADDRESS = #{connectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="connectRemark != null" >
+        CONNECT_REMARK = #{connectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifyDate != null" >
+        LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CONNECT_ID = #{connectId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.XsConnect" >
+    update XS_CONNECT
+    set CUSTOM_ID = #{customId,jdbcType=DECIMAL},
+      CONNECT_NAME = #{connectName,jdbcType=VARCHAR},
+      CONNECT_ENAME = #{connectEname,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=VARCHAR},
+      DEPART = #{depart,jdbcType=VARCHAR},
+      MOBILEPHONE = #{mobilephone,jdbcType=DECIMAL},
+      PHONE_OFFICE = #{phoneOffice,jdbcType=DECIMAL},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      CONNECT_ADDRESS = #{connectAddress,jdbcType=VARCHAR},
+      CONNECT_REMARK = #{connectRemark,jdbcType=VARCHAR},
+      COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+      LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
+    where CONNECT_ID = #{connectId,jdbcType=DECIMAL}
+  </update>
+</mapper>

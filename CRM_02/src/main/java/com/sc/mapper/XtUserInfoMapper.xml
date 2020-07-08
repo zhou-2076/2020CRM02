@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.XtUserInfoMapper">
+	<resultMap id="BaseResultMap" type="com.sc.entity.XtUserInfo">
+		<constructor>
+			<idArg column="WORKER_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+			<arg column="WORKER_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="WORKER_SEX" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="WORKER_PHOTO" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="ID_CARD" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="HOME_ADD" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="NOW_ADD" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="WORKER_EDU" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="POLITICS" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="SCHOOL" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="WORKER_TEL" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="WEB_RELATION" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="WEB_DETA" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="AUDIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="DUTIES_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+			<arg column="WORKER_STA" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="ORDER_REMARK" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="COMPANY_ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+			<arg column="LAST_MODIFY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		</constructor>
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		WORKER_ID, WORKER_NAME, WORKER_SEX, WORKER_PHOTO, ID_CARD, HOME_ADD, NOW_ADD,
+		WORKER_EDU,
+		POLITICS, SCHOOL, WORKER_TEL, WEB_RELATION, WEB_DETA, AUDIT, DUTIES_ID,
+		WORKER_STA,
+		ORDER_REMARK, COMPANY_ID, LAST_MODIFY_DATE
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.sc.entity.XtUserInfoExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from XT_USER_INFO
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT * FROM XT_USER_INFO WHERE WORKER_ID = #{workerId,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from XT_USER_INFO
+		where WORKER_ID = #{workerId,jdbcType=DECIMAL}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.sc.entity.XtUserInfoExample">
+		delete from XT_USER_INFO
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.sc.entity.XtUserInfo">
+		insert into XT_USER_INFO (WORKER_ID, WORKER_NAME, WORKER_SEX,
+		WORKER_PHOTO, ID_CARD, HOME_ADD,
+		NOW_ADD, WORKER_EDU, POLITICS,
+		SCHOOL, WORKER_TEL, WEB_RELATION,
+		WEB_DETA, AUDIT, DUTIES_ID,
+		WORKER_STA, ORDER_REMARK, COMPANY_ID,
+		LAST_MODIFY_DATE)
+		values (#{workerId,jdbcType=DECIMAL}, #{workerName,jdbcType=VARCHAR},
+		#{workerSex,jdbcType=VARCHAR},
+		#{workerPhoto,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{homeAdd,jdbcType=VARCHAR},
+		#{nowAdd,jdbcType=VARCHAR}, #{workerEdu,jdbcType=VARCHAR},
+		#{politics,jdbcType=VARCHAR},
+		#{school,jdbcType=VARCHAR}, #{workerTel,jdbcType=VARCHAR}, #{webRelation,jdbcType=VARCHAR},
+		#{webDeta,jdbcType=VARCHAR}, #{audit,jdbcType=VARCHAR},
+		#{dutiesId,jdbcType=DECIMAL},
+		#{workerSta,jdbcType=VARCHAR}, #{orderRemark,jdbcType=VARCHAR}, #{companyId,jdbcType=DECIMAL},
+		#{lastModifyDate,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.sc.entity.XtUserInfo">
+		insert into XT_USER_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="workerId != null">
+				WORKER_ID,
+			</if>
+			<if test="workerName != null">
+				WORKER_NAME,
+			</if>
+			<if test="workerSex != null">
+				WORKER_SEX,
+			</if>
+			<if test="workerPhoto != null">
+				WORKER_PHOTO,
+			</if>
+			<if test="idCard != null">
+				ID_CARD,
+			</if>
+			<if test="homeAdd != null">
+				HOME_ADD,
+			</if>
+			<if test="nowAdd != null">
+				NOW_ADD,
+			</if>
+			<if test="workerEdu != null">
+				WORKER_EDU,
+			</if>
+			<if test="politics != null">
+				POLITICS,
+			</if>
+			<if test="school != null">
+				SCHOOL,
+			</if>
+			<if test="workerTel != null">
+				WORKER_TEL,
+			</if>
+			<if test="webRelation != null">
+				WEB_RELATION,
+			</if>
+			<if test="webDeta != null">
+				WEB_DETA,
+			</if>
+			<if test="audit != null">
+				AUDIT,
+			</if>
+			<if test="dutiesId != null">
+				DUTIES_ID,
+			</if>
+			<if test="workerSta != null">
+				WORKER_STA,
+			</if>
+			<if test="orderRemark != null">
+				ORDER_REMARK,
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID,
+			</if>
+			<if test="lastModifyDate != null">
+				LAST_MODIFY_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="workerId != null">
+				#{workerId,jdbcType=DECIMAL},
+			</if>
+			<if test="workerName != null">
+				#{workerName,jdbcType=VARCHAR},
+			</if>
+			<if test="workerSex != null">
+				#{workerSex,jdbcType=VARCHAR},
+			</if>
+			<if test="workerPhoto != null">
+				#{workerPhoto,jdbcType=VARCHAR},
+			</if>
+			<if test="idCard != null">
+				#{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="homeAdd != null">
+				#{homeAdd,jdbcType=VARCHAR},
+			</if>
+			<if test="nowAdd != null">
+				#{nowAdd,jdbcType=VARCHAR},
+			</if>
+			<if test="workerEdu != null">
+				#{workerEdu,jdbcType=VARCHAR},
+			</if>
+			<if test="politics != null">
+				#{politics,jdbcType=VARCHAR},
+			</if>
+			<if test="school != null">
+				#{school,jdbcType=VARCHAR},
+			</if>
+			<if test="workerTel != null">
+				#{workerTel,jdbcType=VARCHAR},
+			</if>
+			<if test="webRelation != null">
+				#{webRelation,jdbcType=VARCHAR},
+			</if>
+			<if test="webDeta != null">
+				#{webDeta,jdbcType=VARCHAR},
+			</if>
+			<if test="audit != null">
+				#{audit,jdbcType=VARCHAR},
+			</if>
+			<if test="dutiesId != null">
+				#{dutiesId,jdbcType=DECIMAL},
+			</if>
+			<if test="workerSta != null">
+				#{workerSta,jdbcType=VARCHAR},
+			</if>
+			<if test="orderRemark != null">
+				#{orderRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=DECIMAL},
+			</if>
+			<if test="lastModifyDate != null">
+				#{lastModifyDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.sc.entity.XtUserInfoExample"
+		resultType="java.lang.Integer">
+		select count(*) from XT_USER_INFO
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update XT_USER_INFO
+		<set>
+			<if test="record.workerId != null">
+				WORKER_ID = #{record.workerId,jdbcType=DECIMAL},
+			</if>
+			<if test="record.workerName != null">
+				WORKER_NAME = #{record.workerName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.workerSex != null">
+				WORKER_SEX = #{record.workerSex,jdbcType=VARCHAR},
+			</if>
+			<if test="record.workerPhoto != null">
+				WORKER_PHOTO = #{record.workerPhoto,jdbcType=VARCHAR},
+			</if>
+			<if test="record.idCard != null">
+				ID_CARD = #{record.idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="record.homeAdd != null">
+				HOME_ADD = #{record.homeAdd,jdbcType=VARCHAR},
+			</if>
+			<if test="record.nowAdd != null">
+				NOW_ADD = #{record.nowAdd,jdbcType=VARCHAR},
+			</if>
+			<if test="record.workerEdu != null">
+				WORKER_EDU = #{record.workerEdu,jdbcType=VARCHAR},
+			</if>
+			<if test="record.politics != null">
+				POLITICS = #{record.politics,jdbcType=VARCHAR},
+			</if>
+			<if test="record.school != null">
+				SCHOOL = #{record.school,jdbcType=VARCHAR},
+			</if>
+			<if test="record.workerTel != null">
+				WORKER_TEL = #{record.workerTel,jdbcType=VARCHAR},
+			</if>
+			<if test="record.webRelation != null">
+				WEB_RELATION = #{record.webRelation,jdbcType=VARCHAR},
+			</if>
+			<if test="record.webDeta != null">
+				WEB_DETA = #{record.webDeta,jdbcType=VARCHAR},
+			</if>
+			<if test="record.audit != null">
+				AUDIT = #{record.audit,jdbcType=VARCHAR},
+			</if>
+			<if test="record.dutiesId != null">
+				DUTIES_ID = #{record.dutiesId,jdbcType=DECIMAL},
+			</if>
+			<if test="record.workerSta != null">
+				WORKER_STA = #{record.workerSta,jdbcType=VARCHAR},
+			</if>
+			<if test="record.orderRemark != null">
+				ORDER_REMARK = #{record.orderRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="record.companyId != null">
+				COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+			</if>
+			<if test="record.lastModifyDate != null">
+				LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update XT_USER_INFO
+		set WORKER_ID = #{record.workerId,jdbcType=DECIMAL},
+		WORKER_NAME = #{record.workerName,jdbcType=VARCHAR},
+		WORKER_SEX = #{record.workerSex,jdbcType=VARCHAR},
+		WORKER_PHOTO = #{record.workerPhoto,jdbcType=VARCHAR},
+		ID_CARD = #{record.idCard,jdbcType=VARCHAR},
+		HOME_ADD = #{record.homeAdd,jdbcType=VARCHAR},
+		NOW_ADD = #{record.nowAdd,jdbcType=VARCHAR},
+		WORKER_EDU = #{record.workerEdu,jdbcType=VARCHAR},
+		POLITICS = #{record.politics,jdbcType=VARCHAR},
+		SCHOOL = #{record.school,jdbcType=VARCHAR},
+		WORKER_TEL = #{record.workerTel,jdbcType=VARCHAR},
+		WEB_RELATION = #{record.webRelation,jdbcType=VARCHAR},
+		WEB_DETA = #{record.webDeta,jdbcType=VARCHAR},
+		AUDIT = #{record.audit,jdbcType=VARCHAR},
+		DUTIES_ID = #{record.dutiesId,jdbcType=DECIMAL},
+		WORKER_STA = #{record.workerSta,jdbcType=VARCHAR},
+		ORDER_REMARK = #{record.orderRemark,jdbcType=VARCHAR},
+		COMPANY_ID = #{record.companyId,jdbcType=DECIMAL},
+		LAST_MODIFY_DATE = #{record.lastModifyDate,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.XtUserInfo">
+		update XT_USER_INFO
+		<set>
+			<if test="workerName != null">
+				WORKER_NAME = #{workerName,jdbcType=VARCHAR},
+			</if>
+			<if test="workerSex != null">
+				WORKER_SEX = #{workerSex,jdbcType=VARCHAR},
+			</if>
+			<if test="workerPhoto != null">
+				WORKER_PHOTO = #{workerPhoto,jdbcType=VARCHAR},
+			</if>
+			<if test="idCard != null">
+				ID_CARD = #{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="homeAdd != null">
+				HOME_ADD = #{homeAdd,jdbcType=VARCHAR},
+			</if>
+			<if test="nowAdd != null">
+				NOW_ADD = #{nowAdd,jdbcType=VARCHAR},
+			</if>
+			<if test="workerEdu != null">
+				WORKER_EDU = #{workerEdu,jdbcType=VARCHAR},
+			</if>
+			<if test="politics != null">
+				POLITICS = #{politics,jdbcType=VARCHAR},
+			</if>
+			<if test="school != null">
+				SCHOOL = #{school,jdbcType=VARCHAR},
+			</if>
+			<if test="workerTel != null">
+				WORKER_TEL = #{workerTel,jdbcType=VARCHAR},
+			</if>
+			<if test="webRelation != null">
+				WEB_RELATION = #{webRelation,jdbcType=VARCHAR},
+			</if>
+			<if test="webDeta != null">
+				WEB_DETA = #{webDeta,jdbcType=VARCHAR},
+			</if>
+			<if test="audit != null">
+				AUDIT = #{audit,jdbcType=VARCHAR},
+			</if>
+			<if test="dutiesId != null">
+				DUTIES_ID = #{dutiesId,jdbcType=DECIMAL},
+			</if>
+			<if test="workerSta != null">
+				WORKER_STA = #{workerSta,jdbcType=VARCHAR},
+			</if>
+			<if test="orderRemark != null">
+				ORDER_REMARK = #{orderRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+			</if>
+			<if test="lastModifyDate != null">
+				LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where WORKER_ID = #{workerId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.sc.entity.XtUserInfo">
+		update XT_USER_INFO
+		set WORKER_NAME = #{workerName,jdbcType=VARCHAR},
+		WORKER_SEX = #{workerSex,jdbcType=VARCHAR},
+		WORKER_PHOTO = #{workerPhoto,jdbcType=VARCHAR},
+		ID_CARD = #{idCard,jdbcType=VARCHAR},
+		HOME_ADD = #{homeAdd,jdbcType=VARCHAR},
+		NOW_ADD = #{nowAdd,jdbcType=VARCHAR},
+		WORKER_EDU = #{workerEdu,jdbcType=VARCHAR},
+		POLITICS = #{politics,jdbcType=VARCHAR},
+		SCHOOL = #{school,jdbcType=VARCHAR},
+		WORKER_TEL = #{workerTel,jdbcType=VARCHAR},
+		WEB_RELATION = #{webRelation,jdbcType=VARCHAR},
+		WEB_DETA = #{webDeta,jdbcType=VARCHAR},
+		AUDIT = #{audit,jdbcType=VARCHAR},
+		DUTIES_ID = #{dutiesId,jdbcType=DECIMAL},
+		WORKER_STA = #{workerSta,jdbcType=VARCHAR},
+		ORDER_REMARK = #{orderRemark,jdbcType=VARCHAR},
+		COMPANY_ID = #{companyId,jdbcType=DECIMAL},
+		LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
+		where WORKER_ID = #{workerId,jdbcType=DECIMAL}
+	</update>
+</mapper>
