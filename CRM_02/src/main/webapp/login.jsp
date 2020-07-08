@@ -30,7 +30,7 @@
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
-<%
+ <%
     Cookie[] cookies = request.getCookies();//取出Cookie
     String name="";//定义name接收用户名
     String password="";//定义password接收密码
@@ -48,7 +48,7 @@
            }
     }
 }
- %>
+ %> 
  
  
 	<c:if test="${param.loginnow=='yes'}">
