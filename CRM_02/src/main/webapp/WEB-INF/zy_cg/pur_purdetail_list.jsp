@@ -245,7 +245,7 @@
 						<script type="text/javascript">
 				  function sy(){
 				  
-				  location.href="purctrl/selectSup.do?pageNum="+${page.navigateFirstPage }+
+				  location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.navigateFirstPage }+
 				      "&name="+document.getElementById("ssz").value
 				  }
 				  </script>
@@ -254,7 +254,7 @@
 						<script type="text/javascript">
 				  function syy(){
 				 
-				  location.href="purctrl/selectSup.do?pageNum="+${page.prePage}+
+				  location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.prePage}+
 				      "&name="+document.getElementById("ssz").value
 				  }
 				  </script>
@@ -265,7 +265,7 @@
 						<script type="text/javascript">
 				     function xyy(){
 				  		 
-				      location.href="purctrl/selectSup.do?pageNum="+${page.nextPage}+
+				      location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.nextPage}+
 				      "&name="+document.getElementById("ssz").value
 				    }
 				   </script>
@@ -273,7 +273,7 @@
 							style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
 						<script type="text/javascript">
 				     function wy(){
-				     location.href="purctrl/selectSup.do?pageNum="+${page.navigateLastPage }+
+				     location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.navigateLastPage }+
 				      "&name="+document.getElementById("ssz").value
 				    }
 				  </script>
