@@ -169,11 +169,17 @@ outline: none;
 						</tr>
 						<tr>
 							<td>操作员</td>
-							<td><input type="text" id="czy" name="operaterId"></td>
+							<td>
+							<input type="text" value="${public.czrmc}">
+							<input type="hidden" id="czy" value="${public.czrid}" name="operaterId">
+							</td>
 						</tr>
 						<tr>
 							<td>公司</td>
-							<td><input type="text" id="gs" name="companyId"></td>
+							<td>
+							<select id="comp" name="companyId" class="selectbyzy">
+							</select>
+							</td>
 						</tr>
 						<tr>
 							<td><div>备注信息</div></td>
@@ -261,6 +267,20 @@ outline: none;
 			$("#cp").val(id);
 			$("#cp1").val(name);
 			$("#cpdj").val(price);
+			$.ajax({
+					type : "post",
+					url : "<%=basePath%>purctrl/selectallcompany.do",
+					dataType : "json",
+					success : function(data) //从前台回调回来的数组，处理后的数据
+					{
+						var h = "";
+						h = "<option>请选择</option>";
+						$.each(data, function(i, comp) {
+							h += "<option value='" + comp.companyId + "'>" + comp.companyName + "</option>"
+						});
+						$("#comp").html(h);
+					}
+				});
 			var index = layer.open({
 				type : 1,
 				area : [ '600px', '550px' ],
@@ -277,10 +297,10 @@ outline: none;
 						type : "post", //请求方式
 						url : "purctrl/addcgreq.do", //url地址
 						data : $('#from').serialize(), //序列化表单的参数
-						dataType : "json" //响应类型
 					});
 					//提交完成后关闭弹层
 					layer.close(index);
+					
 				},
 				//end是关闭窗口时自动执行
 				end : function() {

@@ -284,4 +284,10 @@ public class CgServiceImpl implements CgService {
 		return xtUserInfoMapper.selectByPrimaryKey(workerId);
 	}
 
+	@Override
+	public XtCompanyInfo selecteCompanyInfoBy(Long companyId) {
+		// TODO Auto-generated method stub
+		return xtCompanyInfoMapper.selectByPrimaryKey(companyId);
+	}
+
 }

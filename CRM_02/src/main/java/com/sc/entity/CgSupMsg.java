@@ -41,10 +41,12 @@ public class CgSupMsg implements Serializable {
 
 	private Date lastTime;
 
-	// 拓展属性
+	// 公司信息
 	private List<XtCompanyInfo> xtCompanyInfo;
-    //拓展属性
+	// 用户信息
 	private XtUserInfo xtUserInfo;
+	// 公司名称
+	private String compname;
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,6 +75,14 @@ public class CgSupMsg implements Serializable {
 
 	public CgSupMsg() {
 		super();
+	}
+
+	public String getCompname() {
+		return compname;
+	}
+
+	public void setCompname(String compname) {
+		this.compname = compname;
 	}
 
 	public XtUserInfo getXtUserInfo() {
@@ -241,7 +251,8 @@ public class CgSupMsg implements Serializable {
 				+ ", tel=" + tel + ", moblePhone=" + moblePhone + ", cz=" + cz + ", address=" + address + ", yb=" + yb
 				+ ", emil=" + emil + ", khYh=" + khYh + ", yhZh=" + yhZh + ", companyZy=" + companyZy + ", sfYx=" + sfYx
 				+ ", operaterId=" + operaterId + ", bzXx=" + bzXx + ", companyId=" + companyId + ", lastTime="
-				+ lastTime + ", xtCompanyInfo=" + xtCompanyInfo + ", xtUserInfo=" + xtUserInfo + "]";
+				+ lastTime + ", xtCompanyInfo=" + xtCompanyInfo + ", xtUserInfo=" + xtUserInfo + ", compname="
+				+ compname + "]";
 	}
 
 }
