@@ -134,7 +134,7 @@ outline: none;
 							<tr class="text-c">
 								<td><input type="checkbox" name="one-check"
 									value="${p.cgRepId }"></td>
-								<td>${p.cpId }</td>
+								<td>${p.kcGoodsInfo.productName }</td>
 								<td><fmt:formatDate value="${p.jhDate }"
 										pattern="yyyy-MM-dd HH:mm:ss" /></td>
 								<td>${p.cgOrderDetail.cpNum}辆</td>
@@ -164,7 +164,7 @@ outline: none;
 								<td>
 								 <input class="inputcl" type="hidden" id="xcgid" name="cgRepId">
 								 <input class="inputcl" type="hidden" id="zt" name="zt">
-								 <input class="inputcl" type="hidden" id="czy" name="operaterId">
+								 <input class="inputcl" type="hidden" id="czy" value="${public.czrid}" name="operaterId">
 								 <input class="inputcl" type="hidden" id="gs" name="companyId">
 								 <input class="inputcl" type="hidden" id="cp" name="cpId">
 								 <input style="width: 160px;height: 37.27px" type="text"
@@ -193,7 +193,7 @@ outline: none;
 							<tr>
 								<td><div>备注信息</div></td>
 								<td colspan="3"><textarea
-										style="float: left;margin-top: 55px;" rows="5" cols="70"
+										style="float: left;" rows="5" cols="70"
 										id="bzxx" name="bzXx"></textarea></td>
 							</tr>
 						</table>
@@ -336,8 +336,8 @@ function cksjxq(id){
 			dataType : "json",
 			success : function(data) //从前台回调回来的数组，处理后的数据
 			{
-			 $("#a").html("操作员："+data.operaterId);
-			 $("#b").html("公司："+data.companyId);
+			 $("#a").html("操作员："+data.czrname);
+			 $("#b").html("公司："+data.compname);
 			 $("#c").html("备注信息："+data.bzXx);
 			 var date = new Date(data.lastTime);
              var Y = date.getFullYear() + '-';
@@ -356,7 +356,7 @@ function cksjxq(id){
 		fix: false, //不固定
 		maxmin: true,
 		shade:0.4,
-		title: '采购明细',
+		title: '明细',
 		content: $('#window-div')
 	});
 }
@@ -372,7 +372,7 @@ $.ajax({
 			 $("#xcgid").val(data.cgRepId);
 			 $("#cp").val(data.cpId);
 			 $("#zt").val(data.zt);
-			 $("#czy").val(data.operaterId);
+			/*  $("#czy").val(data.operaterId); */
 			 $("#gs").val(data.companyId);
 			 $("#cpdj").val(data.kcGoodsInfo.sell);
 			 $("#cpsl").val(sl);

@@ -27,6 +27,9 @@ public interface CgService {
 	// 查出所有公司
 	public List<XtCompanyInfo> selectallcompany();
 
+	// 根据公司id查到公司信息
+	public XtCompanyInfo selecteCompanyInfoBy(Long companyId);
+
 	// 根据采购id查询采购详情表
 	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid);
 

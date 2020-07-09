@@ -242,9 +242,11 @@ public class CgController {
 	public CgSupMsg selectSupbyid(Long id) {
 		CgSupMsg selectSupbyid = cgService.selectSupbyid(id);
 		List<XtCompanyInfo> selectallcompany = cgService.selectallcompany();
+		XtCompanyInfo selecteCompanyInfoBy = cgService.selecteCompanyInfoBy(selectSupbyid.getCompanyId());
 		XtUserInfo selecteUserinfoByworkerId = cgService.selecteUserinfoByworkerId(selectSupbyid.getOperaterId());
 		selectSupbyid.setXtUserInfo(selecteUserinfoByworkerId);
 		selectSupbyid.setXtCompanyInfo(selectallcompany);
+		selectSupbyid.setCompname(selecteCompanyInfoBy.getCompanyName());
 		return selectSupbyid;
 	}
 
@@ -277,7 +279,9 @@ public class CgController {
 		List<CgRepGoods> list = purlist.getList();
 		for (CgRepGoods cc : list) {
 			cc.setCgOrderDetail(cgService.selectDetail(cc.getCpId()));
+			cc.setKcGoodsInfo(cgService.selectgood(cc.getCpId()));
 		}
+		
 		if (list.size() == 0) {
 			temp = "no";
 		}
@@ -316,6 +320,10 @@ public class CgController {
 	@ResponseBody
 	public CgRepGoods selectcrgbyid(Long id) {
 		CgRepGoods selectcrgbyid = cgService.selectcrgbyid(id);
+		XtUserInfo selecteUserinfoByworkerId = cgService.selecteUserinfoByworkerId(selectcrgbyid.getOperaterId());
+		XtCompanyInfo selecteCompanyInfoBy = cgService.selecteCompanyInfoBy(selectcrgbyid.getCompanyId());
+		selectcrgbyid.setCompname(selecteCompanyInfoBy.getCompanyName());
+		selectcrgbyid.setCzrname(selecteUserinfoByworkerId.getWorkerName());
 		selectcrgbyid.setKcGoodsInfo(cgService.selectgood(selectcrgbyid.getCpId()));
 		return selectcrgbyid;
 	}

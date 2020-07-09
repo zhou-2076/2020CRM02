@@ -180,9 +180,9 @@
 							</select></td>
 							<td>操作人员</td>
 							<td><input readonly="readonly" type="text" id="czrname">
-								<input type="hidden" id="dd" value="${public.czrmc}">
-								 <input type="hidden" id="ee" value="${public.czrid}" name="operaterId">
-								  </td>
+								<input type="hidden" id="dd" value="${public.czrmc}"> <input
+								type="hidden" id="ee" value="${public.czrid}" name="operaterId">
+							</td>
 						</tr>
 						<tr>
 							<td>公司</td>
@@ -317,7 +317,7 @@
 					return true;
 				}
 			}
-			/*明细*/
+			/*供应商明细*/
 			function cksjxq(id) {
 				$.ajax({
 					type : "post",
@@ -335,9 +335,9 @@
 						$("#h").html("开户银行：" + data.khYh);
 						$("#i").html("银行账户：" + data.yhZh);
 						$("#j").html("公司主页：" + data.companyZy);
-						$("#k").html("操作人员：" + data.operaterId);
+						$("#k").html("操作人员：" + data.xtUserInfo.workerName);
 						$("#nn").html("备注信息：" + data.bzXx);
-						$("#mm").html("公司：" + data.companyId);
+						$("#mm").html("公司：" + data.compname);
 						var date = new Date(data.lastTime);
 						var Y = date.getFullYear() + '-';
 						var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
@@ -354,7 +354,7 @@
 					fix : false, //不固定
 					maxmin : true,
 					shade : 0.4,
-					title : '采购明细',
+					title : '供应商明细',
 					content : $('#window-div')
 				});
 			}
@@ -387,8 +387,6 @@
 						if (data.sfYx == "否") {
 							document.getElementById("fou").selected = true;
 						}
-		
-						$("#gs").val(data.companyId);
 						$("#czry").val(data.operaterId);
 						$("#bzxx").html(data.bzXx);
 						var op = "";
