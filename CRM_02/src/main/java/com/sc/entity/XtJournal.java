@@ -3,6 +3,8 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class XtJournal implements Serializable {
     private Long journalId;
 
@@ -12,6 +14,7 @@ public class XtJournal implements Serializable {
 
     private String qx;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date fwdate;
 
     private Long companyId;
