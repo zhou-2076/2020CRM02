@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class XtRoles implements Serializable {
     private Long roleId;
 
@@ -15,6 +17,7 @@ public class XtRoles implements Serializable {
 
     private String operator;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date lastModifyDate;
     
     //拓展属性（将权限装到角色中）
