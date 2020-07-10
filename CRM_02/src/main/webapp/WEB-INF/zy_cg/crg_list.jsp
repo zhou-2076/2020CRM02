@@ -122,7 +122,7 @@ outline: none;
 							<th width="25"><input type="checkbox" id="all-check"></th>
 							<th width="60">产品</th>
 							<th width="100">交货时间</th>
-							<th width="40">数量</th>
+							<th width="40">采购数量</th>
 							<th width="40">价格</th>
 							<th width="40">是否入库</th>
 							<th width="40">状态</th>
@@ -132,8 +132,15 @@ outline: none;
 					<tbody>
 						<c:forEach items="${page.list }" var="p">
 							<tr class="text-c">
-								<td><input type="checkbox" name="one-check"
-									value="${p.cgRepId }"></td>
+								<td>
+								<c:if test="${p.zt=='已处理'}">
+                                <script type="text/javascript">
+                                $("#inpid"+${p.cgRepId}).val(0);
+                                console.log($("#inpid"+${p.cgRepId}).val());
+                                </script>
+								</c:if>
+								<input id="inpid${p.cgRepId}" type="checkbox" name="one-check" value="${p.cgRepId }">
+								</td>
 								<td>${p.kcGoodsInfo.productName }</td>
 								<td><fmt:formatDate value="${p.jhDate }"
 										pattern="yyyy-MM-dd HH:mm:ss" /></td>

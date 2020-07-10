@@ -90,14 +90,25 @@ public class CgController {
 	// 采购单+采购单详情
 	@RequestMapping("/selectorderanddel.do")
 	public ModelAndView selectorderanddel(ModelAndView mav, @RequestParam(defaultValue = "1") Integer pageNum,
-			@RequestParam(defaultValue = "5") Integer pageSize, Long cgid) {
+			@RequestParam(defaultValue = "5") Integer pageSize, Long cgid,String name) {
 		CgOrder selectone = cgService.selectone(cgid);
-		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetailByCgid(pageNum, pageSize, cgid);
+		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetailByCgid(pageNum, pageSize, cgid,name);
+		if(name!=null){
+			mav.addObject("ssz",name);
+		}
 		selectone.setCgOrderDetail(page.getList());
 		mav.addObject("order", selectone);
 		mav.addObject("page", page);
 		mav.setViewName("zy_cg/pur_purdetail_list");
 		return mav;
+	}
+	
+	// 通过采购详情id查询采购详情
+	@RequestMapping("/selectDetailBycgXqId.do")
+	@ResponseBody
+	public CgOrderDetail selectDetailBycgXqId(Long id) {
+		CgOrderDetail selectone = cgService.selectDetailBycgXqId(id);
+		return selectone;
 	}
 
 	// 订单批量删除+删除

@@ -263,11 +263,14 @@ public class CgServiceImpl implements CgService {
 	}
 
 	@Override
-	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid) {
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,String name) {
 		PageHelper.startPage(pageNum, pageSize);
 		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
 		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
 		createCriteria.andCgIdEqualTo(cgid);
+		if(name!=null){
+			createCriteria.andCpNameLike("%"+name+"%");
+		}
 		cgOrderDetailExample.setOrderByClause("CG_XQ_ID");
 		List<CgOrderDetail> list = cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
 		PageInfo<CgOrderDetail> page = new PageInfo<CgOrderDetail>(list);
@@ -288,6 +291,12 @@ public class CgServiceImpl implements CgService {
 	public XtCompanyInfo selecteCompanyInfoBy(Long companyId) {
 		// TODO Auto-generated method stub
 		return xtCompanyInfoMapper.selectByPrimaryKey(companyId);
+	}
+
+	@Override
+	public CgOrderDetail selectDetailBycgXqId(Long cgXqId) {
+		// TODO Auto-generated method stub
+		return cgOrderDetailMapper.selectByPrimaryKey(cgXqId);
 	}
 
 }
