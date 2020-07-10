@@ -204,7 +204,8 @@
 								}
 							}
 						</script>
-						<li></li>
+						<li><a data-href="purctrl/enter.do" data-title="入库单"
+							href="javascript:;">入库单</a></li>
 						<li><a data-href="purctrl/purlist.do" data-title="采购单"
 							href="javascript:;">采购单</a></li>
 						<li><a data-href="purctrl/selectSup.do" data-title="供应商"
