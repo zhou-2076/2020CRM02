@@ -3,6 +3,8 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class XtPermission implements Serializable {
     private Long qxId;
 
@@ -14,6 +16,7 @@ public class XtPermission implements Serializable {
 
     private String bz;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date lastModifyDate;
 
     private static final long serialVersionUID = 1L;

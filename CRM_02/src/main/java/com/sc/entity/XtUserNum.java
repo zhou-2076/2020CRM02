@@ -3,6 +3,8 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class XtUserNum implements Serializable {
 	private Long userId;
 
@@ -16,6 +18,7 @@ public class XtUserNum implements Serializable {
 
 	private String accountStatus;
 
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date lastModifyDate;
 
 	/* 显示在主页的个人数据不要删 */
