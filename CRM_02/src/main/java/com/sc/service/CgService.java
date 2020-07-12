@@ -31,7 +31,8 @@ public interface CgService {
 	public XtCompanyInfo selecteCompanyInfoBy(Long companyId);
 
 	// 根据采购id查询采购详情表
-	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid);
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,
+			String name);
 
 	// 修改采购单
 	public void updatcgorder(CgOrder p);
@@ -71,6 +72,9 @@ public interface CgService {
 
 	// 用过产品编号查询采购详情
 	public CgOrderDetail selectDetail(Long cpId);
+
+	// 通过采购详情id查询采购详情
+	public CgOrderDetail selectDetailBycgXqId(Long cgXqId);
 
 	// 修改采购详情
 	public void updatecgxq(CgOrderDetail cg);

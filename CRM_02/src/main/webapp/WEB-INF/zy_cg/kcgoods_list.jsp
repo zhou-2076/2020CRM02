@@ -130,7 +130,7 @@ outline: none;
 								</c:if> <c:if test="${p.cgRepGoods!=null}">
 									<a href="javascript:;" disabled="disabled"
 										style="background-color:#c8d6d6;display: block;"
-										class="btn radius"> 您已发布 </a>
+										class="btn radius">已发布 </a>
 								</c:if></td>
 						</tr>
 					</c:forEach>
