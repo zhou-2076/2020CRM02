@@ -1,5 +1,5 @@
 package com.sc.service;
-
+import java.math.BigDecimal;
 import com.github.pagehelper.PageInfo;
 import com.sc.entity.XtUserInfo;
 
@@ -11,10 +11,10 @@ public interface XtUserInfoService {
 	public void updateXtUserInof(XtUserInfo userInfo);
 
 	// 删除员工信息
-	public void deleteXtUserInof(Long workerId);
+	public void deleteXtUserInof(Long  workerId);
 
 	// 根据员工id查到员工信息
-	public XtUserInfo getXtUserInof(Long workerId);
+	public XtUserInfo getXtUserInof(Long  workerId);
 
 	// 根据员工id查到员工信息
 	public PageInfo<XtUserInfo> selectXtUserInof(Integer pageNum, Integer pageSize, XtUserInfo userInfo);
