@@ -42,7 +42,8 @@ public class XsCustom implements Serializable {
     private String bank;
 
     private String bankAccount;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date nextTime;
 
     private String email;
@@ -59,7 +60,7 @@ public class XsCustom implements Serializable {
 
     private Long companyId;
     
-    @DateTimeFormat(pattern="yyyy-mm-dd hh:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date lastModifyDate;
 
     private static final long serialVersionUID = 1L;
