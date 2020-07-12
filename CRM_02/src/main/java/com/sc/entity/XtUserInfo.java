@@ -30,7 +30,7 @@ public class XtUserInfo implements Serializable {
 
     private String webDeta;
 
-    private String audit;
+    private String audIt;
 
     private Long dutiesId;
 
@@ -44,7 +44,7 @@ public class XtUserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public XtUserInfo(Long workerId, String workerName, String workerSex, String workerPhoto, String idCard, String homeAdd, String nowAdd, String workerEdu, String politics, String school, String workerTel, String webRelation, String webDeta, String audit, Long dutiesId, String workerSta, String orderRemark, Long companyId, Date lastModifyDate) {
+    public XtUserInfo(Long workerId, String workerName, String workerSex, String workerPhoto, String idCard, String homeAdd, String nowAdd, String workerEdu, String politics, String school, String workerTel, String webRelation, String webDeta, String audIt, Long dutiesId, String workerSta, String orderRemark, Long companyId, Date lastModifyDate) {
         this.workerId = workerId;
         this.workerName = workerName;
         this.workerSex = workerSex;
@@ -58,7 +58,7 @@ public class XtUserInfo implements Serializable {
         this.workerTel = workerTel;
         this.webRelation = webRelation;
         this.webDeta = webDeta;
-        this.audit = audit;
+        this.audIt = audIt;
         this.dutiesId = dutiesId;
         this.workerSta = workerSta;
         this.orderRemark = orderRemark;
@@ -174,12 +174,12 @@ public class XtUserInfo implements Serializable {
         this.webDeta = webDeta == null ? null : webDeta.trim();
     }
 
-    public String getAudit() {
-        return audit;
+    public String getAudIt() {
+        return audIt;
     }
 
-    public void setAudit(String audit) {
-        this.audit = audit == null ? null : audit.trim();
+    public void setAudIt(String audIt) {
+        this.audIt = audIt == null ? null : audIt.trim();
     }
 
     public Long getDutiesId() {
@@ -227,11 +227,10 @@ public class XtUserInfo implements Serializable {
 		return "XtUserInfo [workerId=" + workerId + ", workerName=" + workerName + ", workerSex=" + workerSex
 				+ ", workerPhoto=" + workerPhoto + ", idCard=" + idCard + ", homeAdd=" + homeAdd + ", nowAdd=" + nowAdd
 				+ ", workerEdu=" + workerEdu + ", politics=" + politics + ", school=" + school + ", workerTel="
-				+ workerTel + ", webRelation=" + webRelation + ", webDeta=" + webDeta + ", audit=" + audit
+				+ workerTel + ", webRelation=" + webRelation + ", webDeta=" + webDeta + ", audIt=" + audIt
 				+ ", dutiesId=" + dutiesId + ", workerSta=" + workerSta + ", orderRemark=" + orderRemark
 				+ ", companyId=" + companyId + ", lastModifyDate=" + lastModifyDate + "]";
 	}
-    
     
     
 }
