@@ -35,7 +35,7 @@ import com.sc.service.CgService;
 public class CgServiceImpl implements CgService {
 
 	@Autowired
-	CgOrderMapper cgOrderMapper;// 采购单依赖注入
+	CgOrderMapper cgOrderMapper;
 	@Autowired
 	KcGoodsInfoMapper kcGoodsInfoMapper;
 	@Autowired
@@ -168,20 +168,12 @@ public class CgServiceImpl implements CgService {
 		cgSupMsgMapper.insert(c);
 	}
 
-	public PageInfo<CgRepGoods> selectcgr(Integer pageNum, Integer pageSize, String title, Date time1, Date time2) {
+	public PageInfo<CgRepGoods> selectcgr(Integer pageNum, Integer pageSize, String title) {
 		PageHelper.startPage(pageNum, pageSize);
 		CgRepGoodsExample cgRepGoodsExample = new CgRepGoodsExample();
 		com.sc.entity.CgRepGoodsExample.Criteria c = cgRepGoodsExample.createCriteria();
 		if (title != null && !title.equals("")) {
 			c.andZtEqualTo(title);
-		}
-		if (time1 != null) {
-			// 大于等于
-			c.andJhDateGreaterThanOrEqualTo(time1);
-		}
-		if (time2 != null) {
-			// 小于等于
-			c.andJhDateLessThanOrEqualTo(time2);
 		}
 		cgRepGoodsExample.setOrderByClause("CG_REP_ID");
 		List<CgRepGoods> list = cgRepGoodsMapper.selectByExample(cgRepGoodsExample);
@@ -261,6 +253,15 @@ public class CgServiceImpl implements CgService {
 		}
 		return cg;
 	}
+	
+	@Override
+	public List<CgRepGoods> selectcrgbycpidall(Long cpId) {
+		CgRepGoodsExample cgRepGoodsExample = new CgRepGoodsExample();
+		com.sc.entity.CgRepGoodsExample.Criteria createCriteria = cgRepGoodsExample.createCriteria();
+		createCriteria.andCpIdEqualTo(cpId);
+		List<CgRepGoods> list = cgRepGoodsMapper.selectByExample(cgRepGoodsExample);
+		return list;
+	}
 
 	@Override
 	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,String name) {
@@ -297,6 +298,22 @@ public class CgServiceImpl implements CgService {
 	public CgOrderDetail selectDetailBycgXqId(Long cgXqId) {
 		// TODO Auto-generated method stub
 		return cgOrderDetailMapper.selectByPrimaryKey(cgXqId);
+	}
+
+	@Override
+	public List<CgSupMsg> selectSupall() {
+		// TODO Auto-generated method stub
+		return cgSupMsgMapper.selectByExample(null);
+	}
+
+	@Override
+	public List<CgOrderDetail> selectBycgId(Long cgId) {
+		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
+		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
+		if(cgId!=null&&!cgId.equals("")){
+			createCriteria.andCgIdEqualTo(cgId);
+		}
+		return cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
 	}
 
 }

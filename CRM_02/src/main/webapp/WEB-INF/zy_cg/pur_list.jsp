@@ -128,10 +128,11 @@ outline: none;
 						class="btn btn-success radius"> <i class="Hui-iconfont">&#xe600;</i>制定补货采购
 					</a>
 					<span style="color:red;" id="sp">有货物需要补充，请尽快处理</span>
-				</c:if> <script type="text/javascript">
-						function aa() {
-							layer.msg("无需补货商品");
-						}
+				</c:if>
+				 <script type="text/javascript">
+					function aa() {
+						layer.msg("无需补货商品");
+					}
 				</script> </script>
 			</span> <span class="r">共有数据：<strong>${page.total}</strong> 条
 			</span>
@@ -145,6 +146,7 @@ outline: none;
 						<th width="80">ID</th>
 						<th width="100">采购主题</th>
 						<th width="100">采购日期</th>
+						<th width="100">付款情况</th>
 						<th width="40">采购进展</th>
 						<th width="40">操作</th>
 					</tr>
@@ -158,16 +160,15 @@ outline: none;
 							<td>${p.cgTitle }</td>
 							<td><fmt:formatDate value="${p.cgDate }"
 									pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>${p.fkQk}</td>
 							<td>${p.cgJz}</td>
-							<td class="td-manage">
-							<a style="text-decoration:none"
-								onClick="cksjxq(${p.cgId })" href="javascript:;" title="查看采购明细">
+							<td class="td-manage"><a style="text-decoration:none"
+								onClick="cksjxq(${p.cgId })" href="javascript:;" title="查看明细">
 									<i class="Hui-iconfont">&#xe616;</i>
-							</a> 
-							<a style="text-decoration:none"  href="purctrl/selectorderanddel.do?cgid=${p.cgId }" title="查看采购详情单">
-									<i class="Hui-iconfont">&#xe636;</i>
-							</a> 
-							<a title="编辑" href="javascript:;" onclick="bj(${p.cgId })"
+							</a> <a style="text-decoration:none"
+								href="purctrl/selectorderanddel.do?cgid=${p.cgId }"
+								title="查看采购详情单"> <i class="Hui-iconfont">&#xe636;</i>
+							</a> <a title="编辑" href="javascript:;" onclick="bj(${p.cgId })"
 								class="ml-5" style="text-decoration:none"> <i
 									class="Hui-iconfont">&#xe6df;</i>
 							</a> <a title="删除" href="javascript:;"
@@ -194,7 +195,8 @@ outline: none;
 							<td>采购进展</td>
 							<td><input type="text" id="n" name="cgJz"></td>
 							<td>供应商</td>
-							<td><input type="text" id="o" name="gysId"></td>
+							<td><select id="gyss" name="gysId" class="selectbyzy">
+							</select></td>
 						</tr>
 						<tr>
 							<td>贷款金额</td>
@@ -204,7 +206,8 @@ outline: none;
 						</tr>
 						<tr>
 							<td>付款情况</td>
-							<td><input type="text" id="r" name="fkQk"></td>
+							<td><input readonly="readonly" type="text" id="r"
+								name="fkQk"></td>
 							<td>交货时间</td>
 							<td><input style="width: 160px;height: 37.27px" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
@@ -219,9 +222,12 @@ outline: none;
 						</tr>
 						<tr>
 							<td>操作人员</td>
-							<td><input type="text" id="v" name="operaterId"></td>
+							<td><input type="text" readonly="readonly" id="v"> <input
+								type="hidden" value="${public.czrid}" name="operaterId">
+							</td>
 							<td>公司</td>
-							<td><input type="text" id="w" name="companyId"></td>
+							<td><select id="comp" name="companyId" class="selectbyzy">
+							</select></td>
 						</tr>
 						<tr>
 							<td><div>备注信息</div></td>
@@ -249,7 +255,8 @@ outline: none;
 								<td>采购进展</td>
 								<td><input type="text" id="n" name="cgJz"></td>
 								<td>供应商</td>
-								<td><input type="text" id="o" name="gysId"></td>
+								<td><select id="gysss" name="gysId" class="selectbyzy">
+							</select></td>
 							</tr>
 							<tr>
 								<td>贷款金额</td>
@@ -259,7 +266,8 @@ outline: none;
 							</tr>
 							<tr>
 								<td>付款情况</td>
-								<td><input type="text" id="r" name="fkQk"></td>
+								<td><input readonly="readonly" type="text" id="r"
+									name="fkQk" value="未付款"></td>
 								<td>交货时间</td>
 								<td><input style="width: 160px;height: 37.27px" type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
@@ -274,9 +282,14 @@ outline: none;
 							</tr>
 							<tr>
 								<td>操作人员</td>
-								<td><input type="text" id="v" name="operaterId"></td>
+								<td><input type="text" readonly="readonly"
+									value="${public.czrmc}"> <input type="hidden" id="v"
+									value="${public.czrid}" name="operaterId"></td>
 								<td>公司</td>
-								<td><input type="text" id="w" name="companyId"></td>
+								<td>
+								<select id="compsss" name="companyId" class="selectbyzy">
+							     </select>
+								</td>
 							</tr>
 							<tr>
 								<td><div>备注信息</div></td>
@@ -286,20 +299,20 @@ outline: none;
 							</tr>
 							<a style="position: absolute;top:440px;left:500px;"
 								href="javascript:;" onclick="next()"
-								class="btn btn-primary radius">完善订单详情&nbsp> </a>
+								class="btn btn-primary radius">填写商品&nbsp> </a>
 							<tr>
 						</table>
 					</div>
 					<div id="two" style="display: none;">
 						<table>
-						<tr>
+							<tr>
 								<td>产品名称</td>
-								<td><input type="text" id="cpName" name></td>
+								<td><input type="text" id="cpName" name="cpName"></td>
 
 							</tr>
 							<tr>
 								<td>产品单价</td>
-								<td><input type="text" id="cpdj" name></td>
+								<td><input type="text" id="cpdj"></td>
 
 							</tr>
 							<tr>
@@ -307,10 +320,10 @@ outline: none;
 								<td><input oninput="cs()" type="text" id="cpsl"
 									name="cpNum"></td>
 								<script>
-							function cs(){
-		                      $("#cpzj").val($("#cpdj").val()*$("#cpsl").val())
-		                              }
-							</script>
+									function cs() {
+										$("#cpzj").val($("#cpdj").val() * $("#cpsl").val())
+									}
+								</script>
 							</tr>
 							<tr>
 								<td>产品总价</td>
@@ -355,13 +368,18 @@ outline: none;
 										<option>请选择</option>
 								</select></td>
 								<td>操作人员</td>
-								<td><input type="text" id="v" name="operaterId"></td>
+								<td><input type="text" readonly="readonly"
+									value="${public.czrmc}"> <input type="hidden" id="v"
+									value="${public.czrid}" name="operaterId"></td>
 							</tr>
 							<tr>
 								<td>采购进展</td>
 								<td><input type="text" id="n" name="cgJz"></td>
 								<td>供应商</td>
-								<td><input type="text" id="o" name="gysId"></td>
+								<td>
+								<select id="gyssss" name="gysId" class="selectbyzy">
+							</select>
+								</td>
 							</tr>
 							<tr>
 								<td>贷款金额</td>
@@ -371,7 +389,8 @@ outline: none;
 							</tr>
 							<tr>
 								<td>付款情况</td>
-								<td><input type="text" id="r" name="fkQk"></td>
+								<td><input readonly="readonly" type="text" id="r"
+									name="fkQk" value="未付款"></td>
 								<td>交货时间</td>
 								<td><input style="width: 160px;height: 37.27px" type="text"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
@@ -387,7 +406,10 @@ outline: none;
 
 							<tr>
 								<td>公司</td>
-								<td><input type="text" id="w" name="companyId"></td>
+								<td>
+								<select id="compssss" name="companyId" class="selectbyzy">
+							     </select>
+								</td>
 							</tr>
 
 							<tr>
@@ -541,7 +563,7 @@ outline: none;
 					dataType : "json",
 					success : function(data) //从前台回调回来的数组，处理后的数据
 					{
-						$("#a").html("供应商：" + data.gysId);
+						$("#a").html("供应商：" + data.gysmc);
 						$("#b").html("贷款金额：" + data.dkJe);
 						$("#c").html("发票号码：" + data.fpNumber);
 						$("#d").html("付款情况：" + data.fkQk);
@@ -558,9 +580,9 @@ outline: none;
 						$("#e").html("交货时间：" + Y + M + D + H + F + S);
 						$("#f").html("交货地点：" + data.jhAddress);
 						$("#g").html("交货方式：" + data.jhFs);
-						$("#h").html("操作人员：" + data.operaterId);
+						$("#h").html("操作人员：" + data.czrmc);
 						$("#i").html("备注信息：" + data.bzXx);
-						$("#j").html("公司：" + data.companyId);
+						$("#j").html("公司：" + data.gsmc);
 		
 						/* 得先把ajak返回的json时间格式转为普通时间格式 */
 						var date = new Date(data.lastTime);
@@ -579,7 +601,7 @@ outline: none;
 					fix : false, //不固定
 					maxmin : true,
 					shade : 0.4,
-					title : '采购明细',
+					title : '明细',
 					content : $('#window-div')
 				});
 			}
@@ -592,7 +614,13 @@ outline: none;
 					success : function(data) //从前台回调回来的数组，处理后的数据
 					{
 						$("#z").val(data.cgId);
-						$("#o").val(data.gysId);
+						/* $("#o").val(data.gysId); */
+						var opg = "";
+						opg = "<option>请选择</option>";
+						$.each(data.cgSupMsg, function(i, comp) {
+							opg += "<option value='" + comp.gysId + "'" + (comp.gysId == data.gysId ? 'selected' : '') + ">" + comp.gysName + "</option>"
+						});
+						$("#gyss").html(opg);
 						$("#l").val(data.cgTitle);
 						$("#n").val(data.cgJz);
 						$("#p").val(data.dkJe);
@@ -622,10 +650,15 @@ outline: none;
 						$("#s").val(Y + M + D + H + F + S);
 						$("#t").val(data.jhAddress);
 						$("#u").val(data.jhFs);
-						$("#v").val(data.operaterId);
+						$("#v").val(data.czrmc);
 						$("#y").html(data.bzXx);
-						$("#w").val(data.companyId);
-		
+						/* $("#w").val(data.companyId); */
+						var op = "";
+						op = "<option>请选择</option>";
+						$.each(data.xtCompanyInfo, function(i, comp) {
+							op += "<option value='" + comp.companyId + "'" + (comp.companyId == data.companyId ? 'selected' : '') + ">" + comp.companyName + "</option>"
+						});
+						$("#comp").html(op);
 					}
 				});
 		
@@ -659,11 +692,30 @@ outline: none;
 			//弹层全屏
 			//layer.full(index);
 			}
-		
-		
+
 			/* 新货添加 */
 			var index = "";
 			function add() {
+			$.ajax({
+					type : "post",
+					url : "<%=basePath%>purctrl/selectsupandcomp.do",
+					dataType : "json",
+					success : function(data) //从前台回调回来的数组，处理后的数据
+					{
+						var opg = "";
+						opg = "<option>请选择</option>";
+						$.each(data.sup, function(i, sup) {
+							opg += "<option value='" + sup.gysId + "'>" + sup.gysName + "</option>"
+						});
+						$("#gysss").html(opg);
+						var op = "";
+						op = "<option>请选择</option>";
+						$.each(data.comp, function(i, comp) {
+							op += "<option value='" + comp.companyId + "'>" + comp.companyName + "</option>"
+						});
+						$("#compsss").html(op);
+					}
+				});
 				index = layer.open({
 					type : 1,
 					area : [ '630px', '530px' ],
@@ -674,7 +726,8 @@ outline: none;
 					content : $('#window-from1'),
 					//end是关闭窗口时自动执行
 					end : function() {
-						window.location.reload();
+						/* window.location.reload(); */
+						location.replace(location.href);
 					}
 				});
 			}
@@ -689,22 +742,36 @@ outline: none;
 				//提交完成后关闭弹层
 				layer.close(index);
 			}
-		
+			
+			
 			/* 补货添加 */
 			function add1() {
 				$.ajax({
 					type : "post",
-					url : "<%=basePath%>purctrl/selectcrgall.do",
+					url : "<%=basePath%>purctrl/selectsupandcomp.do",
 					dataType : "json",
 					success : function(data) //从前台回调回来的数组，处理后的数据
 					{
+					
+					var opg = "";
+						opg = "<option>请选择</option>";
+						$.each(data.sup, function(i, sup) {
+							opg += "<option value='" + sup.gysId + "'>" + sup.gysName + "</option>"
+						});
+						$("#gyssss").html(opg);
+						var op = "";
+						op = "<option>请选择</option>";
+						$.each(data.comp, function(i, comp) {
+							op += "<option value='" + comp.companyId + "'>" + comp.companyName + "</option>"
+						});
+						$("#compssss").html(op);
+					
 						var h = "";
-						$.each(data, function(i, xbh) {
+						$.each(data.crp, function(i, xbh) {
 							if (xbh.cgOrderDetail.cgId == 0) {
 								h += "<option value='" + xbh.cpId + "'>" + xbh.kcGoodsInfo.productName + "</option>"
 							}
 						});
-		
 						$("#searchs").html(h);
 					}
 				});
@@ -731,10 +798,10 @@ outline: none;
 						});
 						//提交完成后关闭弹层
 						layer.close(index);
-						window.location.reload();
+						
 					},
 					end : function() {
-						window.location.reload();
+						location.replace(location.href);
 					}
 				});
 			}
