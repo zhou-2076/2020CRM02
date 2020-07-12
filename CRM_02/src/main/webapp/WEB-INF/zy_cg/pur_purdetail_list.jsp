@@ -70,6 +70,7 @@
 	<div class="page-container">
 		<div class="text-c">
 			采购主题：<input readonly="readonly" type="button" class="input-text" value="${order.cgTitle }" style="width:250px;">
+			          <!-- <input type="hidden" id="ccid" value=""> -->
 			采购日期:<input readonly="readonly" type="button" class="input-text" value="<fmt:formatDate value='${order.cgDate }' pattern="yyyy-MM-dd HH:mm:ss" />" 
 			style="width:250px;background-color: pink;">
 			采购进展:<input readonly="readonly" type="button" class="input-text" value="${order.cgJz}" 
@@ -99,10 +100,10 @@
 			<div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l"> <a href="javascript:;"
 					onclick="return plsc()" class="btn btn-danger radius"> <i
-						class="Hui-iconfont">&#xe6e2;</i> 批量删除
+						class="Hui-iconfont">&#xe6e2;</i> 批量移除此采购单
 				</a> <a href="javascript:;" onclick="add()"
 					class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
-						录入供应商信息
+						新增采购商品
 				</a>
 				</span> <span class="r">共有数据：<strong>${page.total}</strong> 条
 				</span>
@@ -117,6 +118,7 @@
 							<th width="100">产品名称</th>
 							<th width="100">产品数量</th>
 							<th width="40">产品价格</th>
+							<th width="40">是否入库</th>
 							<th width="40">操作</th>
 						</tr>
 					</thead>
@@ -128,10 +130,11 @@
 								<td>${p.cgXqId }</td>
 								<td>${p.cpName }</td>
 								<td>${p.cpNum }辆</td>
-								<td>${p.cpJg }w</td>
+								<td>${p.cpJg}w</td>
+								<td>${p.sfRk}</td>
 								<td class="td-manage"><a style="text-decoration:none"
 									onClick="cksjxq(${p.cgXqId })" href="javascript:;"
-									title="查看采购明细"> <i class="Hui-iconfont">&#xe616;</i>
+									title="明细"> <i class="Hui-iconfont">&#xe616;</i>
 								</a> <a title="编辑" href="javascript:;" onclick="bj(${p.cgXqId })"
 									class="ml-5" style="text-decoration:none"> <i
 										class="Hui-iconfont">&#xe6df;</i>
@@ -285,7 +288,7 @@
 		/* 搜索 */
 		function sousuo() {
 			var sousuo = document.getElementById("sousuo").value;
-			location.href = "purctrl/selectSup.do?name=" + sousuo
+			location.href = "purctrl/selectorderanddel.do?name=" + sousuo+"&cgid="+${order.cgId}
 		}
 		function fh() {
 			location.href = "purctrl/purlist.do";
@@ -334,7 +337,7 @@
 		function cksjxq(id) {
 			$.ajax({
 				type : "post",
-				url : "<%=basePath%>purctrl/selectSupbyid.do?id=" + id,
+				url : "<%=basePath%>purctrl/selectDetailBycgXqId.do?id=" + id,
 				dataType : "json",
 				success : function(data) //从前台回调回来的数组，处理后的数据
 				{
@@ -367,7 +370,7 @@
 				fix : false, //不固定
 				maxmin : true,
 				shade : 0.4,
-				title : '采购明细',
+				title : '明细',
 				content : $('#window-div')
 			});
 		}
