@@ -96,6 +96,10 @@ outline: none;
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
 		</c:if>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span class="r">共有数据：<strong>${page.total}</strong> 条
+				</span>
+			</div>
 		<c:if test="${temp=='yes'}">
 			<br>
 			<br>
@@ -103,7 +107,6 @@ outline: none;
 				class="table table-border table-bordered table-hover table-bg table-sort">
 				<thead>
 					<tr class="text-c">
-						<th width="25"><input type="checkbox" id="all-check"></th>
 						<th width="80">ID</th>
 						<th width="100">商品名称</th>
 						<th width="100">库存数量</th>
@@ -115,8 +118,6 @@ outline: none;
 				<tbody>
 					<c:forEach items="${page.list }" var="p">
 						<tr class="text-c">
-							<td><input type="checkbox" name="one-check"
-								value="${p.productId }"></td>
 							<td>${p.productId }</td>
 							<td>${p.productName }</td>
 							<td>${p.kcNum }</td>
@@ -142,11 +143,11 @@ outline: none;
 						<tr>
 							<td>产品</td>
 							<td><input class="inputcl" type="hidden" id="cp" name="cpId">
-								<input class="inputcl" type="text" id="cp1" name="cpName"></td>
-							<td>交货时间</td>
+								<input class="inputcl" readonly="readonly" type="text" id="cp1" name="cpName"></td>
+							<!-- <td>交货时间</td>
 							<td><input style="width: 160px;height: 37.27px" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-								class="input-text Wdate" id="jhsj" name="jhDate"></td>
+								class="input-text Wdate" id="jhsj" name="jhDate"></td> -->
 						</tr>
 						
 						<tr>
@@ -155,7 +156,7 @@ outline: none;
 							
 						</tr>
 						<tr>
-							<td>产品数量</td>
+							<td>采购数量</td>
 							<td><input oninput="cs()" type="text" id="cpsl" name="cpNum"></td>
 							<script>
 							function cs(){
