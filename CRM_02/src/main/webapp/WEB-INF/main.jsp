@@ -241,10 +241,10 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="charts-1.html" data-title="折线图"
-							href="javascript:void(0)">折线图</a></li>
-						<li><a data-href="charts-2.html" data-title="时间轴折线图"
-							href="javascript:void(0)">时间轴折线图</a></li>
+						<li><a data-href="Rsctrl/selectuserinfo.do" data-title="员工信息表"
+							href="javascript:void(0)">员工信息表</a></li>
+						<li><a data-href="Rsctrl/selecthouse.do" data-title="仓库管理"
+							href="javascript:void(0)">仓库管理</a></li>
 						<li><a data-href="charts-3.html" data-title="区域图"
 							href="javascript:void(0)">区域图</a></li>
 						<li><a data-href="charts-4.html" data-title="柱状图"

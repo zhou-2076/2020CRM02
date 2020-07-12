@@ -1005,73 +1005,73 @@ public class XtUserInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuditIsNull() {
-            addCriterion("AUDIT is null");
+        public Criteria andAudItIsNull() {
+            addCriterion("AUD_IT is null");
             return (Criteria) this;
         }
 
-        public Criteria andAuditIsNotNull() {
-            addCriterion("AUDIT is not null");
+        public Criteria andAudItIsNotNull() {
+            addCriterion("AUD_IT is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAuditEqualTo(String value) {
-            addCriterion("AUDIT =", value, "audit");
+        public Criteria andAudItEqualTo(String value) {
+            addCriterion("AUD_IT =", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditNotEqualTo(String value) {
-            addCriterion("AUDIT <>", value, "audit");
+        public Criteria andAudItNotEqualTo(String value) {
+            addCriterion("AUD_IT <>", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditGreaterThan(String value) {
-            addCriterion("AUDIT >", value, "audit");
+        public Criteria andAudItGreaterThan(String value) {
+            addCriterion("AUD_IT >", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditGreaterThanOrEqualTo(String value) {
-            addCriterion("AUDIT >=", value, "audit");
+        public Criteria andAudItGreaterThanOrEqualTo(String value) {
+            addCriterion("AUD_IT >=", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditLessThan(String value) {
-            addCriterion("AUDIT <", value, "audit");
+        public Criteria andAudItLessThan(String value) {
+            addCriterion("AUD_IT <", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditLessThanOrEqualTo(String value) {
-            addCriterion("AUDIT <=", value, "audit");
+        public Criteria andAudItLessThanOrEqualTo(String value) {
+            addCriterion("AUD_IT <=", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditLike(String value) {
-            addCriterion("AUDIT like", value, "audit");
+        public Criteria andAudItLike(String value) {
+            addCriterion("AUD_IT like", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditNotLike(String value) {
-            addCriterion("AUDIT not like", value, "audit");
+        public Criteria andAudItNotLike(String value) {
+            addCriterion("AUD_IT not like", value, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditIn(List<String> values) {
-            addCriterion("AUDIT in", values, "audit");
+        public Criteria andAudItIn(List<String> values) {
+            addCriterion("AUD_IT in", values, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditNotIn(List<String> values) {
-            addCriterion("AUDIT not in", values, "audit");
+        public Criteria andAudItNotIn(List<String> values) {
+            addCriterion("AUD_IT not in", values, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditBetween(String value1, String value2) {
-            addCriterion("AUDIT between", value1, value2, "audit");
+        public Criteria andAudItBetween(String value1, String value2) {
+            addCriterion("AUD_IT between", value1, value2, "audIt");
             return (Criteria) this;
         }
 
-        public Criteria andAuditNotBetween(String value1, String value2) {
-            addCriterion("AUDIT not between", value1, value2, "audit");
+        public Criteria andAudItNotBetween(String value1, String value2) {
+            addCriterion("AUD_IT not between", value1, value2, "audIt");
             return (Criteria) this;
         }
 
