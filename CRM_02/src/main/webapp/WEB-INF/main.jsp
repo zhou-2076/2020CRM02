@@ -150,8 +150,8 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="product-brand.html" data-title="品牌管理"
-							href="javascript:void(0)">品牌管理</a></li>
+						<li><a data-href="xscustomctrl/selectcustom.do" data-title="客户信息管理"
+							href="javascript:void(0)">客户信息管理</a></li>
 						<li><a data-href="product-category.html" data-title="分类管理"
 							href="javascript:void(0)">分类管理</a></li>
 						<li><a data-href="product-list.html" data-title="产品管理"

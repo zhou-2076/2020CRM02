@@ -1,6 +1,7 @@
 package com.sc.service;
 
 import com.github.pagehelper.PageInfo;
+import com.sc.entity.CgSupMsg;
 import com.sc.entity.XsCustom;
 
 public interface XsCustomService {
@@ -16,4 +17,7 @@ public interface XsCustomService {
 	
 	//分页查询
 	public PageInfo<XsCustom> selectCustom(Integer pageNum,Integer pageSize,XsCustom custom);
+
+
+	
 }
