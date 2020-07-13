@@ -79,20 +79,24 @@ outline: none;
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			库存数量范围： <input type="text" id="num1" style="width:200px;"> -
-			<input type="text" id="num2" style="width:200px;"> <input
-				type="text" style="width:250px" placeholder="对商品名称模糊搜索" id="sousuo">
-			<!-- 每次都带上搜索的值 -->
-			<input type="hidden" id="ssz" value="${ssz}">
-			<!-- 时间格式的转化很重要，要不然功能无法完成 -->
-			<input type="hidden" id="num11" value="${num1}"> <input
-				type="hidden" id="num22" value="${num2}">
-			<!-- 每次都带上搜索的值 -->
-			<button type="button" class="btn btn-success radius"
-				onclick="return sousuo()">
+	
+			库存数量范围： <input value="${num1}" type="text" id="num1" style="width:200px;"> -
+			<input type="text" value="${num2}" id="num2" style="width:200px;"> <input
+				type="text" value="${ssz}" style="width:250px" placeholder="对商品名称模糊搜索" id="sousuo">
+			<button type="button" class="btn btn-success radius" onclick="return sousuo()">
 				<i class="Hui-iconfont">&#xe665;</i> 搜索
 			</button>
+			<button onclick="cla()" type="reset" style="background-color: pink;border: 0px;" class="btn btn-success radius">
+				<i class="Hui-iconfont">&#xe68f;</i>重置
+			</button>
 		</div>
+		<script type="text/javascript">
+		function cla(){
+		document.getElementById("num1").value="";
+		document.getElementById("num2").value="";
+		document.getElementById("sousuo").value="";
+		}
+		</script>
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
 		</c:if>
@@ -201,9 +205,9 @@ outline: none;
 				  function sy(){
 				  
 				  location.href="purctrl/seKcGoodsInfo.do?pageNum="+${page.navigateFirstPage }+
-				      "&name="+document.getElementById("ssz").value+
-				      "&num1="+document.getElementById("num11").value+
-				      "&num2="+document.getElementById("num22").value;
+				      "&name="+document.getElementById("sousuo").value+
+				      "&num1="+document.getElementById("num1").value+
+				      "&num2="+document.getElementById("num2").value;
 				  }
 				  </script>
 					<button onclick="syy()"
@@ -212,9 +216,9 @@ outline: none;
 				  function syy(){
 				 
 				  location.href="purctrl/seKcGoodsInfo.do?pageNum="+${page.prePage}+
-				      "&name="+document.getElementById("ssz").value+
-				      "&num1="+document.getElementById("num11").value+
-				      "&num2="+document.getElementById("num22").value;
+				      "&name="+document.getElementById("sousuo").value+
+				      "&num1="+document.getElementById("num1").value+
+				      "&num2="+document.getElementById("num2").value;
 				  }
 				  </script>
 					<button disabled="disabled"
@@ -225,9 +229,9 @@ outline: none;
 				     function xyy(){
 				  		 
 				      location.href="purctrl/seKcGoodsInfo.do?pageNum="+${page.nextPage}+
-				      "&name="+document.getElementById("ssz").value+
-				      "&num1="+document.getElementById("num11").value+
-				      "&num2="+document.getElementById("num22").value;
+				      "&name="+document.getElementById("sousuo").value+
+				      "&num1="+document.getElementById("num1").value+
+				      "&num2="+document.getElementById("num2").value;
 				    }
 				   </script>
 					<button onclick="wy()"
@@ -235,9 +239,9 @@ outline: none;
 					<script type="text/javascript">
 				     function wy(){
 				     location.href="purctrl/seKcGoodsInfo.do?pageNum="+${page.navigateLastPage }+
-				      "&name="+document.getElementById("ssz").value+
-				      "&num1="+document.getElementById("num11").value+
-				      "&num2="+document.getElementById("num22").value;
+				      "&name="+document.getElementById("sousuo").value+
+				      "&num1="+document.getElementById("num1").value+
+				      "&num2="+document.getElementById("num2").value;
 				    }
 				  </script>
 				</div>
@@ -265,6 +269,7 @@ outline: none;
 		}
 		/* 请求采购 */
 		function add(id, name,price) {
+		var temp=0;
 			$("#cp").val(id);
 			$("#cp1").val(name);
 			$("#cpdj").val(price);
@@ -289,9 +294,10 @@ outline: none;
 				fix : false, //不固定
 				maxmin : true,
 				shade : 0.4,
-				title : '编辑',
+				title : '补货请求',
 				content : $('#window-from'),
 				yes : function() {
+				temp=1;
 					/* 输出序列后的值，name一定要和bean的一样 */
 					/* alert($('#from').serialize()); */
 					$.ajax({
@@ -301,12 +307,20 @@ outline: none;
 					});
 					//提交完成后关闭弹层
 					layer.close(index);
+					if (temp == 1) {
+						layer.msg("添加成功", {
+							icon : 6,
+							time : 2000
+						});
+					}
 					
 				},
 				//end是关闭窗口时自动执行
 				end : function() {
 					/* alert("关闭后刷新页面"); */
-					window.location.reload(); //关闭弹窗后刷新页面
+					setTimeout(function() {
+						location.replace(location.href);
+					}, 1000)
 				}
 			});
 		//弹层全屏

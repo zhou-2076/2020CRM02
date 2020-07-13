@@ -31,6 +31,8 @@ public class CgOrderDetail implements Serializable {
 	private String czrmc;
 	// 拓展属性
 	private String comname;
+	//拓展属性（采购单）
+	private CgOrder cgOrder;
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,6 +53,16 @@ public class CgOrderDetail implements Serializable {
 
 	public CgOrderDetail() {
 		super();
+	}
+	
+	
+
+	public CgOrder getCgOrder() {
+		return cgOrder;
+	}
+
+	public void setCgOrder(CgOrder cgOrder) {
+		this.cgOrder = cgOrder;
 	}
 
 	public String getCzrmc() {
@@ -162,7 +174,7 @@ public class CgOrderDetail implements Serializable {
 		return "CgOrderDetail [cgXqId=" + cgXqId + ", cgId=" + cgId + ", cpId=" + cpId + ", cpName=" + cpName
 				+ ", cpNum=" + cpNum + ", cpJg=" + cpJg + ", sfRk=" + sfRk + ", operaterId=" + operaterId + ", bzXx="
 				+ bzXx + ", conpanyId=" + conpanyId + ", lastTime=" + lastTime + ", czrmc=" + czrmc + ", comname="
-				+ comname + "]";
+				+ comname + ", cgOrder=" + cgOrder + "]";
 	}
 
 }

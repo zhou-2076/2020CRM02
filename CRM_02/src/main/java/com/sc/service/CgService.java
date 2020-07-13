@@ -33,6 +33,8 @@ public interface CgService {
 	// 根据采购id查询采购详情表
 	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,
 			String name);
+	// 查询采购详情表分页
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetail(Integer pageNum, Integer pageSize,String name);
 	//根据采购单id查询采购详情
 	public List<CgOrderDetail> selectBycgId(Long cgId);
 	// 修改采购单

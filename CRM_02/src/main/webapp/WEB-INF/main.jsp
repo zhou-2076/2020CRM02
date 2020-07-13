@@ -182,7 +182,7 @@
 					<ul>
 
 						<li><span style="margin-left: 24px;cursor:pointer;"
-							onclick="cc()" onmousemove="cc1()">补货管理</span></li>
+							onclick="cc()">补货管理</span></li>
 						<ul id="ul" style="display: none;">
 							<li><a data-href="purctrl/seKcGoodsInfo.do"
 								data-title="缺货商品表"> <i class="Hui-iconfont">&#xe623;</i>&nbsp缺货商品表
@@ -204,8 +204,29 @@
 								}
 							}
 						</script>
-						<li><a data-href="purctrl/enter.do" data-title="入库单"
-							href="javascript:;">入库单</a></li>
+						<li><span style="margin-left: 24px;cursor:pointer;"
+							onclick="ccz()">入库管理</span></li>
+						<ul id="ulz" style="display:none;">
+							<li><a data-href="purctrl/enter.do"
+								data-title="未入库商品"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未入库商品
+							</a></li>
+							<li><a data-href="purctrl/enterused.do" data-title="已入库商品">
+									<i class="Hui-iconfont">&#xe623;</i>&nbsp已入库商品
+							</a></li>
+						</ul>
+						<script>
+							//样式的开启和关闭
+							function ccz() {
+								var zt = document.getElementById("ulz").style.display;
+								/* alert("这是我自己写的树状列表，你们需要的话就看代码，当前状态："+zt); */
+								if (zt == "none") {
+									document.getElementById("ulz").style.display = "block";
+								}
+								if (zt == "block") {
+									document.getElementById("ulz").style.display = "none";
+								}
+							}
+						</script>
 						<li><a data-href="purctrl/purlist.do" data-title="采购单"
 							href="javascript:;">采购单</a></li>
 						<li><a data-href="purctrl/selectSup.do" data-title="供应商"
