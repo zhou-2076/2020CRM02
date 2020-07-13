@@ -32,6 +32,8 @@ public class CgController {
 
 	@Autowired
 	CgService cgService;
+	
+	//http://lib.h-ui.net/Hui-iconfont/1.0.7/demo.html
 
 	// 解决页面用get传过来date时间格式是string类型的错误
 	@InitBinder
@@ -422,6 +424,26 @@ public class CgController {
 		cgService.addcgreq(c);
 		cgService.addcod(d);
 		mav.setViewName("redirect:seKcGoodsInfo.do");
+		return mav;
+	}
+	//修改采购单的付款状况
+	@RequestMapping("/changefkqk.do")
+	@ResponseBody
+	public int changefkqk(Long id){
+		int i=1;
+		CgOrder selectone = cgService.selectone(id);
+		selectone.setFkQk("已付款");
+		cgService.updatcgorder(selectone);
+		return i;	
+	}
+	//入库单查询
+	@RequestMapping("/enter.do")
+	public ModelAndView enter(ModelAndView mav,
+			@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
+			String name) {
+		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetail(pageNum, pageSize, name);
+		mav.addObject("page",page);
+		mav.setViewName("zy_cg/enter_list");
 		return mav;
 	}
 }

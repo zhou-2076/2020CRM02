@@ -110,9 +110,10 @@
 					<tr class="text-c">
 						<th width="25"><input type="checkbox" id="all-check"></th>
 						<th width="80">ID</th>
-						<th width="100">供应商名称</th>
-						<th width="100">地址</th>
-						<th width="40">是否有效</th>
+						<th width="100">采购标题</th>
+						<th width="100">数量</th>
+						<th width="100">价格</th>
+						<th width="40">是否入库</th>
 						<th width="40">操作</th>
 					</tr>
 				</thead>
@@ -120,19 +121,20 @@
 					<c:forEach items="${page.list }" var="p">
 						<tr class="text-c">
 							<td><input type="checkbox" name="one-check"
-								value="${p.gysId }"></td>
-							<td>${p.gysId }</td>
-							<td>${p.gysName }</td>
-							<td>${p.address }</td>
-							<td>${p.sfYx }</td>
+								value="${p.cgXqId }"></td>
+							<td>${p.cgXqId }</td>
+							<td>${p.cgOrder.cgTitle }</td>
+							<td>${p.cpNum }辆</td>
+							<td>${p.cpJg }w</td>
+							<td>${p.sfRk }</td>
 							<td class="td-manage"><a style="text-decoration:none"
-								onClick="cksjxq(${p.gysId })" href="javascript:;" title="查看采购明细">
+								onClick="cksjxq(${p.cgXqId })" href="javascript:;" title="查看采购明细">
 									<i class="Hui-iconfont">&#xe616;</i>
-							</a> <a title="编辑" href="javascript:;" onclick="bj(${p.gysId })"
+							</a> <a title="编辑" href="javascript:;" onclick="bj(${p.cgXqId })"
 								class="ml-5" style="text-decoration:none"> <i
 									class="Hui-iconfont">&#xe6df;</i>
 							</a> <a title="删除" href="javascript:;"
-								onclick="return sc(${p.gysId })" class="ml-5"
+								onclick="return sc(${p.cgXqId })" class="ml-5"
 								style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i>
 							</a></td>
 						</tr>

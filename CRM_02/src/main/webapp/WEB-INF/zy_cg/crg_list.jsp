@@ -79,20 +79,26 @@ outline: none;
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			状态：<select id="sousuo" style="height: 31px;" class="selectbyzy">
+		<!-- <form action=""> -->
+			状态：<select id="sousuo"  style="height: 31px;" class="selectbyzy">
 				<option value="">请选择</option>
-				<option value="已处理">已处理</option>
-				<option value="未处理">未处理</option>
+				<option value="已处理" ${ssz=='已处理' ? "selected":"" }>已处理</option>
+				<option value="未处理" ${ssz=='未处理' ? "selected":"" }>未处理</option>
 			</select>
-			<!-- 每次都带上搜索的值 -->
-			<input type="hidden" id="ssz" value="${ssz}">
-			<!-- 时间格式的转化很重要，要不然功能无法完成 -->
-			<!-- 每次都带上搜索的值 -->
 			<button type="button" class="btn btn-success radius"
 				onclick="return sousuo()">
 				<i class="Hui-iconfont">&#xe665;</i> 搜索
 			</button>
+			<button onclick="cla()" type="reset" style="background-color: pink;border: 0px;" class="btn btn-success radius">
+				<i class="Hui-iconfont">&#xe68f;</i>重置
+			</button>
+			<!-- </form> -->
 		</div>
+		<script type="text/javascript">
+		function cla(){
+		document.getElementById("sousuo").value="";
+		}
+		</script>
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
 		</c:if>
@@ -223,7 +229,7 @@ outline: none;
 				  function sy(){
 				  
 				  location.href="purctrl/selectcgr.do?pageNum="+${page.navigateFirstPage }+
-				      "&title="+document.getElementById("ssz").value;
+				      "&title="+document.getElementById("sousuo").value;
 				  }
 				  </script>
 						<button onclick="syy()"
@@ -232,7 +238,7 @@ outline: none;
 				  function syy(){
 				 
 				  location.href="purctrl/selectcgr.do?pageNum="+${page.prePage}+
-				      "&title="+document.getElementById("ssz").value;
+				      "&title="+document.getElementById("sousuo").value;
 				  }
 				  </script>
 						<button disabled="disabled"
@@ -243,7 +249,7 @@ outline: none;
 				     function xyy(){
 				  		 
 				      location.href="purctrl/selectcgr.do?pageNum="+${page.nextPage}+
-				      "&title="+document.getElementById("ssz").value;
+				      "&title="+document.getElementById("sousuo").value;
 				    }
 				   </script>
 						<button onclick="wy()"
@@ -251,7 +257,7 @@ outline: none;
 						<script type="text/javascript">
 				     function wy(){
 				     location.href="purctrl/selectcgr.do?pageNum="+${page.navigateLastPage }+
-				      "&title="+document.getElementById("ssz").value;
+				      "&title="+document.getElementById("sousuo").value;
 				    }
 				  </script>
 					</div>
@@ -338,6 +344,7 @@ outline: none;
 		}
 		/* 编辑 */
 		function bj(id, sl, jg) {
+		var temp=0;
 			$.ajax({
 				type : "post",
 				url : "<%=basePath%>purctrl/selectcrgbyid.do?id=" + id,
@@ -365,6 +372,7 @@ outline: none;
 				title : '编辑',
 				content : $('#window-from'),
 				yes : function() {
+				temp=1;
 					/* 输出序列后的值，name一定要和bean的一样 */
 					/* alert($('#from').serialize()); */
 					$.ajax({
@@ -375,11 +383,19 @@ outline: none;
 					});
 					//提交完成后关闭弹层
 					layer.close(index);
+					if (temp == 1) {
+						layer.msg("修改成功", {
+							icon : 6,
+							time : 2000
+						});
+					}
 				},
 				//end是关闭窗口时自动执行
 				end : function() {
 					/* alert("关闭后刷新页面"); */
-					window.location.reload(); //关闭弹窗后刷新页面
+					setTimeout(function() {
+						location.replace(location.href);
+					}, 1000)
 				}
 			});
 		//弹层全屏

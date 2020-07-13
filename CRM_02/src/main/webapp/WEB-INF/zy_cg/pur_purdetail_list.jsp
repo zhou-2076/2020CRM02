@@ -69,127 +69,133 @@
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			采购主题：<input readonly="readonly" type="button" class="input-text" value="${order.cgTitle }" style="width:250px;">
-			          <!-- <input type="hidden" id="ccid" value=""> -->
-			采购日期:<input readonly="readonly" type="button" class="input-text" value="<fmt:formatDate value='${order.cgDate }' pattern="yyyy-MM-dd HH:mm:ss" />" 
-			style="width:250px;background-color: pink;">
-			采购进展:<input readonly="readonly" type="button" class="input-text" value="${order.cgJz}" 
-			style="width:250px;background-color: #ff8080;">
-			
-			<button type="button" class="btn btn-success radius"
-				onclick="fh()">
-				<&nbsp返回
+			采购主题：<input readonly="readonly" type="button" class="input-text"
+				value="${order.cgTitle }" style="width:250px;">
+			<!-- <input type="hidden" id="ccid" value=""> -->
+			采购日期:<input readonly="readonly" type="button" class="input-text"
+				value="<fmt:formatDate value='${order.cgDate }' pattern="yyyy-MM-dd HH:mm:ss" />"
+				style="width:250px;background-color: pink;"> 采购进展:<input
+				readonly="readonly" type="button" class="input-text"
+				value="${order.cgJz}" style="width:250px;background-color: #ff8080;">
+
+			<button type="button" class="btn btn-success radius" onclick="fh()">
+				<i class="Hui-iconfont">&#xe644;</i>返回
 			</button>
 		</div>
 		<br>
 		<div class="text-c">
-			<input type="text" class="input-text" style="width:250px"
-				placeholder="商品模糊搜索" id="sousuo">
-			<!-- 每次都带上搜索的值 -->
-			<input type="hidden" id="ssz" value="${ssz}">
-			<!-- 每次都带上搜索的值 -->
+			<input type="text" value="${ssz}" class="input-text"
+				style="width:250px" placeholder="商品模糊搜索" id="sousuo">
 			<button type="button" class="btn btn-success radius"
 				onclick="return sousuo()">
 				<i class="Hui-iconfont">&#xe665;</i> 搜索
 			</button>
+			<button onclick="cla()" type="reset"
+				style="background-color: pink;border: 0px;"
+				class="btn btn-success radius">
+				<i class="Hui-iconfont">&#xe68f;</i>重置
+			</button>
 		</div>
+		<script type="text/javascript">
+			function cla() {
+				document.getElementById("sousuo").value = "";
+			}
+		</script>
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
 		</c:if>
 
-			<div class="cl pd-5 bg-1 bk-gray mt-20">
-				<span class="l">
-				</span> <span class="r">共有数据：<strong>${page.total}</strong> 条
-				</span>
-			</div>
-			<div class="mt-20">
-				<table
-					class="table table-border table-bordered table-hover table-bg table-sort">
-					<thead>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l"> </span> <span class="r">共有数据：<strong>${page.total}</strong>
+				条
+			</span>
+		</div>
+		<div class="mt-20">
+			<table
+				class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="80">ID</th>
+						<th width="100">产品名称</th>
+						<th width="100">需采购数量</th>
+						<th width="40">产品价格</th>
+						<!-- <th width="40">是否入库</th> -->
+						<th width="40">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${page.list }" var="p">
 						<tr class="text-c">
-							<th width="80">ID</th>
-							<th width="100">产品名称</th>
-							<th width="100">需采购数量</th>
-							<th width="40">产品价格</th>
-							<!-- <th width="40">是否入库</th> -->
-							<th width="40">操作</th>
+							<td>${p.cgXqId }</td>
+							<td>${p.cpName }</td>
+							<td>${p.cpNum }辆</td>
+							<td>${p.cpJg}w</td>
+							<%-- <td>${p.sfRk}</td> --%>
+							<td class="td-manage"><a style="text-decoration:none"
+								onClick="cksjxq(${p.cgXqId })" title="明细"> <i
+									class="Hui-iconfont">&#xe616;</i></td>
 						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${page.list }" var="p">
-							<tr class="text-c">
-								<td>${p.cgXqId }</td>
-								<td>${p.cpName }</td>
-								<td>${p.cpNum }辆</td>
-								<td>${p.cpJg}w</td>
-								<%-- <td>${p.sfRk}</td> --%>
-								<td class="td-manage">
-								<a style="text-decoration:none" onClick="cksjxq(${p.cgXqId })"title="明细"> 
-								<i class="Hui-iconfont">&#xe616;</i>
-								</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-				<div id="window-div" class="none" style="width: 750px;">
-					<div class="hover-buttons">
-						<div class="wrap">
-							<div class="bg-effect">
-								<ul class="bt-list">
-									<li>
-									 <a id="a" class="hvr-back-pulse button">^_^!</a>
-									 <a id="b" class="hvr-sweep-to-right button">^_^!</a> 
-									<li>
-									<a id="c" class="hvr-sweep-to-left button">^_^!</a></li>
-									</li>
-								</ul>
-							</div>
+					</c:forEach>
+				</tbody>
+			</table>
+			<div id="window-div" class="none" style="width: 750px;">
+				<div class="hover-buttons">
+					<div class="wrap">
+						<div class="bg-effect">
+							<ul class="bt-list">
+								<li><a id="a" class="hvr-back-pulse button">^_^!</a> <a
+									id="b" class="hvr-sweep-to-right button">^_^!</a>
+								<li><a id="c" class="hvr-sweep-to-left button">^_^!</a></li>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
-				<br>
-				<div>
-					<span>当前${page.pageNum}/${page.pages}页</span>
-					<div style="float: right;">
-						<button onclick="sy()"
-							style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">首页</button>
-						<script type="text/javascript">
+			</div>
+			<br>
+			<div>
+				<span>当前${page.pageNum}/${page.pages}页</span>
+				<div style="float: right;">
+					<button onclick="sy()"
+						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">首页</button>
+					<script type="text/javascript">
 				  function sy(){
 				  
 				  location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.navigateFirstPage }+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
-						<button onclick="syy()"
-							style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">上一页</button>
-						<script type="text/javascript">
+					<button onclick="syy()"
+						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">上一页</button>
+					<script type="text/javascript">
 				  function syy(){
 				 
 				  location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.prePage}+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
-						<button disabled="disabled"
-							style=" width:26px;height:26px;background-color: rgb(90, 152, 222);border: 0px;border-radius: 5px;">${page.pageNum}</button>
-						<button onclick="xyy()"
-							style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">下一页</button>
-						<script type="text/javascript">
+					<button disabled="disabled"
+						style=" width:26px;height:26px;background-color: rgb(90, 152, 222);border: 0px;border-radius: 5px;">${page.pageNum}</button>
+					<button onclick="xyy()"
+						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">下一页</button>
+					<script type="text/javascript">
 				     function xyy(){
 				  		 
 				      location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.nextPage}+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				    }
 				   </script>
-						<button onclick="wy()"
-							style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
-						<script type="text/javascript">
+					<button onclick="wy()"
+						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
+					<script type="text/javascript">
 				     function wy(){
 				     location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.navigateLastPage }+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				    }
 				  </script>
-					</div>
 				</div>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript">
