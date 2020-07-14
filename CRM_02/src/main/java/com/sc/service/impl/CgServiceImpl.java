@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -281,12 +282,15 @@ public class CgServiceImpl implements CgService {
 	}
 
 	@Override
-	public PageInfo<CgOrderDetail> selectoneCgOrderDetail(Integer pageNum, Integer pageSize, String name) {
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetail(Integer pageNum, Integer pageSize, String name,String wrk) {
 		PageHelper.startPage(pageNum, pageSize);
 		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
 		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
 		if (name != null) {
 			createCriteria.andCpNameLike("%" + name + "%");
+		}
+		if(!StringUtils.isEmpty(wrk)){
+			createCriteria.andSfRkEqualTo(wrk);
 		}
 		cgOrderDetailExample.setOrderByClause("CG_XQ_ID");
 		List<CgOrderDetail> list1 = cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
@@ -294,14 +298,14 @@ public class CgServiceImpl implements CgService {
 		for (CgOrderDetail cgOrderDetail : list1) {
 			if (cgOrderDetail != null) {
 				CgOrder selectByPrimaryKey = cgOrderMapper.selectByPrimaryKey(cgOrderDetail.getCgId());
-				cgOrderDetail.setCgOrder(selectByPrimaryKey);
-				if (cgOrderDetail.getCgOrder().getFkQk().equals("已付款")) {
-					list.add(cgOrderDetail);
+				if(selectByPrimaryKey!=null){
+					cgOrderDetail.setCgOrder(selectByPrimaryKey);
+					if (cgOrderDetail.getCgOrder().getFkQk().equals("已付款")) {
+						list.add(cgOrderDetail);
+					}
 				}
+				
 			}
-		}
-		for (CgOrderDetail cgOrderDetail : list) {
-			System.out.println("1111"+cgOrderDetail.getCgOrder().getFkQk());
 		}
 		PageInfo<CgOrderDetail> page = new PageInfo<CgOrderDetail>(list);
 		return page;
@@ -343,6 +347,23 @@ public class CgServiceImpl implements CgService {
 			createCriteria.andCgIdEqualTo(cgId);
 		}
 		return cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
+	}
+
+	@Override
+	public PageInfo<CgOrderDetail> selectyrk(Integer pageNum, Integer pageSize,String name, String yrk) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum,pageSize);
+		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
+		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
+		if (name != null) {
+			createCriteria.andCpNameLike("%" + name + "%");
+		}
+		if(!StringUtils.isEmpty(yrk)){
+			createCriteria.andSfRkEqualTo(yrk);
+		}
+		List<CgOrderDetail> list = cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
+		PageInfo<CgOrderDetail> page = new PageInfo<CgOrderDetail>(list);
+		return page;
 	}
 
 }
