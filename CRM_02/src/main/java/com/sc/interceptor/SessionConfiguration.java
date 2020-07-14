@@ -17,7 +17,5 @@ public class SessionConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 		//这个路径的都要经过拦截器
         InterceptorRegistration addPathPatterns = registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
-        //这个路径不用
-        addPathPatterns.excludePathPatterns("/loginCtlr/main.do");
     }
 }

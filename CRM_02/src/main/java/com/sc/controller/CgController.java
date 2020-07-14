@@ -3,7 +3,10 @@ package com.sc.controller;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,8 @@ public class CgController {
 
 	@Autowired
 	CgService cgService;
+	
+	//http://lib.h-ui.net/Hui-iconfont/1.0.7/demo.html
 
 	// 解决页面用get传过来date时间格式是string类型的错误
 	@InitBinder
@@ -90,11 +95,11 @@ public class CgController {
 	// 采购单+采购单详情
 	@RequestMapping("/selectorderanddel.do")
 	public ModelAndView selectorderanddel(ModelAndView mav, @RequestParam(defaultValue = "1") Integer pageNum,
-			@RequestParam(defaultValue = "5") Integer pageSize, Long cgid,String name) {
+			@RequestParam(defaultValue = "5") Integer pageSize, Long cgid, String name) {
 		CgOrder selectone = cgService.selectone(cgid);
-		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetailByCgid(pageNum, pageSize, cgid,name);
-		if(name!=null){
-			mav.addObject("ssz",name);
+		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetailByCgid(pageNum, pageSize, cgid, name);
+		if (name != null) {
+			mav.addObject("ssz", name);
 		}
 		selectone.setCgOrderDetail(page.getList());
 		mav.addObject("order", selectone);
@@ -102,12 +107,16 @@ public class CgController {
 		mav.setViewName("zy_cg/pur_purdetail_list");
 		return mav;
 	}
-	
+
 	// 通过采购详情id查询采购详情
 	@RequestMapping("/selectDetailBycgXqId.do")
 	@ResponseBody
 	public CgOrderDetail selectDetailBycgXqId(Long id) {
 		CgOrderDetail selectone = cgService.selectDetailBycgXqId(id);
+		XtCompanyInfo selecteCompanyInfoBy = cgService.selecteCompanyInfoBy(selectone.getConpanyId());
+		XtUserInfo selecteUserinfoByworkerId = cgService.selecteUserinfoByworkerId(selectone.getOperaterId());
+		selectone.setCzrmc(selecteUserinfoByworkerId.getWorkerName());
+		selectone.setComname(selecteCompanyInfoBy.getCompanyName());
 		return selectone;
 	}
 
@@ -116,19 +125,71 @@ public class CgController {
 	public ModelAndView deletepur(ModelAndView mav, Long[] id) {
 		if (id != null && id.length > 0) {
 			for (Long long1 : id) {
-				cgService.delectoneandall(long1);
+				List<CgOrderDetail> selectBycgId = cgService.selectBycgId(long1);// 查出对应的采购单详情
+				if (selectBycgId != null) {// 如果查处的对应的详情不为空
+					for (CgOrderDetail cgOrderDetail : selectBycgId) {
+						String cpidstr = "-1";
+						long cpid = Long.parseLong(cpidstr);
+						if (cgOrderDetail.getCpId().equals(cpid)) {
+							cgService.delectcgxq(cgOrderDetail.getCgXqId());
+						}
+						if (!cgOrderDetail.getCpId().equals(cpid)) {
+							String cgidstr = "0";
+							long cgid = Long.parseLong(cgidstr);
+							cgOrderDetail.setCgId(cgid);
+							cgService.updatecgxq(cgOrderDetail);
+							// 根据产品id查出所有需采购商品信息表
+							List<CgRepGoods> selectcrgbycpidall = cgService.selectcrgbycpidall(cgOrderDetail.getCpId());
+							if (selectcrgbycpidall != null) {
+								for (CgRepGoods cgRepGoods : selectcrgbycpidall) {
+									cgRepGoods.setZt("未处理");
+									cgService.updatetCgR(cgRepGoods);
+								}
+							}
+						}
+					}
+				}
+				cgService.delectoneandall(long1);// 删除采购单
 			}
 		}
 		mav.setViewName("redirect:purlist.do");
 		return mav;
 	}
 
-	// 根据id查询单挑采购信息
+	// 根据id查询单条采购信息
 	@RequestMapping("/selectpurone.do")
 	@ResponseBody
 	public CgOrder selectpurone(Long id) {
 		CgOrder selectone = cgService.selectone(id);
+		XtCompanyInfo selecteCompanyInfoBy = cgService.selecteCompanyInfoBy(selectone.getCompanyId());
+		XtUserInfo selecteUserinfoByworkerId = cgService.selecteUserinfoByworkerId(selectone.getOperaterId());
+		CgSupMsg selectSupbyid = cgService.selectSupbyid(selectone.getGysId());
+		List<CgSupMsg> selectSupall = cgService.selectSupall();
+		List<XtCompanyInfo> selectallcompany = cgService.selectallcompany();
+		selectone.setCgSupMsg(selectSupall);
+		selectone.setXtCompanyInfo(selectallcompany);
+		selectone.setGysmc(selectSupbyid.getGysName());
+		selectone.setCzrmc(selecteUserinfoByworkerId.getWorkerName());
+		selectone.setGsmc(selecteCompanyInfoBy.getCompanyName());
 		return selectone;
+	}
+
+	// 查询供应商和公司
+	@RequestMapping("/selectsupandcomp.do")
+	@ResponseBody
+	public Map<String, List<?>> map() {
+		Map<String, List<?>> map = new HashMap<String, List<?>>();
+		List<CgSupMsg> selectSupall = cgService.selectSupall();
+		List<XtCompanyInfo> selectallcompany = cgService.selectallcompany();
+		List<CgRepGoods> list = cgService.selectcrgall();
+		for (CgRepGoods cc : list) {
+			cc.setKcGoodsInfo(cgService.selectgood(cc.getCpId()));
+			cc.setCgOrderDetail(cgService.selectDetail(cc.getCpId()));
+		}
+		map.put("comp", selectallcompany);
+		map.put("sup", selectSupall);
+		map.put("crp", list);
+		return map;
 	}
 
 	// 查出所有公司
@@ -147,7 +208,7 @@ public class CgController {
 		return mav;
 	}
 
-	// 添加采购表信息
+	// 添加采购单信息
 	@RequestMapping("/add.do")
 	public ModelAndView addpur(ModelAndView mav, CgOrder p, Long[] id) {
 		p.setLastTime(new Date());
@@ -285,26 +346,20 @@ public class CgController {
 			// 配置获取到的参数(配置初始默认值)
 			@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
 			String title, Date time1, Date time2) {
-		PageInfo<CgRepGoods> purlist = cgService.selectcgr(pageNum, pageSize, title, time1, time2);
+		PageInfo<CgRepGoods> purlist = cgService.selectcgr(pageNum, pageSize, title);
 		String temp = "yes";
 		List<CgRepGoods> list = purlist.getList();
 		for (CgRepGoods cc : list) {
 			cc.setCgOrderDetail(cgService.selectDetail(cc.getCpId()));
 			cc.setKcGoodsInfo(cgService.selectgood(cc.getCpId()));
 		}
-		
+
 		if (list.size() == 0) {
 			temp = "no";
 		}
 		mav.addObject("temp", temp);
 		if (title != null) {
 			mav.addObject("ssz", title);
-		}
-		if (time1 != null) {
-			mav.addObject("time1", time1);
-		}
-		if (time2 != null) {
-			mav.addObject("time2", time2);
 		}
 		mav.addObject("page", purlist);
 		mav.setViewName("zy_cg/crg_list");
@@ -339,18 +394,6 @@ public class CgController {
 		return selectcrgbyid;
 	}
 
-	// ajax返回需采购
-	@RequestMapping("/selectcrgall.do")
-	@ResponseBody
-	public List<CgRepGoods> selectcrgall() {
-		List<CgRepGoods> list = cgService.selectcrgall();
-		for (CgRepGoods cc : list) {
-			cc.setKcGoodsInfo(cgService.selectgood(cc.getCpId()));
-			cc.setCgOrderDetail(cgService.selectDetail(cc.getCpId()));
-		}
-		return list;
-	}
-
 	// 修改需采购
 	@RequestMapping("/updatetCgR.do")
 	public ModelAndView updatetCgR(ModelAndView mav, CgRepGoods c, CgOrderDetail g) {
@@ -359,6 +402,7 @@ public class CgController {
 		selectDetail.setCpJg(g.getCpJg());
 		selectDetail.setLastTime(new Date());
 		c.setLastTime(new Date());
+		c.setJhDate(new Date());
 		cgService.updatetCgR(c);
 		cgService.updatecgxq(selectDetail);
 		mav.setViewName("redirect:selectcgr.do");
@@ -370,6 +414,7 @@ public class CgController {
 	public ModelAndView addcgreq(ModelAndView mav, CgRepGoods c, CgOrderDetail d) {
 		c.setZt("未处理");
 		c.setLastTime(new Date());
+		c.setJhDate(new Date());
 		d.setSfRk("否");
 		String idi = "0";
 		Long id = Long.parseLong(idi);
@@ -379,6 +424,26 @@ public class CgController {
 		cgService.addcgreq(c);
 		cgService.addcod(d);
 		mav.setViewName("redirect:seKcGoodsInfo.do");
+		return mav;
+	}
+	//修改采购单的付款状况
+	@RequestMapping("/changefkqk.do")
+	@ResponseBody
+	public int changefkqk(Long id){
+		int i=1;
+		CgOrder selectone = cgService.selectone(id);
+		selectone.setFkQk("已付款");
+		cgService.updatcgorder(selectone);
+		return i;	
+	}
+	//入库单查询
+	@RequestMapping("/enter.do")
+	public ModelAndView enter(ModelAndView mav,
+			@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
+			String name) {
+		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetail(pageNum, pageSize, name);
+		mav.addObject("page",page);
+		mav.setViewName("zy_cg/enter_list");
 		return mav;
 	}
 }

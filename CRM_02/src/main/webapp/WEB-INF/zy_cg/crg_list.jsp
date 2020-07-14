@@ -79,29 +79,26 @@ outline: none;
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			采购日期范围： <input type="text"
-				onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="time1"
-				class="input-text Wdate" style="width:200px;"> - <input
-				type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-				id="time2" class="input-text Wdate" style="width:200px;">
-			状态：<select id="sousuo" style="height: 31px;" class="selectbyzy">
+		<!-- <form action=""> -->
+			状态：<select id="sousuo"  style="height: 31px;" class="selectbyzy">
 				<option value="">请选择</option>
-				<option value="已处理">已处理</option>
-				<option value="未处理">未处理</option>
+				<option value="已处理" ${ssz=='已处理' ? "selected":"" }>已处理</option>
+				<option value="未处理" ${ssz=='未处理' ? "selected":"" }>未处理</option>
 			</select>
-			<!-- 每次都带上搜索的值 -->
-			<input type="hidden" id="ssz" value="${ssz}">
-			<!-- 时间格式的转化很重要，要不然功能无法完成 -->
-			<input type="hidden" id="time11"
-				value="<fmt:formatDate value='${time1}' pattern='yyyy-MM-dd HH:mm:ss'/>">
-			<input type="hidden" id="time22"
-				value="<fmt:formatDate value='${time2}' pattern='yyyy-MM-dd HH:mm:ss'/>">
-			<!-- 每次都带上搜索的值 -->
 			<button type="button" class="btn btn-success radius"
 				onclick="return sousuo()">
 				<i class="Hui-iconfont">&#xe665;</i> 搜索
 			</button>
+			<button onclick="cla()" type="reset" style="background-color: pink;border: 0px;" class="btn btn-success radius">
+				<i class="Hui-iconfont">&#xe68f;</i>重置
+			</button>
+			<!-- </form> -->
 		</div>
+		<script type="text/javascript">
+		function cla(){
+		document.getElementById("sousuo").value="";
+		}
+		</script>
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
 		</c:if>
@@ -121,43 +118,48 @@ outline: none;
 						<tr class="text-c">
 							<th width="25"><input type="checkbox" id="all-check"></th>
 							<th width="60">产品</th>
-							<th width="100">交货时间</th>
 							<th width="40">采购数量</th>
 							<th width="40">价格</th>
-							<th width="40">是否入库</th>
-							<th width="40">状态</th>
 							<th width="40">操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${page.list }" var="p">
 							<tr class="text-c">
-								<td>
+								<td id="inpid${p.cgRepId}"><input type="checkbox"
+									name="one-check" value="${p.cgRepId }"></td>
 								<c:if test="${p.zt=='已处理'}">
-                                <script type="text/javascript">
-                                $("#inpid"+${p.cgRepId}).val(0);
-                                console.log($("#inpid"+${p.cgRepId}).val());
+									<script type="text/javascript">
+                                $("#inpid"+${p.cgRepId}).html('<input disabled="disabled" type="checkbox">');
                                 </script>
 								</c:if>
-								<input id="inpid${p.cgRepId}" type="checkbox" name="one-check" value="${p.cgRepId }">
-								</td>
 								<td>${p.kcGoodsInfo.productName }</td>
-								<td><fmt:formatDate value="${p.jhDate }"
-										pattern="yyyy-MM-dd HH:mm:ss" /></td>
 								<td>${p.cgOrderDetail.cpNum}辆</td>
 								<td>${p.cgOrderDetail.cpJg}w</td>
-								<td>${p.cgOrderDetail.sfRk}</td>
-								<td>${p.zt }</td>
-								<td class="td-manage"><a style="text-decoration:none"
-									onClick="cksjxq(${p.cgRepId })" href="javascript:;"
-									title="查看明细"> <i class="Hui-iconfont">&#xe616;</i>
-								</a> <a title="编辑" href="javascript:;" onclick="bj(${p.cgRepId },${p.cgOrderDetail.cpNum},${p.cgOrderDetail.cpJg})"
-									class="ml-5" style="text-decoration:none"> <i
-										class="Hui-iconfont">&#xe6df;</i>
-								</a> <a title="删除" href="javascript:;"
-									onclick="return sc(${p.cgRepId })" class="ml-5"
-									style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i>
-								</a></td>
+								
+
+
+
+								<td class="td-manage"><c:if test="${p.zt=='已处理'}">
+										<a href="javascript:;" disabled="disabled"
+											style="background-color:#c8d6d6;display: block;"
+											class="btn radius">已处理 </a>
+									</c:if> <c:if test="${p.zt=='未处理'}">
+										<a style="text-decoration:none"
+											onClick="cksjxq(${p.cgRepId })" href="javascript:;"
+											title="查看明细"> <i class="Hui-iconfont">&#xe616;</i>
+										</a>
+										<a title="编辑" href="javascript:;"
+											onclick="bj(${p.cgRepId },${p.cgOrderDetail.cpNum},${p.cgOrderDetail.cpJg})"
+											class="ml-5" style="text-decoration:none"> <i
+											class="Hui-iconfont">&#xe6df;</i>
+										</a>
+										<a title="删除" href="javascript:;"
+											onclick="return sc(${p.cgRepId })" class="ml-5"
+											style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i>
+										</a>
+
+									</c:if></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -165,43 +167,38 @@ outline: none;
 				<div id="window-from" class="none">
 					<form style="margin-left: 20px;" id="from" method="post">
 						<table>
-					
-							   
-							       <td> 交货时间</td>
-								<td>
-								 <input class="inputcl" type="hidden" id="xcgid" name="cgRepId">
-								 <input class="inputcl" type="hidden" id="zt" name="zt">
-								 <input class="inputcl" type="hidden" id="czy" value="${public.czrid}" name="operaterId">
-								 <input class="inputcl" type="hidden" id="gs" name="companyId">
-								 <input class="inputcl" type="hidden" id="cp" name="cpId">
-								 <input style="width: 160px;height: 37.27px" type="text"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-									class="input-text Wdate" id="jhsj" name="jhDate"></td>
 							</tr>
-						<tr>
-							<td>产品单价</td>
-							<td><input readonly="readonly" type="text" id="cpdj" name></td>
-							
-						</tr>
-						<tr>
-							<td>产品数量</td>
-							<td><input oninput="cs()" type="text" id="cpsl" name="cpNum"></td>
-							
-						</tr>
-						<tr>
-							<td>产品总价</td>
-							<td><input readonly="readonly" type="text" id="cpzj" name="cpJg"></td>
-							<script>
+							<tr>
+								<td>产品单价</td>
+								<td><input class="inputcl" type="hidden" id="xcgid"
+									name="cgRepId"> <input class="inputcl" type="hidden"
+									id="zt" name="zt"> <input class="inputcl" type="hidden"
+									id="czy" value="${public.czrid}" name="operaterId"> <input
+									class="inputcl" type="hidden" id="gs" name="companyId">
+									<input class="inputcl" type="hidden" id="cp" name="cpId">
+									<input readonly="readonly" type="text" id="cpdj"></td>
+
+							</tr>
+							<tr>
+								<td>产品数量</td>
+								<td><input oninput="cs()" type="text" id="cpsl"
+									name="cpNum"></td>
+
+							</tr>
+							<tr>
+								<td>产品总价</td>
+								<td><input readonly="readonly" type="text" id="cpzj"
+									name="cpJg"></td>
+								<script>
 							function cs(){
 		                      $("#cpzj").val($("#cpdj").val()*$("#cpsl").val())
 		                           }
 							</script>
-						</tr>
+							</tr>
 							<tr>
 								<td><div>备注信息</div></td>
-								<td colspan="3"><textarea
-										style="float: left;" rows="5" cols="70"
-										id="bzxx" name="bzXx"></textarea></td>
+								<td colspan="3"><textarea style="float: left;" rows="5"
+										cols="70" id="bzxx" name="bzXx"></textarea></td>
 							</tr>
 						</table>
 					</form>
@@ -216,7 +213,7 @@ outline: none;
 									<li><a id="c" class="hvr-sweep-to-bottom button">^_^!</a>
 									</li>
 									<li><a id="g" class="hvr-bounce-to-bottom button">^_^!</a>
-										</li>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -232,9 +229,7 @@ outline: none;
 				  function sy(){
 				  
 				  location.href="purctrl/selectcgr.do?pageNum="+${page.navigateFirstPage }+
-				      "&title="+document.getElementById("ssz").value+
-				      "&time1="+document.getElementById("time11").value+
-				      "&time2="+document.getElementById("time22").value;
+				      "&title="+document.getElementById("sousuo").value;
 				  }
 				  </script>
 						<button onclick="syy()"
@@ -243,9 +238,7 @@ outline: none;
 				  function syy(){
 				 
 				  location.href="purctrl/selectcgr.do?pageNum="+${page.prePage}+
-				      "&title="+document.getElementById("ssz").value+
-				      "&time1="+document.getElementById("time11").value+
-				      "&time2="+document.getElementById("time22").value;
+				      "&title="+document.getElementById("sousuo").value;
 				  }
 				  </script>
 						<button disabled="disabled"
@@ -256,9 +249,7 @@ outline: none;
 				     function xyy(){
 				  		 
 				      location.href="purctrl/selectcgr.do?pageNum="+${page.nextPage}+
-				      "&title="+document.getElementById("ssz").value+
-				      "&time1="+document.getElementById("time11").value+
-				      "&time2="+document.getElementById("time22").value;
+				      "&title="+document.getElementById("sousuo").value;
 				    }
 				   </script>
 						<button onclick="wy()"
@@ -266,9 +257,7 @@ outline: none;
 						<script type="text/javascript">
 				     function wy(){
 				     location.href="purctrl/selectcgr.do?pageNum="+${page.navigateLastPage }+
-				      "&title="+document.getElementById("ssz").value+
-				      "&time1="+document.getElementById("time11").value+
-				      "&time2="+document.getElementById("time22").value;
+				      "&title="+document.getElementById("sousuo").value;
 				    }
 				  </script>
 					</div>
@@ -277,159 +266,141 @@ outline: none;
 	</div>
 
 	<script type="text/javascript">
-/* 搜索 */
-function sousuo(){
-  var sousuo=document.getElementById("sousuo").value;
-  var time1=document.getElementById("time1").value;
-  var time2=document.getElementById("time2").value;
-  if(time1!=""&time2!=""){
-  if(time2<time1){
-     alert("不符合时间搜索逻辑,请重新选择(后面的时间应比前面大)");
-     return false;
-   }
-   }
-  if(time1!=""&time2!=""&time2==time1){
-   alert("不符合时间搜索逻辑,请重新选择(选择的时间不能相同)");
-   return false;
- }
-  location.href="purctrl/selectcgr.do?title="+sousuo+"&time1="+time1+"&time2="+time2;
-}
-/* 批量删除 */
-	var nodeAll = document.getElementById("all-check");
-			nodeAll.onclick = function() {
-				//name可以重复id只能有一个
-				var nodes = document.getElementsByName("one-check");
-				var flag = nodeAll.checked;
-				for (var i = 0; i < nodes.length; i++) {
-					nodes[i].checked = flag;
+		/* 搜索 */
+		function sousuo() {
+			var sousuo = document.getElementById("sousuo").value;
+			location.href = "purctrl/selectcgr.do?title=" + sousuo;
+		}
+		/* 批量删除 */
+		var nodeAll = document.getElementById("all-check");
+		nodeAll.onclick = function() {
+			//name可以重复id只能有一个
+			var nodes = document.getElementsByName("one-check");
+			var flag = nodeAll.checked;
+			for (var i = 0; i < nodes.length; i++) {
+				nodes[i].checked = flag;
+			}
+		}
+		function plsc() {
+			var id = "";
+			var temp = "";
+			var onecheck = document.getElementsByName("one-check");
+			for (var i = 0; i < onecheck.length; i++) {
+				if (onecheck[i].checked == true) {
+					id += "id=" + onecheck[i].value + "&";
+					temp = 1;
 				}
 			}
-			function plsc() {
-				var id = "";
-				var temp = "";
-				var onecheck = document.getElementsByName("one-check");
-				for (var i = 0; i < onecheck.length; i++) {
-					if (onecheck[i].checked == true) {
-						id += "id=" + onecheck[i].value + "&";
-						temp = 1;
-					}
-				}
-				if (temp != 1) {
-					alert("您未勾选");
+			if (temp != 1) {
+				alert("您未勾选");
+				return false;
+			}
+			if (temp == 1) {
+				if (confirm("确认删除吗") == true) {
+					location.href = "<%=basePath%>purctrl/deletcgr.do?" + id;
+					return true;
+				} else {
 					return false;
 				}
-				if (temp == 1) {
-					if (confirm("确认删除吗") == true) {
-						location.href = "<%=basePath%>purctrl/deletcgr.do?" + id;
-						return true;
-					} else {
-						return false;
-					}
+			}
+		}
+		/* 单个删除 */
+		function sc(uid) {
+			if (confirm("确认删除吗") == true) {
+				location.href = "<%=basePath%>purctrl/deletcgr.do?id=" + uid;
+				return true;
+			}
+		}
+		/*采购明细*/
+		function cksjxq(id) {
+			$.ajax({
+				type : "post",
+				url : "<%=basePath%>purctrl/selectcrgbyid.do?id=" + id,
+				dataType : "json",
+				success : function(data) //从前台回调回来的数组，处理后的数据
+				{
+					$("#a").html("操作员：" + data.czrname);
+					$("#b").html("公司：" + data.compname);
+					$("#c").html("备注信息：" + data.bzXx);
+					var date = new Date(data.lastTime);
+					var Y = date.getFullYear() + '-';
+					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+					var D = date.getDate() + ' ';
+					var H = date.getHours() + ':';
+					var F = date.getMinutes() + ':';
+					var S = date.getSeconds();
+					$("#g").html("最后修改时间" + Y + M + D + H + F + S);
 				}
-			}
-	/* 单个删除 */	
-	function sc(uid){
-	if (confirm("确认删除吗") == true){
-						location.href = "<%=basePath%>purctrl/deletcgr.do?id=" + uid;
-						return true;
+			});
+			layer.open({
+				type : 1,
+				area : [ '700px', '350px' ],
+				fix : false, //不固定
+				maxmin : true,
+				shade : 0.4,
+				title : '明细',
+				content : $('#window-div')
+			});
+		}
+		/* 编辑 */
+		function bj(id, sl, jg) {
+		var temp=0;
+			$.ajax({
+				type : "post",
+				url : "<%=basePath%>purctrl/selectcrgbyid.do?id=" + id,
+				dataType : "json",
+				success : function(data) //从前台回调回来的数组，处理后的数据
+				{
+					$("#xcgid").val(data.cgRepId);
+					$("#cp").val(data.cpId);
+					$("#zt").val(data.zt);
+					$("#gs").val(data.companyId);
+					$("#cpdj").val(data.kcGoodsInfo.sell);
+					$("#cpsl").val(sl);
+					$("#cpzj").val(jg);
+					$("#bzxx").html(data.bzXx);
+				}
+			});
+	
+			var index = layer.open({
+				type : 1,
+				area : [ '600px', '450px' ],
+				btn : [ '提交', '取消' ],
+				fix : false, //不固定
+				maxmin : true,
+				shade : 0.4,
+				title : '编辑',
+				content : $('#window-from'),
+				yes : function() {
+				temp=1;
+					/* 输出序列后的值，name一定要和bean的一样 */
+					/* alert($('#from').serialize()); */
+					$.ajax({
+						type : "post", //请求方式
+						url : "purctrl/updatetCgR.do", //url地址
+						data : $('#from').serialize(), //序列化表单的参数
+						dataType : "json" //响应类型
+					});
+					//提交完成后关闭弹层
+					layer.close(index);
+					if (temp == 1) {
+						layer.msg("修改成功", {
+							icon : 6,
+							time : 2000
+						});
 					}
-	}
-/*采购明细*/
-function cksjxq(id){
-   
-    $.ajax({
-			type : "post",
-			url : "<%=basePath%>purctrl/selectcrgbyid.do?id="+id,
-			dataType : "json",
-			success : function(data) //从前台回调回来的数组，处理后的数据
-			{
-			 $("#a").html("操作员："+data.czrname);
-			 $("#b").html("公司："+data.compname);
-			 $("#c").html("备注信息："+data.bzXx);
-			 var date = new Date(data.lastTime);
-             var Y = date.getFullYear() + '-';
-             var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-             var D = date.getDate() + ' ';
-             var H = date.getHours()+':';
-             var F = date.getMinutes()+':';
-             var S = date.getSeconds();
-			 $("#g").html("最后修改时间"+Y+M+D+H+F+S);
-			}
-				
-		});
-	layer.open({
-		type:1,
-		area: ['700px','350px'],
-		fix: false, //不固定
-		maxmin: true,
-		shade:0.4,
-		title: '明细',
-		content: $('#window-div')
-	});
-}
-/* 编辑 */
-function bj(id,sl,jg){
-$.ajax({
-			type : "post",
-			url : "<%=basePath%>purctrl/selectcrgbyid.do?id="+id,
-			dataType : "json",
-			success : function(data) //从前台回调回来的数组，处理后的数据
-			{
-			
-			 $("#xcgid").val(data.cgRepId);
-			 $("#cp").val(data.cpId);
-			 $("#zt").val(data.zt);
-			/*  $("#czy").val(data.operaterId); */
-			 $("#gs").val(data.companyId);
-			 $("#cpdj").val(data.kcGoodsInfo.sell);
-			 $("#cpsl").val(sl);
-			 $("#cpzj").val(jg);
-			 $("#bzxx").html(data.bzXx);
-			 
-			
-			 /* 得先把ajak返回的json时间格式转为普通时间格式 */
-			 var date = new Date(data.jhDate);
-             var Y = date.getFullYear() + '-';
-             var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-             var D = date.getDate() + ' ';
-             var H = date.getHours()+':';
-             var F = date.getMinutes()+':';
-             var S = date.getSeconds();
-			 $("#jhsj").val(Y+M+D+H+F+S);
-			}
-				
-		});
-
- var index=layer.open({
-		type:1,
-		area: ['600px','450px'],
-		btn: ['提交', '取消'],
-		fix: false, //不固定
-		maxmin: true,
-		shade:0.4,
-		title: '编辑',
-		content: $('#window-from'),
-		yes:function (){
-		/* 输出序列后的值，name一定要和bean的一样 */
-		/* alert($('#from').serialize()); */
-		 $.ajax({
-	       type: "post", //请求方式
-	       url: "purctrl/updatetCgR.do", //url地址
-	       data: $('#from').serialize(), //序列化表单的参数
-	       dataType: "json" //响应类型
-	          });
-		//提交完成后关闭弹层
-		layer.close(index);
-		},
-		//end是关闭窗口时自动执行
-        end: function () {
-            /* alert("关闭后刷新页面"); */
-           window.location.reload();//关闭弹窗后刷新页面
-                    }
-	});
-	//弹层全屏
-	//layer.full(index);
-}
-</script>
+				},
+				//end是关闭窗口时自动执行
+				end : function() {
+					/* alert("关闭后刷新页面"); */
+					setTimeout(function() {
+						location.replace(location.href);
+					}, 1000)
+				}
+			});
+		//弹层全屏
+		//layer.full(index);
+		}
+	</script>
 </body>
 </html>
