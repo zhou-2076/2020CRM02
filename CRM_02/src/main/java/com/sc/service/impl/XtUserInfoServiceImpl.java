@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sc.entity.XtCompanyInfo;
 import com.sc.entity.XtUserInfo;
+import com.sc.mapper.XtCompanyInfoMapper;
 import com.sc.mapper.XtUserInfoMapper;
 import com.sc.service.XtUserInfoService;
 
@@ -17,6 +19,8 @@ public class XtUserInfoServiceImpl implements XtUserInfoService {
 	@Autowired
 	XtUserInfoMapper xtUserInfoMapper;
 
+	@Autowired
+	XtCompanyInfoMapper xtCompanyInfoMapper;
 	@Override
 	public void addXtUserInof(XtUserInfo userInfo) {
 		xtUserInfoMapper.insert(userInfo);
@@ -54,6 +58,16 @@ public class XtUserInfoServiceImpl implements XtUserInfoService {
 		List<XtUserInfo> list = xtUserInfoMapper.selectByExample(null);
 		 PageInfo<XtUserInfo> Page = new PageInfo<XtUserInfo>(list);
 		return Page;
+	}
+
+	@Override
+	public List<XtCompanyInfo> selectallcompany() {
+		return xtCompanyInfoMapper.selectByExample(null);
+	}
+
+	@Override
+	public XtCompanyInfo selecteCompanyInfoBy(Long companyId) {
+		return xtCompanyInfoMapper.selectByPrimaryKey(companyId);
 	}
 
 }
