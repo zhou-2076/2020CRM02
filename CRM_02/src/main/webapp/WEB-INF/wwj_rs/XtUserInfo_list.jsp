@@ -50,24 +50,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="25">ID</th>
-				<th width="40">员工姓名</th>
-				<th width="40">性别</th>
-				<th width="50">员工照片</th>
+				 <th width="25">ID</th>
+				<!-- <th width="40">员工姓名</th> -->
+				<!-- <th width="40">性别</th> -->
+				<!-- <th width="50">员工照片</th> -->
 				<th width="50">身份证号</th>
 				<th width="50">家乡住址</th>
-				<th width="40">现在住址</th>
+				<!-- <th width="40">现在住址</th> -->
 				<th width="40">员工学历</th>
 				<th width="40">政治面貌</th>
 				<th width="40">毕业学校</th>
-				<th width="40">联系电话</th>
+				<!-- <th width="40">联系电话</th> -->
 				<th width="40">网上联系方式</th>
 				<th width="40">网上联系详情</th>
-				<th width="40">审核状态</th>
+				<!-- <th width="40">审核状态</th>
 				<th width="40">职务编号</th>
-				<th width="40">员工状态</th>
+				<th width="40">员工状态</th> -->
 				<th width="40">备注说明</th>
-				<th width="40">公司编号</th>
+				<!-- <th width="40">公司编号</th> -->
 				<th width="40">最后修改时间</th>
 				<th width="100">操作</th>
 			</tr>
@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td>${XTUU.workerTel}</td>
 				<td>${XTUU.webRelation}</td>
 				<td>${XTUU.webDeta}</td>
-				<td>${XTUU.audit}</td>
+				<td>${XTUU.audIt}</td>
 				<td>${XTUU.dutiesId}</td>
 				<td>${XTUU.workerSta}</td>
 				<td>${XTUU.orderRemark}</td>
@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  				<td class="td-manage"><a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
 				
 				<a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-				<a title="删除" href="javascript:;" onclick="admin_del(this,'${XTUU.userId }')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<a title="删除" href="javascript:;" onclick="admin_del(this,'${XTUU.workerId }')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			-->
 			</tr>
 		</c:forEach>
@@ -138,8 +138,8 @@ function admin_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: 'xtuserctrl/deleteuser.do',
-			data:"userId="+id,
+			url: 'Rsctrl/deleteuser.do',
+			data:"workerId="+id,
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();
@@ -156,7 +156,7 @@ function admin_del(obj,id){
 function admin_edit(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
-/*管理员-停用*/
+/* /*管理员-停用*/
 function admin_stop(obj,id){
 	layer.confirm('确认要停用吗？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
@@ -179,7 +179,7 @@ function admin_start(obj,id){
 		$(obj).remove();
 		layer.msg('已启用!', {icon: 6,time:1000});
 	});
-}
+} */
 </script>
 </body>
 </html>
