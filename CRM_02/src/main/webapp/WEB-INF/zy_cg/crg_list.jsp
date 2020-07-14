@@ -140,11 +140,18 @@ outline: none;
 
 
 
-								<td class="td-manage"><c:if test="${p.zt=='已处理'}">
+								<td class="td-manage">
+								<c:if test="${p.zt=='已处理'&&p.cgOrderDetail.sfRk=='未入库'}">
 										<a href="javascript:;" disabled="disabled"
 											style="background-color:#c8d6d6;display: block;"
 											class="btn radius">已处理 </a>
-									</c:if> <c:if test="${p.zt=='未处理'}">
+									</c:if>
+									<c:if test="${p.zt=='已处理'&&p.cgOrderDetail.sfRk=='已入库'}">
+										<a href="javascript:;" disabled="disabled"
+											style="background-color:pink;display: block;"
+											class="btn radius">已入库 </a>
+									</c:if>
+									 <c:if test="${p.zt=='未处理'}">
 										<a style="text-decoration:none"
 											onClick="cksjxq(${p.cgRepId })" href="javascript:;"
 											title="查看明细"> <i class="Hui-iconfont">&#xe616;</i>

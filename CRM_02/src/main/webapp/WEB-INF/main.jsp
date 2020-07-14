@@ -227,8 +227,29 @@
 								}
 							}
 						</script>
-						<li><a data-href="purctrl/purlist.do" data-title="采购单"
-							href="javascript:;">采购单</a></li>
+							<li><span style="margin-left: 24px;cursor:pointer;"
+							onclick="cczy()">采购单管理</span></li>
+						<ul id="ulzy" style="display:none;">
+							<li><a data-href="purctrl/purlist.do"
+								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未处理采购单
+							</a></li>
+							<li><a data-href="purctrl/purlistused.do" data-title="已处理采购单">
+									<i class="Hui-iconfont">&#xe623;</i>&nbsp已处理采购单
+							</a></li>
+						</ul>
+						<script>
+							//样式的开启和关闭
+							function cczy() {
+								var zt = document.getElementById("ulzy").style.display;
+								/* alert("这是我自己写的树状列表，你们需要的话就看代码，当前状态："+zt); */
+								if (zt == "none") {
+									document.getElementById("ulzy").style.display = "block";
+								}
+								if (zt == "block") {
+									document.getElementById("ulzy").style.display = "none";
+								}
+							}
+						</script>
 						<li><a data-href="purctrl/selectSup.do" data-title="供应商"
 							href="javascript:;">供应商管理</a></li>
 						<!-- <li><a data-href="member-level.html" data-title="等级管理" href="javascript:;">等级管理</a></li>
