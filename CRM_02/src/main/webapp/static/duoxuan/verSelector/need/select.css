@@ -93,7 +93,7 @@
 
 .verSelector .verSelector-option p:hover, .verSelector .verSelector-option p.actives {
     color: #fff;
-    background: orangered;
+    background: pink;
 }
 
 .verSelector-focus {
@@ -141,7 +141,7 @@
 }
 
 .verSelector-error-button {
-    color: orangered;
+    color: pink;
     margin-right: 5px !important;
 }
 

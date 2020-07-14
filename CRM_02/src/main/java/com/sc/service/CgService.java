@@ -24,7 +24,7 @@ public interface CgService {
 	// 根据id查询单挑采购信息
 	public CgOrder selectone(Long ordId);
 
-	// 查出所有公司
+	// 查出所有公司（不分页）
 	public List<XtCompanyInfo> selectallcompany();
 
 	// 根据公司id查到公司信息
@@ -33,7 +33,10 @@ public interface CgService {
 	// 根据采购id查询采购详情表
 	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,
 			String name);
-
+	// 查询采购详情表分页
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetail(Integer pageNum, Integer pageSize,String name);
+	//根据采购单id查询采购详情
+	public List<CgOrderDetail> selectBycgId(Long cgId);
 	// 修改采购单
 	public void updatcgorder(CgOrder p);
 
@@ -49,6 +52,9 @@ public interface CgService {
 
 	// 查询供应商信息
 	public PageInfo<CgSupMsg> selectSup(Integer pageNum, Integer pageSize, String name);
+
+	// 查询所有供应商（不分页）
+	public List<CgSupMsg> selectSupall();
 
 	// 批量删除+删除供应商
 	public void delectSup(Long gysId);
@@ -66,7 +72,7 @@ public interface CgService {
 	public XtUserInfo selecteUserinfoByworkerId(Long workerId);
 
 	// 查询需采购表
-	public PageInfo<CgRepGoods> selectcgr(Integer pageNum, Integer pageSize, String title, Date time1, Date time2);
+	public PageInfo<CgRepGoods> selectcgr(Integer pageNum, Integer pageSize, String title);
 
 	public List<CgRepGoods> selectcrgall();
 
@@ -94,9 +100,12 @@ public interface CgService {
 	// 根据id查询需采购
 	public CgRepGoods selectcrgbyid(Long cgRepId);
 
-	// 根据产品id查询需采购
+	// 根据产品id查询需采购(单条)
 	public CgRepGoods selectcrgbycpid(Long cpId);
-
+	
+	//根据产品id查询需采购(多条)
+	public List<CgRepGoods> selectcrgbycpidall(Long cpId);
+	
 	// 修改需采购
 	public void updatetCgR(CgRepGoods c);
 
