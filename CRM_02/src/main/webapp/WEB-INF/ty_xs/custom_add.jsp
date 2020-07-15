@@ -132,9 +132,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开户银行：</label>
+		<label class="form-label col-xs-4 col-sm-3">开户银行：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${custom.bank }" placeholder="" id="bank" name="bank">
+				<input type="text" class="input-text" value="${custom.bank }" placeholder="" id="" name="">
 			</div>
 		</div>
 		<div class="row cl">
@@ -143,19 +143,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input type="text" class="input-text" value="${custom.bankAccount }" placeholder="" id="bankAccount" name="bankAccount">
 			</div>
 		</div>
-				<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开户银行：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${custom.bank }" placeholder="" id="bank" name="bank">
-			</div>
-		</div>
+		
 		<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>下次联系时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<%-- <input type="text" class="input-text" value="${custom.nextTime }" placeholder="" id="nextTime" name="nextTime"> --%>
-				<input style="width: 160px;height: 37.27px" type="text"
+				<input style="width: 180px;height: 37.27px" type="text"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-								class="input-text Wdate" type="text" id="s" name="nextTime">
+								class="input-text Wdate" type="text" id="" name="nextTime">
 			</div>
 		</div>
 		<div class="row cl">
@@ -186,13 +181,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>详细地址：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="password" class="input-text" autocomplete="off" value="${custom.address }" placeholder="密码" id="address" name="address">
+			<input type="text" class="input-text" autocomplete="off" value="${custom.address }" placeholder="密码" id="address" name="address">
 		</div>
 	</div>
 	<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">备注信息：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="remarkMessage" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)">${p.customRemark}</textarea>
+				<textarea name="remarkMessage" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)">${custom.customRemark}</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -230,7 +225,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="CrmStatic/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本--> 
-<script type="text/javascript" src="CrmStatic/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="<%=basePath%>CrmStatic/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="CrmStatic/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="CrmStatic/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="CrmStatic/lib/jquery.validation/1.14.0/messages_zh.js"></script>
