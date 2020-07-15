@@ -102,8 +102,8 @@
 				class="table table-border table-bordered table-hover table-bg table-sort">
 				<thead>
 					<tr class="text-c">
+					<th width="25"><input type="checkbox" id="all-check"></th>
 						<th width="80">ID</th>
-						<th width="100">采购标题</th>
 						<th width="100">商品名</th>
 						<th width="100">数量</th>
 						<th width="100">价格</th>
@@ -114,8 +114,8 @@
 				<tbody>
 					<c:forEach items="${page.list }" var="p">
 						<tr class="text-c">
+						<td><input type="checkbox" name="one-check" value="${p.cgXqId }"></td>
 							<td>${p.cgXqId }</td>
-							<td>${p.cgOrder.cgTitle }</td>
 							<td>${p.cpName}</td>
 							<td>${p.cpNum }辆</td>
 							<td>${p.cpJg }w</td>

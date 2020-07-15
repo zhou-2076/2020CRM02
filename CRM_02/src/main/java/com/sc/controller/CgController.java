@@ -166,11 +166,22 @@ public class CgController {
 		CgSupMsg selectSupbyid = cgService.selectSupbyid(selectone.getGysId());
 		List<CgSupMsg> selectSupall = cgService.selectSupall();
 		List<XtCompanyInfo> selectallcompany = cgService.selectallcompany();
+		if(selectSupall!=null){
 		selectone.setCgSupMsg(selectSupall);
-		selectone.setXtCompanyInfo(selectallcompany);
+		}
+		if(selectSupbyid!=null){
 		selectone.setGysmc(selectSupbyid.getGysName());
-		selectone.setCzrmc(selecteUserinfoByworkerId.getWorkerName());
-		selectone.setGsmc(selecteCompanyInfoBy.getCompanyName());
+		}
+		if(selectallcompany!=null){
+			selectone.setXtCompanyInfo(selectallcompany);
+		}
+		if(selecteCompanyInfoBy!=null){
+			selectone.setGsmc(selecteCompanyInfoBy.getCompanyName());
+		}
+		if(selecteUserinfoByworkerId!=null){
+			selectone.setCzrmc(selecteUserinfoByworkerId.getWorkerName());
+		}
+		
 		return selectone;
 	}
 
@@ -234,7 +245,7 @@ public class CgController {
 		p.setLastTime(new Date());
 		cgService.addcgorder(p);
 		c.setCgId(p.getCgId());
-		c.setSfRk("否");
+		c.setSfRk("未入库");
 		String cpid = "-1";
 		c.setCpId(Long.parseLong(cpid));
 		c.setConpanyId(p.getCompanyId());
@@ -441,9 +452,52 @@ public class CgController {
 	public ModelAndView enter(ModelAndView mav,
 			@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
 			String name) {
-		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetail(pageNum, pageSize, name);
+		String wrk="未入库";
+		PageInfo<CgOrderDetail> page = cgService.selectoneCgOrderDetail(pageNum, pageSize, name,wrk);
+		String temp = "yes";
+		List<CgOrderDetail> list = page.getList();
+		if (list.size() == 0) {
+			temp = "no";
+		}
+		if (name != null) {
+			mav.addObject("ssz", name);
+		}
+		mav.addObject("temp", temp);
 		mav.addObject("page",page);
 		mav.setViewName("zy_cg/enter_list");
 		return mav;
 	}
+	
+	   //修改入库状况
+		@RequestMapping("/changerk.do")
+		@ResponseBody
+		public int changerk(Long id){
+			int i=1;
+			CgOrderDetail selectDetailBycgXqId = cgService.selectDetailBycgXqId(id);
+			selectDetailBycgXqId.setSfRk("已入库");
+			cgService.updatecgxq(selectDetailBycgXqId);
+			return i;	
+		}
+		
+		//查询已入库商品
+		@RequestMapping("/enterused.do")
+		public ModelAndView enterused(ModelAndView mav,
+				@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
+				String name) {
+			String yrk="已入库";
+			PageInfo<CgOrderDetail> page = cgService.selectyrk(pageNum, pageSize, name,yrk);
+			String temp = "yes";
+			List<CgOrderDetail> list = page.getList();
+			if (list.size() == 0) {
+				temp = "no";
+			}
+			if (name != null) {
+				mav.addObject("ssz", name);
+			}
+			mav.addObject("temp", temp);
+			mav.addObject("page",page);
+			mav.setViewName("zy_cg/enterused_list");
+			return mav;
+		}
+		
 }
