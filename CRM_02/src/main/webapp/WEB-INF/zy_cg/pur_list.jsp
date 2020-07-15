@@ -186,8 +186,7 @@ outline: none;
 								onClick="cksjxq(${p.cgId })" href="javascript:;" title="查看明细">
 									<i class="Hui-iconfont">&#xe616;</i>
 							</a> 
-							
-									<a onclick="change(${p.cgId })" class="ml-5"
+					                <a onclick="change(${p.cgId })" title="付款" class="ml-5"
 										style="text-decoration:none;"> <i class="Hui-iconfont">&#xe6e1;</i>
 									</a>	
 								 <a title="编辑" href="javascript:;" onclick="bj(${p.cgId })"

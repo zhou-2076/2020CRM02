@@ -34,7 +34,7 @@ public interface CgService {
 	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,
 			String name);
 	// 查询采购详情表分页
-	public PageInfo<CgOrderDetail> selectoneCgOrderDetail(Integer pageNum, Integer pageSize,String name);
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetail(Integer pageNum, Integer pageSize,String name,String wrk);
 	//根据采购单id查询采购详情
 	public List<CgOrderDetail> selectBycgId(Long cgId);
 	// 修改采购单
@@ -84,6 +84,8 @@ public interface CgService {
 
 	// 修改采购详情
 	public void updatecgxq(CgOrderDetail cg);
+	//查询到已入库商品
+	public PageInfo<CgOrderDetail> selectyrk(Integer pageNum, Integer pageSize,String name, String yrk);
 
 	// 添加采购请求
 	public void addcgreq(CgRepGoods cgr);
