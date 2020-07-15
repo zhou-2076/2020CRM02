@@ -5,143 +5,176 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CgOrderDetail implements Serializable {
-    private Long cgXqId;
+	private Long cgXqId;
 
-    private Long cgId;
+	private Long cgId;
 
-    private Long cpId;
+	private Long cpId;
 
-    private String cpName;
+	private String cpName;
 
-    private Long cpNum;
+	private Long cpNum;
 
-    private BigDecimal cpJg;
+	private BigDecimal cpJg;
 
-    private String sfRk;
+	private String sfRk;
 
-    private Long operaterId;
+	private Long operaterId;
 
-    private String bzXx;
+	private String bzXx;
 
-    private Long conpanyId;
+	private Long conpanyId;
 
-    private Date lastTime;
+	private Date lastTime;
 
-    private static final long serialVersionUID = 1L;
+	// 拓展属性
+	private String czrmc;
+	// 拓展属性
+	private String comname;
+	//拓展属性（采购单）
+	private CgOrder cgOrder;
 
-    public CgOrderDetail(Long cgXqId, Long cgId, Long cpId, String cpName, Long cpNum, BigDecimal cpJg, String sfRk, Long operaterId, String bzXx, Long conpanyId, Date lastTime) {
-        this.cgXqId = cgXqId;
-        this.cgId = cgId;
-        this.cpId = cpId;
-        this.cpName = cpName;
-        this.cpNum = cpNum;
-        this.cpJg = cpJg;
-        this.sfRk = sfRk;
-        this.operaterId = operaterId;
-        this.bzXx = bzXx;
-        this.conpanyId = conpanyId;
-        this.lastTime = lastTime;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public CgOrderDetail() {
-        super();
-    }
+	public CgOrderDetail(Long cgXqId, Long cgId, Long cpId, String cpName, Long cpNum, BigDecimal cpJg, String sfRk,
+			Long operaterId, String bzXx, Long conpanyId, Date lastTime) {
+		this.cgXqId = cgXqId;
+		this.cgId = cgId;
+		this.cpId = cpId;
+		this.cpName = cpName;
+		this.cpNum = cpNum;
+		this.cpJg = cpJg;
+		this.sfRk = sfRk;
+		this.operaterId = operaterId;
+		this.bzXx = bzXx;
+		this.conpanyId = conpanyId;
+		this.lastTime = lastTime;
+	}
 
-    public Long getCgXqId() {
-        return cgXqId;
-    }
+	public CgOrderDetail() {
+		super();
+	}
+	
+	
 
-    public void setCgXqId(Long cgXqId) {
-        this.cgXqId = cgXqId;
-    }
+	public CgOrder getCgOrder() {
+		return cgOrder;
+	}
 
-    public Long getCgId() {
-        return cgId;
-    }
+	public void setCgOrder(CgOrder cgOrder) {
+		this.cgOrder = cgOrder;
+	}
 
-    public void setCgId(Long cgId) {
-        this.cgId = cgId;
-    }
+	public String getCzrmc() {
+		return czrmc;
+	}
 
-    public Long getCpId() {
-        return cpId;
-    }
+	public void setCzrmc(String czrmc) {
+		this.czrmc = czrmc;
+	}
 
-    public void setCpId(Long cpId) {
-        this.cpId = cpId;
-    }
+	public String getComname() {
+		return comname;
+	}
 
-    public String getCpName() {
-        return cpName;
-    }
+	public void setComname(String comname) {
+		this.comname = comname;
+	}
 
-    public void setCpName(String cpName) {
-        this.cpName = cpName == null ? null : cpName.trim();
-    }
+	public Long getCgXqId() {
+		return cgXqId;
+	}
 
-    public Long getCpNum() {
-        return cpNum;
-    }
+	public void setCgXqId(Long cgXqId) {
+		this.cgXqId = cgXqId;
+	}
 
-    public void setCpNum(Long cpNum) {
-        this.cpNum = cpNum;
-    }
+	public Long getCgId() {
+		return cgId;
+	}
 
-    public BigDecimal getCpJg() {
-        return cpJg;
-    }
+	public void setCgId(Long cgId) {
+		this.cgId = cgId;
+	}
 
-    public void setCpJg(BigDecimal cpJg) {
-        this.cpJg = cpJg;
-    }
+	public Long getCpId() {
+		return cpId;
+	}
 
-    public String getSfRk() {
-        return sfRk;
-    }
+	public void setCpId(Long cpId) {
+		this.cpId = cpId;
+	}
 
-    public void setSfRk(String sfRk) {
-        this.sfRk = sfRk == null ? null : sfRk.trim();
-    }
+	public String getCpName() {
+		return cpName;
+	}
 
-    public Long getOperaterId() {
-        return operaterId;
-    }
+	public void setCpName(String cpName) {
+		this.cpName = cpName == null ? null : cpName.trim();
+	}
 
-    public void setOperaterId(Long operaterId) {
-        this.operaterId = operaterId;
-    }
+	public Long getCpNum() {
+		return cpNum;
+	}
 
-    public String getBzXx() {
-        return bzXx;
-    }
+	public void setCpNum(Long cpNum) {
+		this.cpNum = cpNum;
+	}
 
-    public void setBzXx(String bzXx) {
-        this.bzXx = bzXx == null ? null : bzXx.trim();
-    }
+	public BigDecimal getCpJg() {
+		return cpJg;
+	}
 
-    public Long getConpanyId() {
-        return conpanyId;
-    }
+	public void setCpJg(BigDecimal cpJg) {
+		this.cpJg = cpJg;
+	}
 
-    public void setConpanyId(Long conpanyId) {
-        this.conpanyId = conpanyId;
-    }
+	public String getSfRk() {
+		return sfRk;
+	}
 
-    public Date getLastTime() {
-        return lastTime;
-    }
+	public void setSfRk(String sfRk) {
+		this.sfRk = sfRk == null ? null : sfRk.trim();
+	}
 
-    public void setLastTime(Date lastTime) {
-        this.lastTime = lastTime;
-    }
+	public Long getOperaterId() {
+		return operaterId;
+	}
+
+	public void setOperaterId(Long operaterId) {
+		this.operaterId = operaterId;
+	}
+
+	public String getBzXx() {
+		return bzXx;
+	}
+
+	public void setBzXx(String bzXx) {
+		this.bzXx = bzXx == null ? null : bzXx.trim();
+	}
+
+	public Long getConpanyId() {
+		return conpanyId;
+	}
+
+	public void setConpanyId(Long conpanyId) {
+		this.conpanyId = conpanyId;
+	}
+
+	public Date getLastTime() {
+		return lastTime;
+	}
+
+	public void setLastTime(Date lastTime) {
+		this.lastTime = lastTime;
+	}
 
 	@Override
 	public String toString() {
 		return "CgOrderDetail [cgXqId=" + cgXqId + ", cgId=" + cgId + ", cpId=" + cpId + ", cpName=" + cpName
 				+ ", cpNum=" + cpNum + ", cpJg=" + cpJg + ", sfRk=" + sfRk + ", operaterId=" + operaterId + ", bzXx="
-				+ bzXx + ", conpanyId=" + conpanyId + ", lastTime=" + lastTime + "]";
+				+ bzXx + ", conpanyId=" + conpanyId + ", lastTime=" + lastTime + ", czrmc=" + czrmc + ", comname="
+				+ comname + ", cgOrder=" + cgOrder + "]";
 	}
-    
-    
-    
+
 }

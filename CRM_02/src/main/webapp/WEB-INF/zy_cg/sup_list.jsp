@@ -69,16 +69,25 @@
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			<input type="text" class="input-text" style="width:250px"
-				placeholder="供货商名称模糊搜索" id="sousuo">
-			<!-- 每次都带上搜索的值 -->
-			<input type="hidden" id="ssz" value="${ssz}">
-			<!-- 每次都带上搜索的值 -->
+			<from action=""> <input type="text" value="${ssz}"
+				class="input-text" style="width:250px" placeholder="供货商名称模糊搜索"
+				id="sousuo">
 			<button type="button" class="btn btn-success radius"
 				onclick="return sousuo()">
 				<i class="Hui-iconfont">&#xe665;</i> 搜索
 			</button>
+			<button onclick="cla()" type="reset"
+				style="background-color: pink;border: 0px;"
+				class="btn btn-success radius">
+				<i class="Hui-iconfont">&#xe68f;</i>重置
+			</button>
+			</from>
 		</div>
+		<script type="text/javascript">
+		function cla(){
+		document.getElementById("sousuo").value="";
+		}
+		</script>
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
 		</c:if>
@@ -216,7 +225,6 @@
 									<a id="h" class="hvr-bounce-to-top button">^_^!</a></li>
 								<li><a id="i" class="hvr-rectangle-in button">^_^!</a> <a
 									id="j" class="hvr-rectangle-out button">^_^!</a></li>
-								<br>
 								<li><a id="k" class="hvr-radial-out button">^_^!</a></li>
 								<li><a id="ll" class="hvr-rectangle-in button">^_^!</a> <a
 									id="mm" class="hvr-rectangle-out button">^_^!</a></li>
@@ -236,7 +244,7 @@
 				  function sy(){
 				  
 				  location.href="purctrl/selectSup.do?pageNum="+${page.navigateFirstPage }+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
 					<button onclick="syy()"
@@ -245,7 +253,7 @@
 				  function syy(){
 				 
 				  location.href="purctrl/selectSup.do?pageNum="+${page.prePage}+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
 					<button disabled="disabled"
@@ -256,7 +264,7 @@
 				     function xyy(){
 				  		 
 				      location.href="purctrl/selectSup.do?pageNum="+${page.nextPage}+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				    }
 				   </script>
 					<button onclick="wy()"
@@ -264,219 +272,242 @@
 					<script type="text/javascript">
 				     function wy(){
 				     location.href="purctrl/selectSup.do?pageNum="+${page.navigateLastPage }+
-				      "&name="+document.getElementById("ssz").value
+				      "&name="+document.getElementById("sousuo").value
 				    }
 				  </script>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<script type="text/javascript">
-			/* 搜索 */
-			function sousuo() {
-				var sousuo = document.getElementById("sousuo").value;
-				location.href = "purctrl/selectSup.do?name=" + sousuo
+	<script type="text/javascript">
+		/* 搜索 */
+		function sousuo() {
+			var sousuo = document.getElementById("sousuo").value;
+			location.href = "purctrl/selectSup.do?name=" + sousuo
+		}
+		/* 批量删除 */
+		var nodeAll = document.getElementById("all-check");
+		nodeAll.onclick = function() {
+			//name可以重复id只能有一个
+			var nodes = document.getElementsByName("one-check");
+			var flag = nodeAll.checked;
+			for (var i = 0; i < nodes.length; i++) {
+				nodes[i].checked = flag;
 			}
-			/* 批量删除 */
-			var nodeAll = document.getElementById("all-check");
-			nodeAll.onclick = function() {
-				//name可以重复id只能有一个
-				var nodes = document.getElementsByName("one-check");
-				var flag = nodeAll.checked;
-				for (var i = 0; i < nodes.length; i++) {
-					nodes[i].checked = flag;
+		}
+		function plsc() {
+			var id = "";
+			var temp = "";
+			var onecheck = document.getElementsByName("one-check");
+			for (var i = 0; i < onecheck.length; i++) {
+				if (onecheck[i].checked == true) {
+					id += "id=" + onecheck[i].value + "&";
+					temp = 1;
 				}
 			}
-			function plsc() {
-				var id = "";
-				var temp = "";
-				var onecheck = document.getElementsByName("one-check");
-				for (var i = 0; i < onecheck.length; i++) {
-					if (onecheck[i].checked == true) {
-						id += "id=" + onecheck[i].value + "&";
-						temp = 1;
-					}
-				}
-				if (temp != 1) {
-					alert("您未勾选");
+			if (temp != 1) {
+				alert("您未勾选");
+				return false;
+			}
+			if (temp == 1) {
+				if (confirm("确认删除吗") == true) {
+					location.href = "<%=basePath%>purctrl/deletsup.do?" + id;
+					return true;
+				} else {
 					return false;
 				}
-				if (temp == 1) {
-					if (confirm("确认删除吗") == true) {
-						location.href = "<%=basePath%>purctrl/deletsup.do?" + id;
-						return true;
-					} else {
-						return false;
-					}
+			}
+		}
+		/* 单个删除 */
+		function sc(uid) {
+			if (confirm("确认删除吗") == true) {
+				location.href = "<%=basePath%>purctrl/deletsup.do?id=" + uid;
+				return true;
+			}
+		}
+		/*供应商明细*/
+		function cksjxq(id) {
+			$.ajax({
+				type : "post",
+				url : "<%=basePath%>purctrl/selectSupbyid.do?id=" + id,
+				dataType : "json",
+				success : function(data) //从前台回调回来的数组，处理后的数据
+				{
+					$("#a").html("供应商简称：" + data.gysShortName);
+					$("#b").html("联系人：" + data.lxr);
+					$("#c").html("固定电话：" + data.tel);
+					$("#d").html("传真：" + data.cz);
+					$("#e").html("移动电话：" + data.moblePhone);
+					$("#f").html("邮编：" + data.yb);
+					$("#g").html("邮箱：" + data.emil);
+					$("#h").html("开户银行：" + data.khYh);
+					$("#i").html("银行账户：" + data.yhZh);
+					$("#j").html("公司主页：" + data.companyZy);
+					$("#k").html("操作人员：" + data.xtUserInfo.workerName);
+					$("#nn").html("备注信息：" + data.bzXx);
+					$("#mm").html("公司：" + data.compname);
+					var date = new Date(data.lastTime);
+					var Y = date.getFullYear() + '-';
+					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+					var D = date.getDate() + ' ';
+					var H = date.getHours() + ':';
+					var F = date.getMinutes() + ':';
+					var S = date.getSeconds();
+					$("#ll").html("最后修改时间：" + Y + M + D + H + F + S);
 				}
-			}
-			/* 单个删除 */
-			function sc(uid) {
-				if (confirm("确认删除吗") == true) {
-					location.href = "<%=basePath%>purctrl/deletsup.do?id=" + uid;
-					return true;
+			});
+			layer.open({
+				type : 1,
+				area : [ '700px', '500px' ],
+				fix : false, //不固定
+				maxmin : true,
+				shade : 0.4,
+				title : '供应商明细',
+				content : $('#window-div')
+			});
+		}
+		/* 编辑 */
+		function bj(id) {
+			var temp = 0;
+			$("#czrid").val($("#ee").val());
+			$.ajax({
+				type : "post",
+				url : "<%=basePath%>purctrl/selectSupbyid.do?id=" + id,
+				dataType : "json",
+				success : function(data) //从前台回调回来的数组，处理后的数据
+				{
+					$("#gysid").val(data.gysId);
+					$("#gysmc").val(data.gysName);
+					$("#gysjc").val(data.gysShortName);
+					$("#lxr").val(data.lxr);
+					$("#gddh").val(data.tel);
+					$("#yddh").val(data.moblePhone);
+					$("#cz").val(data.cz);
+					$("#dz").val(data.address);
+					$("#yb").val(data.yb);
+					$("#yx").val(data.emil);
+					$("#khyh").val(data.khYh);
+					$("#yhzh").val(data.yhZh);
+					$("#gszy").val(data.companyZy);
+					$("#czrname").val(data.xtUserInfo.workerName);
+					if (data.sfYx == "是") {
+						document.getElementById("shi").selected = true;
+					}
+					if (data.sfYx == "否") {
+						document.getElementById("fou").selected = true;
+					}
+					$("#czry").val(data.operaterId);
+					$("#bzxx").html(data.bzXx);
+					var op = "";
+					op = "<option>请选择</option>";
+					$.each(data.xtCompanyInfo, function(i, comp) {
+						op += "<option value='" + comp.companyId + "'" + (comp.companyId == data.companyId ? 'selected' : '') + ">" + comp.companyName + "</option>"
+					});
+					$("#comp").html(op);
 				}
-			}
-			/*供应商明细*/
-			function cksjxq(id) {
-				$.ajax({
-					type : "post",
-					url : "<%=basePath%>purctrl/selectSupbyid.do?id=" + id,
-					dataType : "json",
-					success : function(data) //从前台回调回来的数组，处理后的数据
-					{
-						$("#a").html("供应商简称：" + data.gysShortName);
-						$("#b").html("联系人：" + data.lxr);
-						$("#c").html("固定电话：" + data.tel);
-						$("#d").html("传真：" + data.cz);
-						$("#e").html("移动电话：" + data.moblePhone);
-						$("#f").html("邮编：" + data.yb);
-						$("#g").html("邮箱：" + data.emil);
-						$("#h").html("开户银行：" + data.khYh);
-						$("#i").html("银行账户：" + data.yhZh);
-						$("#j").html("公司主页：" + data.companyZy);
-						$("#k").html("操作人员：" + data.xtUserInfo.workerName);
-						$("#nn").html("备注信息：" + data.bzXx);
-						$("#mm").html("公司：" + data.compname);
-						var date = new Date(data.lastTime);
-						var Y = date.getFullYear() + '-';
-						var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-						var D = date.getDate() + ' ';
-						var H = date.getHours() + ':';
-						var F = date.getMinutes() + ':';
-						var S = date.getSeconds();
-						$("#ll").html("最后修改时间：" + Y + M + D + H + F + S);
-					}
-				});
-				layer.open({
-					type : 1,
-					area : [ '700px', '500px' ],
-					fix : false, //不固定
-					maxmin : true,
-					shade : 0.4,
-					title : '供应商明细',
-					content : $('#window-div')
-				});
-			}
-			/* 编辑 */
-			function bj(id) {
-				$("#czrid").val($("#ee").val());
-				$.ajax({
-					type : "post",
-					url : "<%=basePath%>purctrl/selectSupbyid.do?id=" + id,
-					dataType : "json",
-					success : function(data) //从前台回调回来的数组，处理后的数据
-					{
-						$("#gysid").val(data.gysId);
-						$("#gysmc").val(data.gysName);
-						$("#gysjc").val(data.gysShortName);
-						$("#lxr").val(data.lxr);
-						$("#gddh").val(data.tel);
-						$("#yddh").val(data.moblePhone);
-						$("#cz").val(data.cz);
-						$("#dz").val(data.address);
-						$("#yb").val(data.yb);
-						$("#yx").val(data.emil);
-						$("#khyh").val(data.khYh);
-						$("#yhzh").val(data.yhZh);
-						$("#gszy").val(data.companyZy);
-						$("#czrname").val(data.xtUserInfo.workerName);
-						if (data.sfYx == "是") {
-							document.getElementById("shi").selected = true;
-						}
-						if (data.sfYx == "否") {
-							document.getElementById("fou").selected = true;
-						}
-						$("#czry").val(data.operaterId);
-						$("#bzxx").html(data.bzXx);
-						var op = "";
-						op = "<option>请选择</option>";
-						$.each(data.xtCompanyInfo, function(i, comp) {
-							op += "<option value='" + comp.companyId + "'" + (comp.companyId == data.companyId ? 'selected' : '') + ">" + comp.companyName + "</option>"
+			});
+	
+			var index = layer.open({
+				type : 1,
+				area : [ '600px', '550px' ],
+				btn : [ '提交', '取消' ],
+				fix : false, //不固定
+				maxmin : true,
+				shade : 0.4,
+				title : '编辑',
+				content : $('#window-from'),
+				yes : function() {
+					temp = 1;
+					/* 输出序列后的值，name一定要和bean的一样 */
+					/* alert($('#from').serialize()); */
+					$.ajax({
+						type : "post", //请求方式
+						url : "purctrl/updatetSup.do", //url地址
+						data : $('#from').serialize(), //序列化表单的参数
+						dataType : "json" //响应类型
+					});
+					//提交完成后关闭弹层
+					layer.close(index);
+					if (temp == 1) {
+						layer.msg("修改成功", {
+							icon : 6,
+							time : 2000
 						});
-						$("#comp").html(op);
 					}
-				});
-		
-				var index = layer.open({
-					type : 1,
-					area : [ '600px', '550px' ],
-					btn : [ '提交', '取消' ],
-					fix : false, //不固定
-					maxmin : true,
-					shade : 0.4,
-					title : '编辑',
-					content : $('#window-from'),
-					yes : function() {
-						/* 输出序列后的值，name一定要和bean的一样 */
-						/* alert($('#from').serialize()); */
-						$.ajax({
-							type : "post", //请求方式
-							url : "purctrl/updatetSup.do", //url地址
-							data : $('#from').serialize(), //序列化表单的参数
-							dataType : "json" //响应类型
+				},
+				//end是关闭窗口时自动执行
+				end : function() {
+					/* alert("关闭后刷新页面"); */
+					setTimeout(function() {
+						location.replace(location.href);
+					}, 1000)
+				}
+			});
+		//弹层全屏
+		//layer.full(index);
+		}
+	
+		/* 添加 */
+		function add() {
+			var temp = 0;
+			$("#czrname").val($("#dd").val());
+			$("#czrid").val($("#ee").val());
+			$.ajax({
+				type : "post",
+				url : "<%=basePath%>purctrl/selectallcompany.do",
+				dataType : "json",
+				success : function(data) //从前台回调回来的数组，处理后的数据
+				{
+					var h = "";
+					h = "<option>请选择</option>";
+					$.each(data, function(i, comp) {
+						h += "<option value='" + comp.companyId + "'>" + comp.companyName + "</option>"
+					});
+					$("#comp").html(h);
+				}
+			});
+			var index = layer.open({
+				type : 1,
+				area : [ '600px', '550px' ],
+				btn : [ '提交', '取消' ],
+				fix : false, //不固定
+				maxmin : true,
+				shade : 0.4,
+				title : '录入供应商',
+				content : $('#window-from'),
+				yes : function() {
+					temp = 1;
+					/* 输出序列后的值，name一定要和bean的一样 */
+					/* alert($('#from').serialize()); */
+					$.ajax({
+						type : "post", //请求方式
+						url : "purctrl/addSup.do", //url地址
+						data : $('#from').serialize(), //序列化表单的参数
+						dataType : "json" //响应类型
+	
+					});
+					//提交完成后关闭弹层
+					layer.close(index);
+					if (temp == 1) {
+						layer.msg("添加成功", {
+							icon : 6,
+							time : 2000
 						});
-						//提交完成后关闭弹层
-						layer.close(index);
-					},
-					//end是关闭窗口时自动执行
-					end : function() {
-						/* alert("关闭后刷新页面"); */
-						window.location.reload(); //关闭弹窗后刷新页面
 					}
-				});
-			//弹层全屏
-			//layer.full(index);
-			}
-		
-			/* 添加 */
-			function add() {
-				$("#czrname").val($("#dd").val());
-				$("#czrid").val($("#ee").val());
-				$.ajax({
-					type : "post",
-					url : "<%=basePath%>purctrl/selectallcompany.do",
-					dataType : "json",
-					success : function(data) //从前台回调回来的数组，处理后的数据
-					{
-						var h = "";
-						h = "<option>请选择</option>";
-						$.each(data, function(i, comp) {
-							h += "<option value='" + comp.companyId + "'>" + comp.companyName + "</option>"
-						});
-						$("#comp").html(h);
-					}
-				});
-				var index = layer.open({
-					type : 1,
-					area : [ '600px', '550px' ],
-					btn : [ '提交', '取消' ],
-					fix : false, //不固定
-					maxmin : true,
-					shade : 0.4,
-					title : '录入供应商',
-					content : $('#window-from'),
-					yes : function() {
-						/* 输出序列后的值，name一定要和bean的一样 */
-						/* alert($('#from').serialize()); */
-						$.ajax({
-							type : "post", //请求方式
-							url : "purctrl/addSup.do", //url地址
-							data : $('#from').serialize(), //序列化表单的参数
-							dataType : "json" //响应类型
-						});
-						//提交完成后关闭弹层
-						layer.close(index);
-					},
-					//end是关闭窗口时自动执行
-					end : function() {
-						/* alert("关闭后刷新页面"); */
-						window.location.reload(); //关闭弹窗后刷新页面
-					}
-				});
-			//弹层全屏
-			//layer.full(index);
-			}
-		</script>
+				},
+				//end是关闭窗口时自动执行
+				end : function() {
+					/* alert("关闭后刷新页面"); */
+					setTimeout(function() {
+						location.replace(location.href);
+					}, 1000)
+	
+				}
+			});
+		//弹层全屏
+		//layer.full(index);
+		}
+	</script>
 </body>
 </html>

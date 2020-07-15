@@ -1,11 +1,13 @@
 package com.sc.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -35,7 +37,7 @@ import com.sc.service.CgService;
 public class CgServiceImpl implements CgService {
 
 	@Autowired
-	CgOrderMapper cgOrderMapper;// 采购单依赖注入
+	CgOrderMapper cgOrderMapper;
 	@Autowired
 	KcGoodsInfoMapper kcGoodsInfoMapper;
 	@Autowired
@@ -168,20 +170,12 @@ public class CgServiceImpl implements CgService {
 		cgSupMsgMapper.insert(c);
 	}
 
-	public PageInfo<CgRepGoods> selectcgr(Integer pageNum, Integer pageSize, String title, Date time1, Date time2) {
+	public PageInfo<CgRepGoods> selectcgr(Integer pageNum, Integer pageSize, String title) {
 		PageHelper.startPage(pageNum, pageSize);
 		CgRepGoodsExample cgRepGoodsExample = new CgRepGoodsExample();
 		com.sc.entity.CgRepGoodsExample.Criteria c = cgRepGoodsExample.createCriteria();
 		if (title != null && !title.equals("")) {
 			c.andZtEqualTo(title);
-		}
-		if (time1 != null) {
-			// 大于等于
-			c.andJhDateGreaterThanOrEqualTo(time1);
-		}
-		if (time2 != null) {
-			// 小于等于
-			c.andJhDateLessThanOrEqualTo(time2);
 		}
 		cgRepGoodsExample.setOrderByClause("CG_REP_ID");
 		List<CgRepGoods> list = cgRepGoodsMapper.selectByExample(cgRepGoodsExample);
@@ -263,16 +257,56 @@ public class CgServiceImpl implements CgService {
 	}
 
 	@Override
-	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,String name) {
+	public List<CgRepGoods> selectcrgbycpidall(Long cpId) {
+		CgRepGoodsExample cgRepGoodsExample = new CgRepGoodsExample();
+		com.sc.entity.CgRepGoodsExample.Criteria createCriteria = cgRepGoodsExample.createCriteria();
+		createCriteria.andCpIdEqualTo(cpId);
+		List<CgRepGoods> list = cgRepGoodsMapper.selectByExample(cgRepGoodsExample);
+		return list;
+	}
+
+	@Override
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetailByCgid(Integer pageNum, Integer pageSize, Long cgid,
+			String name) {
 		PageHelper.startPage(pageNum, pageSize);
 		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
 		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
 		createCriteria.andCgIdEqualTo(cgid);
-		if(name!=null){
-			createCriteria.andCpNameLike("%"+name+"%");
+		if (name != null) {
+			createCriteria.andCpNameLike("%" + name + "%");
 		}
 		cgOrderDetailExample.setOrderByClause("CG_XQ_ID");
 		List<CgOrderDetail> list = cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
+		PageInfo<CgOrderDetail> page = new PageInfo<CgOrderDetail>(list);
+		return page;
+	}
+
+	@Override
+	public PageInfo<CgOrderDetail> selectoneCgOrderDetail(Integer pageNum, Integer pageSize, String name,String wrk) {
+		PageHelper.startPage(pageNum, pageSize);
+		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
+		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
+		if (name != null) {
+			createCriteria.andCpNameLike("%" + name + "%");
+		}
+		if(!StringUtils.isEmpty(wrk)){
+			createCriteria.andSfRkEqualTo(wrk);
+		}
+		cgOrderDetailExample.setOrderByClause("CG_XQ_ID");
+		List<CgOrderDetail> list1 = cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
+		ArrayList<CgOrderDetail> list = new ArrayList<CgOrderDetail>();
+		for (CgOrderDetail cgOrderDetail : list1) {
+			if (cgOrderDetail != null) {
+				CgOrder selectByPrimaryKey = cgOrderMapper.selectByPrimaryKey(cgOrderDetail.getCgId());
+				if(selectByPrimaryKey!=null){
+					cgOrderDetail.setCgOrder(selectByPrimaryKey);
+					if (cgOrderDetail.getCgOrder().getFkQk().equals("已付款")) {
+						list.add(cgOrderDetail);
+					}
+				}
+				
+			}
+		}
 		PageInfo<CgOrderDetail> page = new PageInfo<CgOrderDetail>(list);
 		return page;
 	}
@@ -297,6 +331,39 @@ public class CgServiceImpl implements CgService {
 	public CgOrderDetail selectDetailBycgXqId(Long cgXqId) {
 		// TODO Auto-generated method stub
 		return cgOrderDetailMapper.selectByPrimaryKey(cgXqId);
+	}
+
+	@Override
+	public List<CgSupMsg> selectSupall() {
+		// TODO Auto-generated method stub
+		return cgSupMsgMapper.selectByExample(null);
+	}
+
+	@Override
+	public List<CgOrderDetail> selectBycgId(Long cgId) {
+		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
+		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
+		if (cgId != null && !cgId.equals("")) {
+			createCriteria.andCgIdEqualTo(cgId);
+		}
+		return cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
+	}
+
+	@Override
+	public PageInfo<CgOrderDetail> selectyrk(Integer pageNum, Integer pageSize,String name, String yrk) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum,pageSize);
+		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
+		com.sc.entity.CgOrderDetailExample.Criteria createCriteria = cgOrderDetailExample.createCriteria();
+		if (name != null) {
+			createCriteria.andCpNameLike("%" + name + "%");
+		}
+		if(!StringUtils.isEmpty(yrk)){
+			createCriteria.andSfRkEqualTo(yrk);
+		}
+		List<CgOrderDetail> list = cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
+		PageInfo<CgOrderDetail> page = new PageInfo<CgOrderDetail>(list);
+		return page;
 	}
 
 }

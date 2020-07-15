@@ -69,23 +69,9 @@
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			采购主题：<input readonly="readonly" type="button" class="input-text"
-				value="${order.cgTitle }" style="width:250px;">
-			<!-- <input type="hidden" id="ccid" value=""> -->
-			采购日期:<input readonly="readonly" type="button" class="input-text"
-				value="<fmt:formatDate value='${order.cgDate }' pattern="yyyy-MM-dd HH:mm:ss" />"
-				style="width:250px;background-color: pink;"> 采购进展:<input
-				readonly="readonly" type="button" class="input-text"
-				value="${order.cgJz}" style="width:250px;background-color: #ff8080;">
-
-			<button type="button" class="btn btn-success radius" onclick="fh()">
-				<i class="Hui-iconfont">&#xe644;</i>返回
-			</button>
-		</div>
-		<br>
-		<div class="text-c">
-			<input type="text" value="${ssz}" class="input-text"
-				style="width:250px" placeholder="商品模糊搜索" id="sousuo">
+			<from action=""> <input type="text" value="${ssz}"
+				class="input-text" style="width:250px" placeholder="供货商名称模糊搜索"
+				id="sousuo">
 			<button type="button" class="btn btn-success radius"
 				onclick="return sousuo()">
 				<i class="Hui-iconfont">&#xe665;</i> 搜索
@@ -95,6 +81,7 @@
 				class="btn btn-success radius">
 				<i class="Hui-iconfont">&#xe68f;</i>重置
 			</button>
+			</from>
 		</div>
 		<script type="text/javascript">
 			function cla() {
@@ -116,10 +103,11 @@
 				<thead>
 					<tr class="text-c">
 						<th width="80">ID</th>
-						<th width="100">产品名称</th>
-						<th width="100">需采购数量</th>
-						<th width="40">产品价格</th>
-						<!-- <th width="40">是否入库</th> -->
+						<th width="100">采购标题</th>
+						<th width="100">商品名</th>
+						<th width="100">数量</th>
+						<th width="100">价格</th>
+						<th width="40">是否入库</th>
 						<th width="40">操作</th>
 					</tr>
 				</thead>
@@ -127,13 +115,29 @@
 					<c:forEach items="${page.list }" var="p">
 						<tr class="text-c">
 							<td>${p.cgXqId }</td>
-							<td>${p.cpName }</td>
+							<td>${p.cgOrder.cgTitle }</td>
+							<td>${p.cpName}</td>
 							<td>${p.cpNum }辆</td>
-							<td>${p.cpJg}w</td>
-							<%-- <td>${p.sfRk}</td> --%>
-							<td class="td-manage"><a style="text-decoration:none"
-								onClick="cksjxq(${p.cgXqId })" title="明细"> <i
-									class="Hui-iconfont">&#xe616;</i></td>
+							<td>${p.cpJg }w</td>
+							<td><c:if test="${p.sfRk=='未入库'}">
+									<span class="label label-danger radius">${p.sfRk}</span>
+								</c:if> <c:if test="${p.sfRk=='已入库'}">
+									<span class="label label-success radius">${p.sfRk}</span>
+								</c:if></td>
+							<td class="td-manage"><c:if test="${p.sfRk=='未入库'}">
+									<a style="text-decoration:none" onClick="cksjxq(${p.cgXqId })"
+										href="javascript:;" title="查看采购明细"> <i
+										class="Hui-iconfont">&#xe616;</i>
+									</a>
+									<a onclick="change(${p.cgXqId })" title="付款" class="ml-5"
+										style="text-decoration:none;"> <i class="Hui-iconfont">&#xe6e1;</i>
+									</a>
+								</c:if> <c:if test="${p.sfRk=='已入库'}">
+									<a style="text-decoration:none" onClick="cksjxq(${p.cgXqId })"
+										href="javascript:;" title="查看采购明细"> <i
+										class="Hui-iconfont">&#xe616;</i>
+									</a>
+								</c:if></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -161,7 +165,7 @@
 					<script type="text/javascript">
 				  function sy(){
 				  
-				  location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.navigateFirstPage }+
+				  location.href="purctrl/enter.do?pageNum="+${page.navigateFirstPage }+
 				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
@@ -170,7 +174,7 @@
 					<script type="text/javascript">
 				  function syy(){
 				 
-				  location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.prePage}+
+				  location.href="purctrl/enter.do?pageNum="+${page.prePage}+
 				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
@@ -181,7 +185,7 @@
 					<script type="text/javascript">
 				     function xyy(){
 				  		 
-				      location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.nextPage}+
+				      location.href="purctrl/enter.do?pageNum="+${page.nextPage}+
 				      "&name="+document.getElementById("sousuo").value
 				    }
 				   </script>
@@ -189,7 +193,7 @@
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
 					<script type="text/javascript">
 				     function wy(){
-				     location.href="purctrl/selectorderanddel.do?cgid="+${order.cgId}+"&pageNum="+${page.navigateLastPage }+
+				     location.href="purctrl/enter.do?pageNum="+${page.navigateLastPage }+
 				      "&name="+document.getElementById("sousuo").value
 				    }
 				  </script>
@@ -202,10 +206,7 @@
 		/* 搜索 */
 		function sousuo() {
 			var sousuo = document.getElementById("sousuo").value;
-			location.href = "purctrl/selectorderanddel.do?name=" + sousuo+"&cgid="+${order.cgId}
-		}
-		function fh() {
-			location.href = "purctrl/purlist.do";
+			location.href = "purctrl/enter.do?name=" + sousuo
 		}
 		/*明细*/
 		function cksjxq(id) {
@@ -228,6 +229,25 @@
 				shade : 0.4,
 				title : '明细',
 				content : $('#window-div')
+			});
+		}
+		/* 入库 */
+		function change(id) {
+			$.ajax({
+				type : "post",
+				url : "<%=basePath%>purctrl/changerk.do?id=" + id,
+				dataType : "json",
+				success : function(data) //从前台回调回来的数组，处理后的数据
+				{
+					if (data == 1) {
+						layer.msg("操作成功", {
+							icon : 6
+						});
+						setTimeout(function() {
+							location.replace(location.href);
+						}, 1000)
+					}
+				}
 			});
 		}
 	</script>

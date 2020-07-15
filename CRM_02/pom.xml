@@ -37,6 +37,18 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.0.1</version>
 		</dependency>
+		
+		<!-- 依赖io包上传照片用的 -->
+    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+			<dependency>
+			    <groupId>commons-io</groupId>
+			    <artifactId>commons-io</artifactId>
+			    <version>1.4</version>
+			</dependency>
+    
+    
+    
+    
 <!-- oracle驱动依赖配置 -->
     <dependency>
         <groupId>com.oracle</groupId>

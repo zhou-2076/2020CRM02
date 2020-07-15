@@ -7,7 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sc.entity.CgSupMsg;
+import com.sc.entity.CgSupMsgExample;
 import com.sc.entity.XsCustom;
+import com.sc.entity.XsCustomExample;
+import com.sc.entity.XsCustomExample.Criteria;
 import com.sc.mapper.XsCustomMapper;
 import com.sc.service.XsCustomService;
 @Service

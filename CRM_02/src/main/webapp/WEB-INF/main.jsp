@@ -150,8 +150,8 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="product-brand.html" data-title="品牌管理"
-							href="javascript:void(0)">品牌管理</a></li>
+						<li><a data-href="xscustomctrl/selectcustom.do" data-title="客户信息管理"
+							href="javascript:void(0)">客户信息管理</a></li>
 						<li><a data-href="product-category.html" data-title="分类管理"
 							href="javascript:void(0)">分类管理</a></li>
 						<li><a data-href="product-list.html" data-title="产品管理"
@@ -182,7 +182,7 @@
 					<ul>
 
 						<li><span style="margin-left: 24px;cursor:pointer;"
-							onclick="cc()" onmousemove="cc1()">补货管理</span></li>
+							onclick="cc()">补货管理</span></li>
 						<ul id="ul" style="display: none;">
 							<li><a data-href="purctrl/seKcGoodsInfo.do"
 								data-title="缺货商品表"> <i class="Hui-iconfont">&#xe623;</i>&nbsp缺货商品表
@@ -204,10 +204,52 @@
 								}
 							}
 						</script>
-						<li><a data-href="purctrl/enter.do" data-title="入库单"
-							href="javascript:;">入库单</a></li>
-						<li><a data-href="purctrl/purlist.do" data-title="采购单"
-							href="javascript:;">采购单</a></li>
+						<li><span style="margin-left: 24px;cursor:pointer;"
+							onclick="ccz()">入库管理</span></li>
+						<ul id="ulz" style="display:none;">
+							<li><a data-href="purctrl/enter.do"
+								data-title="未入库商品"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未入库商品
+							</a></li>
+							<li><a data-href="purctrl/enterused.do" data-title="已入库商品">
+									<i class="Hui-iconfont">&#xe623;</i>&nbsp已入库商品
+							</a></li>
+						</ul>
+						<script>
+							//样式的开启和关闭
+							function ccz() {
+								var zt = document.getElementById("ulz").style.display;
+								/* alert("这是我自己写的树状列表，你们需要的话就看代码，当前状态："+zt); */
+								if (zt == "none") {
+									document.getElementById("ulz").style.display = "block";
+								}
+								if (zt == "block") {
+									document.getElementById("ulz").style.display = "none";
+								}
+							}
+						</script>
+							<li><span style="margin-left: 24px;cursor:pointer;"
+							onclick="cczy()">采购单管理</span></li>
+						<ul id="ulzy" style="display:none;">
+							<li><a data-href="purctrl/purlist.do"
+								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未处理采购单
+							</a></li>
+							<li><a data-href="purctrl/purlistused.do" data-title="已处理采购单">
+									<i class="Hui-iconfont">&#xe623;</i>&nbsp已处理采购单
+							</a></li>
+						</ul>
+						<script>
+							//样式的开启和关闭
+							function cczy() {
+								var zt = document.getElementById("ulzy").style.display;
+								/* alert("这是我自己写的树状列表，你们需要的话就看代码，当前状态："+zt); */
+								if (zt == "none") {
+									document.getElementById("ulzy").style.display = "block";
+								}
+								if (zt == "block") {
+									document.getElementById("ulzy").style.display = "none";
+								}
+							}
+						</script>
 						<li><a data-href="purctrl/selectSup.do" data-title="供应商"
 							href="javascript:;">供应商管理</a></li>
 						<!-- <li><a data-href="member-level.html" data-title="等级管理" href="javascript:;">等级管理</a></li>
@@ -227,7 +269,7 @@
 					<ul>
 						<li><a data-href="admin-role.html" data-title="角色管理"
 							href="javascript:void(0)">角色管理</a></li>
-						<li><a data-href="admin-permission.html" data-title="权限管理"
+						<li><a data-href="xtperctrl/selectper.do" data-title="权限管理"
 							href="javascript:void(0)">权限管理</a></li>
 						<li><a data-href="xtuserctrl/selectuser.do" data-title="管理员列表"
 							href="javascript:void(0)">管理员列表</a></li>
