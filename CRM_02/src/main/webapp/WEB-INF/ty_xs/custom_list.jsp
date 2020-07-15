@@ -178,7 +178,7 @@
 				</div>
 				<script type="text/javascript">
 					function gopage(pageNum){
-					 alert("拿到的pageNum"+pageNum) 
+					 /* alert("拿到的pageNum"+pageNum)  */
 					   $("#pageNum").val(pageNum);
 					   $("#myform").submit();
 					}

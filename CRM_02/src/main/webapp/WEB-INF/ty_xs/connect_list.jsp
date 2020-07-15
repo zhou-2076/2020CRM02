@@ -51,6 +51,7 @@
 	<form action="xscustomctrl/selectconnect1.do"  method="post" id="myform"> 
 		<div class="text-c"> 
 			<input type="text" value="${xsconnect.connectName} " class="input-text" style="width:250px" placeholder="输入客户联系人姓名进行模糊查询" id="connectName" name="connectName"> <!--  id是整jsp页面唯一的东西，id可以换，单如果用document获取文本框的值，那id就要对应-->
+	<!--  这一步之后再思考一下如何把值传进去-->	<!-- <input type="hidden" name="customId" id="customId" value="41"> -->
 			<input type="hidden" name="pageNum" id="pageNum" value="${page.pageNum }"> <!-- 这个隐藏域是用来穿页数重新提交表单的 -->												<!-- name要穿到控制器里面，如果使用类接收，name要是跟类里的属性名不一样，就获取不到值 -->
 			<button type="reset" onclick="chongzhi()" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe6f7;</i> 重置</button>
 				<script type="text/javascript">
