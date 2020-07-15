@@ -121,7 +121,14 @@ public class XsCustomServiceImpl implements XsCustomService {
 			//通过输入的名字进行联系人查询，所以需要判断传入的名字
 			//以前是这样写的，现在用(这里选用的是spring框架的)工具类if(custom.getCustomName()!=null&&!custom.getCustomName().equals(""))
 			if(!StringUtils.isEmpty(xsconnect.getConnectName())){//地址不为空并且内容不为空
+				System.out.println("------此时的联系人名字为-----"+xsconnect.getConnectName());
 				criteria.andConnectNameLike("%"+xsconnect.getConnectName()+"%");//带上通配符
+			}
+			//看一下id是什么
+			if(!StringUtils.isEmpty(xsconnect.getCustomId())){
+				System.out.println("------此时的客户id为-----"+xsconnect.getCustomId());
+				criteria.andCustomIdEqualTo(xsconnect.getCustomId());
+				
 			}
 		}	
 		//分页查询
