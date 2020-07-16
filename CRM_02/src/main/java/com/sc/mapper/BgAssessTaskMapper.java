@@ -2,6 +2,7 @@ package com.sc.mapper;
 
 import com.sc.entity.BgAssessTask;
 import com.sc.entity.BgAssessTaskExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,7 @@ public interface BgAssessTaskMapper {
     int updateByPrimaryKeySelective(BgAssessTask record);
 
     int updateByPrimaryKey(BgAssessTask record);
+    
+    //关联查询
+    public List<BgAssessTask> select();
 }

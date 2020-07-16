@@ -23,8 +23,22 @@ public class BgAssessTask implements Serializable {
     private Date lastModifyDate;
 
     private static final long serialVersionUID = 1L;
+    
+    private BgTaskDetail bgTaskDetail;
+    
+    //一对一配置
 
-    public BgAssessTask(Long taskId, String taskTitle, String taskSpecificContrnt, String taskPromulgator, String assessIndex, Date taskStartTime, Date taskFinishTime, Long companyId, Date lastModifyDate) {
+    public BgTaskDetail getBgTaskDetail() {
+		return bgTaskDetail;
+	}
+
+	public void setBgTaskDetail(BgTaskDetail bgTaskDetail) {
+		this.bgTaskDetail = bgTaskDetail;
+	}
+
+	//
+	
+	public BgAssessTask(Long taskId, String taskTitle, String taskSpecificContrnt, String taskPromulgator, String assessIndex, Date taskStartTime, Date taskFinishTime, Long companyId, Date lastModifyDate) {
         this.taskId = taskId;
         this.taskTitle = taskTitle;
         this.taskSpecificContrnt = taskSpecificContrnt;
@@ -111,4 +125,14 @@ public class BgAssessTask implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "BgAssessTask [taskId=" + taskId + ", taskTitle=" + taskTitle + ", taskSpecificContrnt="
+				+ taskSpecificContrnt + ", taskPromulgator=" + taskPromulgator + ", assessIndex=" + assessIndex
+				+ ", taskStartTime=" + taskStartTime + ", taskFinishTime=" + taskFinishTime + ", companyId=" + companyId
+				+ ", lastModifyDate=" + lastModifyDate + ", bgTaskDetail=" + bgTaskDetail + "]";
+	}
+    
+    
 }

@@ -166,9 +166,9 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="http://h-ui.duoshuo.com/admin/"
+						<li><a data-href="Bgctrl/selectBgAssessIndex.do"
 							data-title="评论列表" href="javascript:;">评论列表</a></li>
-						<li><a data-href="feedback-list.html" data-title="意见反馈"
+						<li><a data-href="Bgctrl/selectBgAssessTask.do" data-title="意见反馈"
 							href="javascript:void(0)">意见反馈</a></li>
 					</ul>
 				</dd>
@@ -231,9 +231,9 @@
 							onclick="cczy()">采购单管理</span></li>
 						<ul id="ulzy" style="display:none;">
 							<li><a data-href="purctrl/purlist.do"
-								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未处理采购单
+								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp采购单
 							</a></li>
-							<li><a data-href="purctrl/purlistused.do" data-title="已处理采购单">
+							<li><a data-href="purctrl/purusedlist.do" data-title="已处理采购单">
 									<i class="Hui-iconfont">&#xe623;</i>&nbsp已处理采购单
 							</a></li>
 						</ul>

@@ -10,7 +10,13 @@ import com.github.pagehelper.PageInfo;
 import com.sc.entity.BgAssessIndex;
 import com.sc.entity.BgAssessIndexExample;
 import com.sc.entity.BgAssessIndexExample.Criteria;
+import com.sc.entity.BgAssessTask;
+import com.sc.entity.BgTaskDetail;
+import com.sc.entity.XtUserInfo;
 import com.sc.mapper.BgAssessIndexMapper;
+import com.sc.mapper.BgAssessTaskMapper;
+import com.sc.mapper.BgTaskDetailMapper;
+import com.sc.mapper.XtUserInfoMapper;
 import com.sc.service.BgService;
 
 //业务类
@@ -19,6 +25,12 @@ public class BgServiceimpl implements BgService {
 	
 	@Autowired
 	BgAssessIndexMapper bgAssessIndexMapper;
+	@Autowired
+	BgAssessTaskMapper bgAssessTaskMapper;
+	@Autowired
+	XtUserInfoMapper xtUserInfoMapper;
+	@Autowired
+	BgTaskDetailMapper bgTaskDetailMapper;
 
 	@Override
 	public void addBgAssessIndex(BgAssessIndex bgAssessIndex) {
@@ -66,6 +78,42 @@ public class BgServiceimpl implements BgService {
 			PageInfo<BgAssessIndex> page=new PageInfo<BgAssessIndex>(list);
 			return page;
 		}
+	}
+
+	@Override
+	public PageInfo<BgAssessTask> selectBgAssessTask(Integer pageNum, Integer pageSize, BgAssessTask bgAssessTask,
+			String sousuo) {
+		List<BgAssessTask> list = bgAssessTaskMapper.select();
+		PageInfo<BgAssessTask> page=new PageInfo<BgAssessTask>(list);
+		return page;
+	}
+
+	//查询所有发布任务，
+	@Override
+	public List<BgAssessTask> selectBgAssessTask() {
+		List<BgAssessTask> list = bgAssessTaskMapper.select();
+		return list;
+	}
+
+	//查询考核信息，得到考核指标
+	@Override
+	public List<BgAssessIndex> selectBgAssessIndex() {
+		List<BgAssessIndex> list = bgAssessIndexMapper.selectByExample(null);
+		return list;
+	}
+
+	//查询员工,以便选择，分配任务
+	@Override
+	public List<XtUserInfo> selectXtUserInfo() {
+		List<XtUserInfo> list = xtUserInfoMapper.selectByExample(null);
+		return list;
+	}
+
+	//添加，发布任务
+	@Override
+	public void addbgAssessTask(BgAssessTask bgAssessTask, BgTaskDetail bgTaskDetail) {
+		
+		
 	}
 	
 

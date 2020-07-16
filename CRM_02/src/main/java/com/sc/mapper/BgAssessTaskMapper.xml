@@ -276,4 +276,38 @@
       LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
     where TASK_ID = #{taskId,jdbcType=DECIMAL}
   </update>
+  
+  <!-- 一对一关联查询 -->
+										<!--如果列名和属性名一致，通过autoMapping自动映射-->
+	<resultMap type="com.sc.entity.BgAssessTask" id="BgAssessTaskmap" ><!-- autoMapping="true" -->
+		<!--              列名                                              属性名             -->
+		<result column="TASK_ID" property="taskId"/>
+		<result column="TASK_TITLE" property="taskTitle"/>
+		<result column="TASK_SPECIFIC_CONTRNT" property="taskSpecificContrnt"/>
+		<result column="TASK_PROMULGATOR" property="taskPromulgator"/>
+		<result column="ASSESS_INDEX" property="assessIndex"/>
+		<result column="TASK_START_TIME" property="taskStartTime"/>
+		<result column="TASK_FINISH_TIME" property="taskFinishTime"/>
+		<result column="COMPANY_ID" property="companyId"/>
+		<result column="LAST_MODIFY_DATE" property="lastModifyDate"/>
+		<!-- 一对一配置 -->
+		<association property="bgTaskDetail" javaType="com.sc.entity.BgTaskDetail">
+			<id column="TASK_DETAIL_ID" property="taskDetailId"/>
+			<result column="TASK_ID" property="taskId"/>
+			<result column="ACCEPT_USER_ID" property="acceptUserId"/>
+			<result column="WHETHER_COMPLETE" property="whetherComplete"/>
+			<result column="STATE" property="state"/>
+			<result column="COMPANY_ID" property="companyId"/>
+			<result column="LAST_MODIFY_DATE" property="lastModifyDate"/>
+		</association>
+	</resultMap>
+	
+	<select id="select" resultMap="BgAssessTaskmap">
+		SELECT T.*,D.*
+		FROM BG_ASSESS_TASK T
+		LEFT JOIN BG_TASK_DETAIL D
+		ON T.TASK_ID=D.TASK_ID
+	</select>
+  
+  
 </mapper>
