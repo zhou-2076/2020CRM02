@@ -1,4 +1,4 @@
-﻿<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
@@ -60,8 +60,8 @@
 </head>
 <body>
 	<nav class="breadcrumb">
-		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		员工信息<span class="c-gray en">&gt;</span>员工管理 <a
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>部门信息
+		<span class="c-gray en">&gt;</span> <a
 			class="btn btn-success radius r"
 			style="line-height:1.6em;margin-top:3px"
 			href="javascript:location.replace(location.href);" title="刷新"><i
@@ -99,7 +99,7 @@
 					class="Hui-iconfont">&#xe6e2;</i> 批量删除
 			</a> <a href="javascript:;" onclick="add()"
 				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
-					录入员工信息
+					添加部门信息
 			</a>
 			</span> <span class="r">共有数据：<strong>${p.total}</strong> 条
 			</span>
@@ -110,16 +110,11 @@
 				<thead>
 					<tr class="text-c">
 						<th width="25"><input type="checkbox" id="all-check"></th>
-						<th width="80">ID</th>
-						<th width="60">员工姓名</th>
-						<th width="35">性别</th>
-						<th width="40">员工照片</th>
-						<th width="50">现在住址</th>
-						<th width="40">联系电话</th>
-						<th width="40">审核状态</th>
-						<th width="40">职务编号</th>
-						<th width="40">员工状态</th>
+						<th width="30">部门ID</th>
+						<th width="60">部门名称</th>
+						<th width="100">备注信息</th>
 						<th width="40">公司编号</th>
+						<th width="200">修改时间</th>
 						<th width="40">操作</th>
 					</tr>
 				</thead>
@@ -127,94 +122,45 @@
 					<c:forEach items="${p.list }" var="p">
 						<tr class="text-c">
 							<td><input type="checkbox" name="one-check"
-								value="${p.workerId }"></td>
-							<td>${p.workerId }</td>
-							<td>${p.workerName }</td>
-							<td>${p.workerSex }</td>
-							<td>${p.workerPhoto }
-							<img alt="暂无图片" src="<%=basePath%>upload/${p.workerPhoto }" width="100px" height="60px">
-							</td>
-							<td>${p.nowAdd }</td>
-							<td>${p.workerTel }</td>
-							<td>${p.audIt }</td>
-							<td>${p.dutiesId }</td>
-							<td>${p.workerSta }</td>
+								value="${p.sectionId }"></td>
+							<td>${p.sectionId }</td>
+							<td>${p.sectionName }</td>
+							<td>${p.orderRemark }</td>
 							<td>${p.companyId }</td>
-							<td class="td-manage"><a style="text-decoration:none"
-								onClick="cksjxq(${p.workerId })" href="javascript:;" title="查看员工明细">
+							<td><fmt:formatDate value="${p.lastModifyDate }"
+							      pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							
+							<%-- <td class="td-manage"><a style="text-decoration:none"
+								onClick="cksjxq(${p.sectionId })" href="javascript:;" title="查看员工明细">
 									<i class="Hui-iconfont">&#xe616;</i>
-							</a> <a title="编辑" href="javascript:;" onclick="bj(${p.workerId })"
+							</a> <a title="编辑" href="javascript:;" onclick="bj(${p.sectionId })"
 								class="ml-5" style="text-decoration:none"> <i
 									class="Hui-iconfont">&#xe6df;</i>
 							</a> <a title="删除" href="javascript:;"
-								onclick="return sc(${p.workerId })" class="ml-5"
+								onclick="return sc(${p.sectionId })" class="ml-5"
 								style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i>
-							</a></td>
+							</a></td> --%>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 			<div id="window-from" class="none">
-				<form style="margin-left: 20px;" id="from"   method="post" enctype="multipart/form-data">
+				<form style="margin-left: 20px;" id="from">
 					<table>
 					<tr>
-							<td>员工姓名</td>
-							<td><input class="inputcl" type="text" id="ygXm"
-								name="workerName"> 
-								<input type="hidden" id="workerId"name="workerId"></td>
-							<td>性别</td>
-							<td><input type="text" id="sex" name="workerSex">
-							</td>
+							<td>部门名称</td>
+							<td><input class="inputcl" type="text" id="Bmmc"
+								name="sectionName"> 
+								<input type="hidden" id="sectionId"name="sectionId"></td>
 						</tr>
 						<tr>
-							<td>照片</td>
-							<td><input class="inputcl" type="file" name="upload" >
-							<input type="hidden" id="workerPhoto"name="workerPhoto"></td>
-                             
-							<td>员工身份证号</td>
-							<td><input type="text" id="Sfz" name="idCard">
-							</td>
-						</tr>
-						<tr>
-							<td>家乡住址</td>
-							<td><input type="text" id="JxDz" name="homeAdd"></td>
-							<td>现在住址</td>
-							<td><input type="text" id="XzDz" name="nowAdd"></td>
-						</tr>
-						<tr>
-							<td>员工学历</td>
-							<td><input type="text" id="YgXl" name="workerEdu"></td>
-							<td>政治面貌</td>
-							<td><input type="text" id="ZzMm" name="politics"></td>
-						</tr>
-						<tr>
-							<td>毕业学校</td>
-							<td><input type="text" id="ByXx" name="school"></td>
-							<td>联系电话</td>
-							<td><input type="text" id="LxDh" name="workerTel"></td>
-						</tr>
-						<tr>
-						    <td>网上联系方式</td>
-							<td><input type="text" id="WebLxFx" name="webRelation"></td>
-							<td>网上联系详情</td>
-							<td><input type="text" id="WebLxXq" name="webDeta"></td>						
-						</tr>
-						<tr>
-						    <td>审核状态</td>
-							<td><input type="text" id="ShZt" name="audIt"></td>
-							<td>职务编号</td>
-							<td><input type="text" id="ZwBm" name="dutiesId"></td>						
-						</tr>
-						
-						<tr>
-						    <td>员工状态</td>
-							<td><input type="text" id="YgZt" name="workerSta"></td>	
+						   	
 							<td>公司编号</td>
 							<td><input type="text" id="companyId" name="companyId" class="selectbyzy">
+							
+						
 							</td>
 						</tr>
-						
-						
 						<tr>
 							<td><div>备注信息</div></td>
 							<td colspan="3">
@@ -266,7 +212,7 @@
 					<script type="text/javascript">
 				  function sy(){
 				  
-				  location.href="Rsctrl/selectSup.do?pageNum="+${p.navigateFirstPage }+
+				  location.href="Rsctrl/selectXtSection.do?pageNum="+${p.navigateFirstPage }+
 				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
@@ -275,7 +221,7 @@
 					<script type="text/javascript">
 				  function syy(){
 				 
-				  location.href="Rsctrl/selectSup.do?pageNum="+${p.prePage}+
+				  location.href="Rsctrl/selectXtSection.do?pageNum="+${p.prePage}+
 				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
@@ -286,7 +232,7 @@
 					<script type="text/javascript">
 				     function xyy(){
 				  		 
-				      location.href="Rsctrl/selectSup.do?pageNum="+${p.nextPage}+
+				      location.href="Rsctrl/selectXtSection.do?pageNum="+${p.nextPage}+
 				      "&name="+document.getElementById("sousuo").value
 				    }
 				   </script>
@@ -294,7 +240,7 @@
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
 					<script type="text/javascript">
 				     function wy(){
-				     location.href="Rsctrl/selectSup.do?pageNum="+${p.navigateLastPage }+
+				     location.href="Rsctrl/selectXtSection.do?pageNum="+${p.navigateLastPage }+
 				      "&name="+document.getElementById("sousuo").value
 				    }
 				  </script>
@@ -465,14 +411,14 @@
 			/* 添加 */
 			var indexcs="";
 			function add() {
-			document.getElementById("from").action="Rsctrl/add.do"
+			document.getElementById("from").action="Rsctrl/addSection.do"
 			alert(document.getElementById("from").action)
 			$("#xianshi").html('<input type="button" onclick="tj()" value="提交">')
-				$("#workerName").val($("#dd").val());
-				$("#workerId").val($("#ee").val());
+				$("#sectionName").val($("#dd").val());
+				$("#sectionId").val($("#ee").val());
 				$.ajax({
 					type : "post",
-					url : "<%=basePath%>Rsctrl/selectuserid.do",
+					url : "<%=basePath%>Rsctrl/selectXtSection.do",
 					dataType : "json",
 					 success : function(data) //从前台回调回来的数组，处理后的数据
 					{
@@ -484,6 +430,7 @@
 						$("#comp").html(h);
 					} 
 				});
+				
 				indexcs = layer.open({
 					type : 1,
 					area : [ '600px', '550px' ],
