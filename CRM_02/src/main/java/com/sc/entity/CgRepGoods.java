@@ -28,6 +28,7 @@ public class CgRepGoods implements Serializable {
 	private String compname;
 	// 拓展属性（操作人名）
 	private String czrname;
+	
 
 	private static final long serialVersionUID = 1L;
 
