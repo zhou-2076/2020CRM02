@@ -3,10 +3,11 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class XsCustom implements Serializable {
+public class XsCustom<ConnectDetail> implements Serializable {
     private Long customId;
 
     private String customName;
@@ -45,8 +46,34 @@ public class XsCustom implements Serializable {
     
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date nextTime;
+    
+    
+	
+	//扩展属性 用于日期范围查询
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemin;
+    
+    //扩展属性 用于日期范围查询
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemax;
+    //生成它的set get方法-start
+    public Date getDatemin() {
+		return datemin;
+	}
 
-    private String email;
+	public void setDatemin(Date datemin) {
+		this.datemin = datemin;
+	}
+
+	public Date getDatemax() {
+		return datemax;
+	}
+
+	public void setDatemax(Date datemax) {
+		this.datemax = datemax;
+	}//生成它的set get方法-end
+
+	private String email;
 
     private String sic;
 

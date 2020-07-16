@@ -3,8 +3,11 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
-public class XsConnect implements Serializable {
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class XsConnect<ConnectDetail> implements Serializable {
     private Long connectId;
 
     private Long customId;
@@ -28,9 +31,22 @@ public class XsConnect implements Serializable {
     private String connectRemark;
 
     private Long companyId;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date lastModifyDate;
 
+  //扩展属性 
+    private List<ConnectDetail>  connectDetail;
+    //生成它的set get方法-star
+    public List<ConnectDetail> getConnectDetail() {
+		return connectDetail;
+	}
+
+	public void setConnectDetail(List<ConnectDetail> connectDetail) {
+		this.connectDetail = connectDetail;
+	}
+	//生成它的set get方法-end
+    
     private static final long serialVersionUID = 1L;
 
     public XsConnect(Long connectId, Long customId, String connectName, String connectEname, String position, String depart, BigDecimal mobilephone, BigDecimal phoneOffice, String email, String connectAddress, String connectRemark, Long companyId, Date lastModifyDate) {
@@ -156,4 +172,15 @@ public class XsConnect implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "XsConnect [connectId=" + connectId + ", customId=" + customId + ", connectName=" + connectName
+				+ ", connectEname=" + connectEname + ", position=" + position + ", depart=" + depart + ", mobilephone="
+				+ mobilephone + ", phoneOffice=" + phoneOffice + ", email=" + email + ", connectAddress="
+				+ connectAddress + ", connectRemark=" + connectRemark + ", companyId=" + companyId + ", lastModifyDate="
+				+ lastModifyDate + ", connectDetail=" + connectDetail + "]";
+	}
+    
+    
 }
