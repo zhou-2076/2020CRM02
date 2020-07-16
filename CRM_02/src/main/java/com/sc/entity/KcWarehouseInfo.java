@@ -3,6 +3,8 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class KcWarehouseInfo implements Serializable {
     private Long warehouseId;
 
@@ -12,9 +14,42 @@ public class KcWarehouseInfo implements Serializable {
 
     private Long companyId;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date lastModifyDate;
+    
+  //扩展属性,用于查询-start
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemin;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemax;
+    
 
-    private static final long serialVersionUID = 1L;
+    
+
+	@Override
+	public String toString() {
+		return "KcWarehouseInfo [warehouseId=" + warehouseId + ", warehouseName=" + warehouseName + ", orderRemark="
+				+ orderRemark + ", companyId=" + companyId + ", lastModifyDate=" + lastModifyDate + ", datemin="
+				+ datemin + ", datemax=" + datemax + "]";
+	}
+
+	public Date getDatemin() {
+		return datemin;
+	}
+
+	public void setDatemin(Date datemin) {
+		this.datemin = datemin;
+	}
+
+	public Date getDatemax() {
+		return datemax;
+	}
+
+	public void setDatemax(Date datemax) {
+		this.datemax = datemax;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public KcWarehouseInfo(Long warehouseId, String warehouseName, String orderRemark, Long companyId, Date lastModifyDate) {
         this.warehouseId = warehouseId;
@@ -67,4 +102,9 @@ public class KcWarehouseInfo implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	public Object getDepotName() {
+		// TODO Auto-generated method stub
+		return warehouseName;
+	}
 }
