@@ -1,6 +1,5 @@
 package com.sc.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sc.entity.XtCompanyInfo;
 import com.sc.entity.XtUserInfo;
+import com.sc.entity.XtUserInfoExample;
 import com.sc.mapper.XtCompanyInfoMapper;
 import com.sc.mapper.XtUserInfoMapper;
 import com.sc.service.XtUserInfoService;
@@ -21,6 +21,8 @@ public class XtUserInfoServiceImpl implements XtUserInfoService {
 
 	@Autowired
 	XtCompanyInfoMapper xtCompanyInfoMapper;
+	
+	
 	@Override
 	public void addXtUserInof(XtUserInfo userInfo) {
 		xtUserInfoMapper.insert(userInfo);
@@ -70,4 +72,22 @@ public class XtUserInfoServiceImpl implements XtUserInfoService {
 		return xtCompanyInfoMapper.selectByPrimaryKey(companyId);
 	}
 
+	
+	@Override
+	public PageInfo<XtUserInfo> selectSup(Integer pageNum, Integer pageSize, String name) {
+		PageHelper.startPage(pageNum, pageSize);
+		XtUserInfoExample xtUserInfoExample = new XtUserInfoExample();
+
+		com.sc.entity.XtUserInfoExample.Criteria createCriteria = xtUserInfoExample.createCriteria();
+
+		if (name != null) {
+			createCriteria.andWorkerNameLike("%" + name + "%");
+		}
+		xtUserInfoExample.setOrderByClause("WORKER_ID");
+		List<XtUserInfo> list = xtUserInfoMapper.selectByExample(xtUserInfoExample);
+		PageInfo<XtUserInfo> page = new PageInfo<XtUserInfo>(list);
+		return page;
+	}
+
+	
 }
