@@ -112,7 +112,7 @@
 						<th width="80">ID</th>
 						<th width="100">供应商名称</th>
 						<th width="100">地址</th>
-						<th width="40">是否有效</th>
+						<!-- <th width="40">是否有效</th> -->
 						<th width="40">操作</th>
 					</tr>
 				</thead>
@@ -124,7 +124,7 @@
 							<td>${p.gysId }</td>
 							<td>${p.gysName }</td>
 							<td>${p.address }</td>
-							<td>${p.sfYx }</td>
+							<%-- <td>${p.sfYx }</td> --%>
 							<td class="td-manage"><a style="text-decoration:none"
 								onClick="cksjxq(${p.gysId })" href="javascript:;" title="查看采购明细">
 									<i class="Hui-iconfont">&#xe616;</i>
