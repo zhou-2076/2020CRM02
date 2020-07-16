@@ -3,6 +3,7 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class CgOrderDetail implements Serializable {
 	private Long cgXqId;
@@ -33,6 +34,8 @@ public class CgOrderDetail implements Serializable {
 	private String comname;
 	//拓展属性（采购单）
 	private CgOrder cgOrder;
+	//拓展属性（仓库）
+	private List<KcWarehouseInfo> kcWarehouseInfo;
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,7 +58,13 @@ public class CgOrderDetail implements Serializable {
 		super();
 	}
 	
-	
+	public List<KcWarehouseInfo> getKcWarehouseInfo() {
+		return kcWarehouseInfo;
+	}
+
+	public void setKcWarehouseInfo(List<KcWarehouseInfo> kcWarehouseInfo) {
+		this.kcWarehouseInfo = kcWarehouseInfo;
+	}
 
 	public CgOrder getCgOrder() {
 		return cgOrder;
@@ -174,7 +183,9 @@ public class CgOrderDetail implements Serializable {
 		return "CgOrderDetail [cgXqId=" + cgXqId + ", cgId=" + cgId + ", cpId=" + cpId + ", cpName=" + cpName
 				+ ", cpNum=" + cpNum + ", cpJg=" + cpJg + ", sfRk=" + sfRk + ", operaterId=" + operaterId + ", bzXx="
 				+ bzXx + ", conpanyId=" + conpanyId + ", lastTime=" + lastTime + ", czrmc=" + czrmc + ", comname="
-				+ comname + ", cgOrder=" + cgOrder + "]";
+				+ comname + ", cgOrder=" + cgOrder + ", kcWarehouseInfo=" + kcWarehouseInfo + "]";
 	}
+
+
 
 }

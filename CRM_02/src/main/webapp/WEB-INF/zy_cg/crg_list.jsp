@@ -129,17 +129,13 @@ outline: none;
 								<td id="inpid${p.cgRepId}"><input type="checkbox"
 									name="one-check" value="${p.cgRepId }"></td>
 								<c:if test="${p.zt=='已处理'}">
-									<script type="text/javascript">
+								<script type="text/javascript">
                                 $("#inpid"+${p.cgRepId}).html('<input disabled="disabled" type="checkbox">');
                                 </script>
 								</c:if>
 								<td>${p.kcGoodsInfo.productName }</td>
 								<td>${p.cgOrderDetail.cpNum}辆</td>
 								<td>${p.cgOrderDetail.cpJg}w</td>
-								
-
-
-
 								<td class="td-manage">
 								<c:if test="${p.zt=='已处理'&&p.cgOrderDetail.sfRk=='未入库'}">
 										<a href="javascript:;" disabled="disabled"

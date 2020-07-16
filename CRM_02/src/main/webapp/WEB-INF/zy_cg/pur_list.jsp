@@ -224,7 +224,9 @@ outline: none;
 						</tr>
 						<tr>
 							<td>采购进展</td>
-							<td><input type="text" id="n" name="cgJz"></td>
+							<td>
+							<input readonly="readonly" type="text" id="n" name="cgJz">
+							</td>
 							<td>供应商</td>
 							<td><select id="gyss" name="gysId" class="selectbyzy">
 							</select></td>
@@ -284,7 +286,8 @@ outline: none;
 							</tr>
 							<tr>
 								<td>采购进展</td>
-								<td><input type="text" id="n" name="cgJz"></td>
+								<td>
+								<input type="text" readonly="readonly" id="n" name="cgJz" value="正在采购"></td>
 								<td>供应商</td>
 								<td><select id="gysss" name="gysId" class="selectbyzy">
 								</select></td>
@@ -404,7 +407,7 @@ outline: none;
 							</tr>
 							<tr>
 								<td>采购进展</td>
-								<td><input type="text" id="n" name="cgJz"></td>
+								<td><input readonly="readonly" type="text" id="n" value="正在采购" name="cgJz"></td>
 								<td>供应商</td>
 								<td><select id="gyssss" name="gysId" class="selectbyzy">
 								</select></td>
