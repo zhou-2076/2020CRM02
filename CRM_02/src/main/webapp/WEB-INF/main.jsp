@@ -237,7 +237,7 @@
 							onclick="ccz()">入库管理</span></li>
 						<ul id="ulz" style="display:none;">
 							<li><a data-href="purctrl/enter.do"
-								data-title="未入库商品"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未入库商品
+								data-title="未入库商品"> <i class="Hui-iconfont">&#xe623;</i>&nbsp入库单
 							</a></li>
 							<li><a data-href="purctrl/enterused.do" data-title="已入库商品">
 									<i class="Hui-iconfont">&#xe623;</i>&nbsp已入库商品
@@ -260,7 +260,7 @@
 							onclick="cczy()">采购单管理</span></li>
 						<ul id="ulzy" style="display:none;">
 							<li><a data-href="purctrl/purlist.do"
-								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未处理采购单
+								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp采购单
 							</a></li>
 							<li><a data-href="purctrl/purlistused.do" data-title="已处理采购单">
 									<i class="Hui-iconfont">&#xe623;</i>&nbsp已处理采购单
