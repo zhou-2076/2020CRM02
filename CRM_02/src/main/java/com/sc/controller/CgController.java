@@ -548,7 +548,6 @@ public class CgController {
 				@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
 				String name) {
 			String yrk="已入库";
-			int i=1;
 			String cpidst="-2";
 			long cpid = Long.parseLong(cpidst);
 			PageInfo<CgOrderDetail> page = cgService.selectyrk(pageNum, pageSize,name,yrk,cpid);
@@ -606,7 +605,7 @@ public class CgController {
 			return mav;
 		}
 		
-		// 测试数据库导出表
+		//供应商导出excel
 		@RequestMapping("/daochu.do")
 		public void goodsExcel(HttpServletResponse response) {
 			XSSFWorkbook wb = cgService.show();
