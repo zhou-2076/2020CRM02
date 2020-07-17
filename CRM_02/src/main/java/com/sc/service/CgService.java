@@ -3,6 +3,7 @@ package com.sc.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.pagehelper.PageInfo;
 import com.sc.entity.CgOrder;
 import com.sc.entity.CgOrderDetail;
@@ -111,7 +112,7 @@ public interface CgService {
 	public XtUserInfo selecteUserinfoByworkerId(Long workerId);
 
 	// 查询到已入库商品
-	public PageInfo<CgOrderDetail> selectyrk(Integer pageNum, Integer pageSize, String name, String yrk);
+	public PageInfo<CgOrderDetail> selectyrk(Integer pageNum, Integer pageSize, String name, String yrk,Long cpid);
 
 	// 添加采购请求
 	public void addcgreq(CgRepGoods cgr);
@@ -130,5 +131,7 @@ public interface CgService {
 
 	// 添加新买的商品入库存
 	public void addkcgoods(KcGoodsInfo KcGoodsInfo);
-
+	
+	//导出供应商excel表
+	public XSSFWorkbook show();
 }
