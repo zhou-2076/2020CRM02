@@ -1,12 +1,19 @@
 package com.sc.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +29,7 @@ import com.sc.entity.CgOrderDetail;
 import com.sc.entity.CgRepGoods;
 import com.sc.entity.CgSupMsg;
 import com.sc.entity.KcGoodsInfo;
+import com.sc.entity.KcWarehouseInfo;
 import com.sc.entity.XtCompanyInfo;
 import com.sc.entity.XtUserInfo;
 import com.sc.service.CgService;
@@ -64,7 +72,7 @@ public class CgController {
 		}
 		if (listcrg.size() > 0) {
 			for (CgRepGoods cgRepGoods : listcrg) {
-				if (cgRepGoods.getCgOrderDetail().getCgId() == 0) {
+				if (cgRepGoods.getCgOrderDetail().getCgId()!=null&&cgRepGoods.getCgOrderDetail().getCgId() == 0) {
 					zt = "need";
 				}
 			}
@@ -91,6 +99,35 @@ public class CgController {
 		mav.setViewName("zy_cg/pur_list");
 		return mav;
 	}
+	
+	// 订单查询+模糊+时间范围查询+补货判断
+		@RequestMapping("/purlistused.do")
+		ModelAndView purusedlist(ModelAndView mav,
+				// 配置获取到的参数(配置初始默认值)
+				@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
+				String title, Date time1, Date time2) {
+
+			PageInfo<CgOrder> purlist = cgService.selectusedpur(pageNum, pageSize, title, time1, time2);
+			String temp = "yes";
+			List<CgOrder> list = purlist.getList();
+			if (list.size() == 0) {
+				temp = "no";
+			}
+			mav.addObject("temp", temp);
+			if (title != null) {
+				mav.addObject("ssz", title);
+			}
+			if (time1 != null) {
+				mav.addObject("time1", time1);
+			}
+			if (time2 != null) {
+				mav.addObject("time2", time2);
+			}
+
+			mav.addObject("page", purlist);
+			mav.setViewName("zy_cg/purused_list");
+			return mav;
+		}
 
 	// 采购单+采购单详情
 	@RequestMapping("/selectorderanddel.do")
@@ -155,6 +192,18 @@ public class CgController {
 		mav.setViewName("redirect:purlist.do");
 		return mav;
 	}
+	
+	// 订单批量删除+删除
+		@RequestMapping("/deleteusedpur.do")
+		public ModelAndView deleteusedpur(ModelAndView mav, Long[] id) {
+			if (id != null && id.length > 0) {
+				for (Long long1 : id) {
+					cgService.delectoneandall(long1);// 删除采购单
+				}
+			}
+			mav.setViewName("redirect:purlistused.do");
+			return mav;
+		}
 
 	// 根据id查询单条采购信息
 	@RequestMapping("/selectpurone.do")
@@ -384,7 +433,9 @@ public class CgController {
 			for (Long long1 : id) {
 				CgRepGoods selectcrgbyid = cgService.selectcrgbyid(long1);
 				CgOrderDetail selectDetail = cgService.selectDetail(selectcrgbyid.getCpId());
+				if(selectDetail!=null){
 				cgService.delectcgxq(selectDetail.getCgXqId());
+				}
 				cgService.delectcgr(long1);
 			}
 		}
@@ -426,7 +477,7 @@ public class CgController {
 		c.setZt("未处理");
 		c.setLastTime(new Date());
 		c.setJhDate(new Date());
-		d.setSfRk("否");
+		d.setSfRk("未入库");
 		String idi = "0";
 		Long id = Long.parseLong(idi);
 		d.setCgId(id);
@@ -473,9 +524,21 @@ public class CgController {
 		@ResponseBody
 		public int changerk(Long id){
 			int i=1;
+			String cpidst="-2";
+			long cpid = Long.parseLong(cpidst);
 			CgOrderDetail selectDetailBycgXqId = cgService.selectDetailBycgXqId(id);
 			selectDetailBycgXqId.setSfRk("已入库");
+			KcGoodsInfo selectgood = cgService.selectgood(selectDetailBycgXqId.getCpId());
+			BigDecimal cgsl = new BigDecimal(selectDetailBycgXqId.getCpNum());
+			BigDecimal kcsl = selectgood.getKcNum();
+			BigDecimal rk=cgsl.add(kcsl);
+			selectgood.setKcNum(rk);
+			cgService.updatagood(selectgood);
 			cgService.updatecgxq(selectDetailBycgXqId);
+			CgOrderDetail selectDetailBycgXqId2 = cgService.selectDetailBycgXqId(id);
+			selectDetailBycgXqId2.setSfRk("已入库");
+			selectDetailBycgXqId2.setCpId(cpid);
+			cgService.addcod(selectDetailBycgXqId2);
 			return i;	
 		}
 		
@@ -485,7 +548,10 @@ public class CgController {
 				@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
 				String name) {
 			String yrk="已入库";
-			PageInfo<CgOrderDetail> page = cgService.selectyrk(pageNum, pageSize, name,yrk);
+			int i=1;
+			String cpidst="-2";
+			long cpid = Long.parseLong(cpidst);
+			PageInfo<CgOrderDetail> page = cgService.selectyrk(pageNum, pageSize,name,yrk,cpid);
 			String temp = "yes";
 			List<CgOrderDetail> list = page.getList();
 			if (list.size() == 0) {
@@ -498,6 +564,68 @@ public class CgController {
 			mav.addObject("page",page);
 			mav.setViewName("zy_cg/enterused_list");
 			return mav;
+		}
+		
+		// 采购详情批量删除+删除
+		@RequestMapping("/deletdal.do")
+		public ModelAndView deletdal(ModelAndView mav, Long[] id) {
+			if (id != null && id.length > 0) {
+				for (Long long1 : id) {
+					CgOrderDetail selectDetailBycgXqId = cgService.selectDetailBycgXqId(long1);
+					CgRepGoods selectcrgbycpid = cgService.selectcrgbycpid(selectDetailBycgXqId.getCpId());
+					if(selectcrgbycpid!=null){
+						cgService.delectcgr(selectcrgbycpid.getCgRepId());
+					}
+					cgService.delectcgxq(long1);
+				}
+			}
+			mav.setViewName("redirect:enterused.do");
+			return mav;
+		}
+		
+		//根据采购详情id查询采购信息
+		@RequestMapping("/selectdial.do")
+		@ResponseBody
+		public CgOrderDetail selectdial(Long id){
+			CgOrderDetail cg = cgService.selectDetailBycgXqId(id);
+			XtCompanyInfo selecteCompanyInfoBy = cgService.selecteCompanyInfoBy(cg.getConpanyId());
+			cg.setComname(selecteCompanyInfoBy.getCompanyName());
+			List<KcWarehouseInfo> selectcklist = cgService.selectcklist();
+			cg.setKcWarehouseInfo(selectcklist);
+			return cg;
+		}
+		//新货入库
+		@RequestMapping("/addkcgoods.do")
+		public ModelAndView addkcgoods(ModelAndView mav,KcGoodsInfo kc,Long id){
+			CgOrderDetail selectDetailBycgXqId = cgService.selectDetailBycgXqId(id);
+			selectDetailBycgXqId.setSfRk("已入库");
+			kc.setLastModifyDate(new Date());
+			cgService.addkcgoods(kc);
+			cgService.updatecgxq(selectDetailBycgXqId);
+			mav.setViewName("redirect:enter.do");
+			return mav;
+		}
+		
+		// 测试数据库导出表
+		@RequestMapping("/daochu.do")
+		public void goodsExcel(HttpServletResponse response) {
+			XSSFWorkbook wb = cgService.show();
+			String fileName = "供应商报表.xlsx";//后缀要加创建出来的文件形式才是以xlsx后最的文件
+			OutputStream outputStream = null;//字符输出流
+			try {
+				fileName = URLEncoder.encode(fileName, "UTF-8");
+				// 设置ContentType请求信息格式
+				response.setContentType("application/vnd.ms-excel");
+				response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+				outputStream = response.getOutputStream();
+				wb.write(outputStream);
+				outputStream.flush();
+				outputStream.close();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 }

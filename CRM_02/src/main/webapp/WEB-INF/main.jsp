@@ -150,12 +150,41 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="xscustomctrl/selectcustom.do" data-title="客户信息管理"
-							href="javascript:void(0)">客户信息管理</a></li>
-						<li><a data-href="product-category.html" data-title="分类管理"
-							href="javascript:void(0)">分类管理</a></li>
-						<li><a data-href="product-list.html" data-title="产品管理"
-							href="javascript:void(0)">产品管理</a></li>
+						
+						<li><span style="margin-left: 24px;cursor:pointer;"
+						onclick="cc1()" >客户管理</span></li>
+						
+							<ul id="ulty" style="display: none;">
+								<li><a data-href="xscustomctrl/selectcustom.do"
+									data-title="客户信息表"> <i class="Hui-iconfont">&#xe623;</i>&nbsp客户信息管理
+								</a></li>
+								<li><a data-href=" " data-title="客户联系记录表">
+										<i class="Hui-iconfont">&#xe623;</i>&nbsp客户联系记录管理
+								</a></li>
+								<li><a data-href=" " data-title="客户反馈表">
+										<i class="Hui-iconfont">&#xe623;</i>&nbsp客户反馈管理
+								</a></li>
+								<li><a data-href=" " data-title="客户流失表">
+										<i class="Hui-iconfont">&#xe623;</i>&nbsp客户流失管理
+								</a></li>
+							</ul>
+							<script>
+							//样式的开启和关闭
+							function cc1() {
+								var ztty = document.getElementById("ulty").style.display;
+								/* alert("这是我自己写的树状列表，你们需要的话就看代码，当前状态："+zt); */
+								if (ztty == "none") {
+									document.getElementById("ulty").style.display = "block";
+								}
+								if (ztty == "block") {
+									document.getElementById("ulty").style.display = "none";
+								}
+							}
+						</script>
+						<li><a data-href="product-category.html" data-title="销售出库管理"
+						href="javascript:void(0)">销售出库管理</a></li>
+						<li><a data-href="product-category.html" data-title="销售详情管理"
+						href="javascript:void(0)">销售详情管理</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -208,7 +237,7 @@
 							onclick="ccz()">入库管理</span></li>
 						<ul id="ulz" style="display:none;">
 							<li><a data-href="purctrl/enter.do"
-								data-title="未入库商品"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未入库商品
+								data-title="未入库商品"> <i class="Hui-iconfont">&#xe623;</i>&nbsp入库单
 							</a></li>
 							<li><a data-href="purctrl/enterused.do" data-title="已入库商品">
 									<i class="Hui-iconfont">&#xe623;</i>&nbsp已入库商品
@@ -231,7 +260,7 @@
 							onclick="cczy()">采购单管理</span></li>
 						<ul id="ulzy" style="display:none;">
 							<li><a data-href="purctrl/purlist.do"
-								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp未处理采购单
+								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp采购单
 							</a></li>
 							<li><a data-href="purctrl/purlistused.do" data-title="已处理采购单">
 									<i class="Hui-iconfont">&#xe623;</i>&nbsp已处理采购单
@@ -289,10 +318,10 @@
 					<ul>
 						<li><a data-href="Rsctrl/selectuserinfo.do" data-title="员工信息表"
 							href="javascript:void(0)">员工信息表</a></li>
-						<li><a data-href="Rsctrl/selecthouse.do" data-title="仓库管理"
+						<li><a data-href="Rsctrl/selectdepot.do" data-title="仓库管理"
 							href="javascript:void(0)">仓库管理</a></li>
-						<li><a data-href="charts-3.html" data-title="区域图"
-							href="javascript:void(0)">区域图</a></li>
+						<li><a data-href="Rsctrl/selectXtSection.do" data-title="部门信息表"
+							href="javascript:void(0)">部门信息表</a></li>
 						<li><a data-href="charts-4.html" data-title="柱状图"
 							href="javascript:void(0)">柱状图</a></li>
 						<li><a data-href="charts-5.html" data-title="饼状图"
