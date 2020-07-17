@@ -1,11 +1,19 @@
 package com.sc.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -425,7 +433,9 @@ public class CgController {
 			for (Long long1 : id) {
 				CgRepGoods selectcrgbyid = cgService.selectcrgbyid(long1);
 				CgOrderDetail selectDetail = cgService.selectDetail(selectcrgbyid.getCpId());
+				if(selectDetail!=null){
 				cgService.delectcgxq(selectDetail.getCgXqId());
+				}
 				cgService.delectcgr(long1);
 			}
 		}
@@ -514,6 +524,8 @@ public class CgController {
 		@ResponseBody
 		public int changerk(Long id){
 			int i=1;
+			String cpidst="-2";
+			long cpid = Long.parseLong(cpidst);
 			CgOrderDetail selectDetailBycgXqId = cgService.selectDetailBycgXqId(id);
 			selectDetailBycgXqId.setSfRk("已入库");
 			KcGoodsInfo selectgood = cgService.selectgood(selectDetailBycgXqId.getCpId());
@@ -523,6 +535,10 @@ public class CgController {
 			selectgood.setKcNum(rk);
 			cgService.updatagood(selectgood);
 			cgService.updatecgxq(selectDetailBycgXqId);
+			CgOrderDetail selectDetailBycgXqId2 = cgService.selectDetailBycgXqId(id);
+			selectDetailBycgXqId2.setSfRk("已入库");
+			selectDetailBycgXqId2.setCpId(cpid);
+			cgService.addcod(selectDetailBycgXqId2);
 			return i;	
 		}
 		
@@ -532,7 +548,10 @@ public class CgController {
 				@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
 				String name) {
 			String yrk="已入库";
-			PageInfo<CgOrderDetail> page = cgService.selectyrk(pageNum, pageSize, name,yrk);
+			int i=1;
+			String cpidst="-2";
+			long cpid = Long.parseLong(cpidst);
+			PageInfo<CgOrderDetail> page = cgService.selectyrk(pageNum, pageSize,name,yrk,cpid);
 			String temp = "yes";
 			List<CgOrderDetail> list = page.getList();
 			if (list.size() == 0) {
@@ -585,6 +604,28 @@ public class CgController {
 			cgService.updatecgxq(selectDetailBycgXqId);
 			mav.setViewName("redirect:enter.do");
 			return mav;
+		}
+		
+		// 测试数据库导出表
+		@RequestMapping("/daochu.do")
+		public void goodsExcel(HttpServletResponse response) {
+			XSSFWorkbook wb = cgService.show();
+			String fileName = "供应商报表.xlsx";//后缀要加创建出来的文件形式才是以xlsx后最的文件
+			OutputStream outputStream = null;//字符输出流
+			try {
+				fileName = URLEncoder.encode(fileName, "UTF-8");
+				// 设置ContentType请求信息格式
+				response.setContentType("application/vnd.ms-excel");
+				response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+				outputStream = response.getOutputStream();
+				wb.write(outputStream);
+				outputStream.flush();
+				outputStream.close();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 }

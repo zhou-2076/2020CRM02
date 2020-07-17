@@ -100,7 +100,17 @@
 				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
 					录入供应商信息
 			</a>
-			</span> <span class="r">共有数据：<strong>${page.total}</strong> 条
+			<a href="javascript:;" onclick="daochu()" style="background-color: pink; border: 0px;"
+				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
+					导出到excel
+			</a>
+			</span> 
+			<script type="text/javascript">
+		function daochu(){
+		location.href="<%=basePath%>purctrl/daochu.do"
+		}
+		</script>
+			<span class="r">共有数据：<strong>${page.total}</strong> 条
 			</span>
 		</div>
 		<div class="mt-20">

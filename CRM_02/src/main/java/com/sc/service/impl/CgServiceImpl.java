@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -433,7 +436,7 @@ public class CgServiceImpl implements CgService {
 	}
 
 	@Override
-	public PageInfo<CgOrderDetail> selectyrk(Integer pageNum, Integer pageSize, String name, String yrk) {
+	public PageInfo<CgOrderDetail> selectyrk(Integer pageNum, Integer pageSize, String name, String yrk,Long cpid) {
 		// TODO Auto-generated method stub
 		PageHelper.startPage(pageNum, pageSize);
 		CgOrderDetailExample cgOrderDetailExample = new CgOrderDetailExample();
@@ -443,6 +446,9 @@ public class CgServiceImpl implements CgService {
 		}
 		if (!StringUtils.isEmpty(yrk)) {
 			createCriteria.andSfRkEqualTo(yrk);
+		}
+		if (!StringUtils.isEmpty(cpid)) {
+			createCriteria.andCpIdEqualTo(cpid);
 		}
 		List<CgOrderDetail> list = cgOrderDetailMapper.selectByExample(cgOrderDetailExample);
 		PageInfo<CgOrderDetail> page = new PageInfo<CgOrderDetail>(list);
@@ -468,4 +474,30 @@ public class CgServiceImpl implements CgService {
 		kcGoodsInfoMapper.insert(KcGoodsInfo);
 	}
 
+	@Override
+	public XSSFWorkbook show() {
+		List<CgSupMsg> list = cgSupMsgMapper.selectByExample(null);//查出数据库数据
+        XSSFWorkbook wb = new XSSFWorkbook();//创建一个工作簿
+        Sheet sheet = wb.createSheet();//创建一张表
+        Row titleRow = sheet.createRow(0);//创建第一行，起始为0
+        titleRow.createCell(0).setCellValue("供应商编号");
+        titleRow.createCell(1).setCellValue("供应商名称");
+        titleRow.createCell(2).setCellValue("供应商简称");
+        titleRow.createCell(3).setCellValue("联系人");
+        titleRow.createCell(4).setCellValue("电话");
+        titleRow.createCell(5).setCellValue("地址");
+        int cell = 1;
+        for (CgSupMsg csm : list) {
+            Row row = sheet.createRow(cell);//从第二行开始保存数据
+            row.createCell(0).setCellValue(csm.getGysId());//将数据库的数据遍历出来
+            row.createCell(1).setCellValue(csm.getGysName());
+            row.createCell(2).setCellValue(csm.getGysShortName());
+            row.createCell(3).setCellValue(csm.getLxr());
+            row.createCell(4).setCellValue(csm.getTel());
+            row.createCell(5).setCellValue(csm.getAddress());
+            cell++;
+        }
+        return wb;
+	}
+	
 }
