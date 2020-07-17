@@ -1,5 +1,7 @@
 package com.sc.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ public class XtPerController {
 		
 		PageInfo<XtPermission> page = xtPermissionService.selectPer(pageNum, pageSize, perion);
     	mav.addObject("p", page);
+    	mav.addObject("perion", perion);
     	mav.setViewName("yzh_xt/admin-permission");
 		return mav;
     	
@@ -54,4 +57,16 @@ public class XtPerController {
     	xtPermissionService.deletePer(perion.getQxId());
     	return new Massage("1","success","成功"); 	
     }
-}
+    
+    @RequestMapping("/deleteperaLL.do")
+    public String deletePerALL(ModelAndView mav,Long[] ids){
+    	System.out.println("进入批量删除权限"+ids);
+    	if(ids!=null&&ids.length>0){
+    		for (Long id : ids) {
+    			xtPermissionService.deletePer(id);
+			}
+    	}
+    	
+    	return  "redirect:selectper.do";	
+    }
+} 

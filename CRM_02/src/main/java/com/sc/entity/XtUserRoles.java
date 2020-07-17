@@ -70,4 +70,11 @@ public class XtUserRoles implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "XtUserRoles [userRolesId=" + userRolesId + ", userId=" + userId + ", roleId=" + roleId + ", operaterId="
+				+ operaterId + ", lastModifyDate=" + lastModifyDate + "]";
+	}
+    
 }

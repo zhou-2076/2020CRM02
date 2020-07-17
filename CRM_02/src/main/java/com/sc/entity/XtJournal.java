@@ -81,4 +81,11 @@ public class XtJournal implements Serializable {
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
+
+	@Override
+	public String toString() {
+		return "XtJournal [journalId=" + journalId + ", userId=" + userId + ", ip=" + ip + ", qx=" + qx + ", fwdate="
+				+ fwdate + ", companyId=" + companyId + "]";
+	}
+    
 }
