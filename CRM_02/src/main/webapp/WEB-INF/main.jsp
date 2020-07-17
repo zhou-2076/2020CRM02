@@ -267,12 +267,16 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="admin-role.html" data-title="角色管理"
+					    <li><a data-href="xturolesctrl/selectUR.do" data-title="用户角色管理"
+							href="javascript:void(0)">用户角色管理</a></li>
+						<li><a data-href="xtrolesctrl/selectroles.do" data-title="角色管理"
 							href="javascript:void(0)">角色管理</a></li>
 						<li><a data-href="xtperctrl/selectper.do" data-title="权限管理"
 							href="javascript:void(0)">权限管理</a></li>
 						<li><a data-href="xtuserctrl/selectuser.do" data-title="管理员列表"
 							href="javascript:void(0)">管理员列表</a></li>
+							<li><a data-href="xtjournalctrl/selectJournal.do" data-title="系统日志"
+							href="javascript:void(0)">系统日志</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -314,9 +318,7 @@
 						<li><a data-href="system-data.html" data-title="数据字典"
 							href="javascript:void(0)">数据字典</a></li>
 						<li><a data-href="system-shielding.html" data-title="屏蔽词"
-							href="javascript:void(0)">屏蔽词</a></li>
-						<li><a data-href="system-log.html" data-title="系统日志"
-							href="javascript:void(0)">系统日志</a></li>
+							href="javascript:void(0)">屏蔽词</a></li>						
 					</ul>
 				</dd>
 			</dl>

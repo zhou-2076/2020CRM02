@@ -59,4 +59,11 @@ public class XtPermissionSubfield implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "XtPermissionSubfield [qxFlId=" + qxFlId + ", flName=" + flName + ", bz=" + bz + ", lastModifyDate="
+				+ lastModifyDate + "]";
+	}
+    
 }

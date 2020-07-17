@@ -1,6 +1,7 @@
 package com.sc.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,6 +21,31 @@ public class XtUserNum implements Serializable {
 
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date lastModifyDate;
+	
+	//扩展属性,用于查询
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date datemin;
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date datemax;
+	
+	public Date getDatemin() {
+		return datemin;
+	}
+
+	public void setDatemin(Date datemin) {
+		this.datemin = datemin;
+	}
+
+	public Date getDatemax() {
+		return datemax;
+	}
+
+	public void setDatemax(Date datemax) {
+		this.datemax = datemax;
+	}
+	
+	
 
 	/* 显示在主页的个人数据不要删 */
 	// 公司id
