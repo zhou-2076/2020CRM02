@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 角色管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-	<form action="xtrolesctrl/selectroles.do" method="post" name="">
+	<form action="xturolesctrl/selectUR.do" method="post" name="">
 	<div class="text-c"> 日期范围：
 		<input type="text" value='<fmt:formatDate value=""/>'  onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
 				-
@@ -48,29 +48,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<table class="table table-border table-bordered table-hover table-bg">
 		<thead>
 			<tr>
-				<th scope="col" colspan="6">角色管理</th>
+				<th scope="col" colspan="6">用户角色管理</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" value="" name=""></th>
+				<th width="40">ID</th>
+				<th width="150">用户ID</th>			
 				<th width="40">角色ID</th>
-				<th width="150">角色名</th>			
-				<th width="180">角色描述</th>
-				<th width="40">上级角色ID</th>
-				<th width="80">操作员</th>
+				<th width="80">操作员ID</th>
 				<th width="150">最后修改时间</th>
 				<th width="70">操作</th>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${p.list }" var="roles">
+		<c:forEach items="${p.list }" var="Uroles">
 			<tr class="text-c">
-				<td><input type="checkbox" value="${roles.roleId }" name=""></td>
-				<td>${roles.roleId }</td>			
-				<td>${roles.roleName }</td>
-				<td>${roles.roleDescribe}</td>
-				<td>${roles.upRoleId }</td>
-				<td>${roles.operator }</td>
-				<td><fmt:formatDate value="${roles.lastModifyDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><input type="checkbox" value="${Uroles.userRolesId }" name=""></td>
+				<td>${Uroles.userRolesId }</td>			
+				<td>${Uroles.userId }</td>
+				<td>${Uroles.roleId}</td>
+				<td>${Uroles.operaterId }</td>
+				<td><fmt:formatDate value="${Uroles.lastModifyDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','1')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
 				<a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
