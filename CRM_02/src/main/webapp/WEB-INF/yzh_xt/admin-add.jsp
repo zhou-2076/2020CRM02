@@ -100,7 +100,6 @@ $(function(){
 		rules:{
 			userName:{
 				required:true,
-				minlength:4,
 				maxlength:16
 			},
 			password:{

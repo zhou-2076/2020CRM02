@@ -1,5 +1,7 @@
 package com.sc.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +28,13 @@ public class XtUserController {
 			@RequestParam(defaultValue="1")Integer pageNum, 
 			@RequestParam(defaultValue="10")Integer pageSize,
 			XtUserNum usernum){
-		System.out.println("进入查询用户分页方法了");
+		System.out.println("进入查询用户分页方法了"+usernum);
+		System.out.println("-----小-----"+usernum.getDatemin());
+		System.out.println("-----大-----"+usernum.getDatemin());
 		
 		PageInfo<XtUserNum> page = xtUserNumService.selectUser(pageNum, pageSize, usernum);
-		System.out.println(page.getList());
 		mav.addObject("p", page);
+		mav.addObject("usernum", usernum);
 		mav.setViewName("yzh_xt/admin-list");
 		
 		return mav;
@@ -57,5 +61,17 @@ public class XtUserController {
 		System.out.println("进入删除管理员"+usernum);
 		xtUserNumService.deleteUser(usernum.getUserId());
 		return new Massage("1","success","成功");
+	}
+	
+	@RequestMapping("/deleteALL.do")
+	public String deleteALL(ModelAndView mav,Long[] ids){
+		System.out.println("进入批量删除"+ids);
+		if(ids!=null&&ids.length>0){
+			for (Long id : ids) {
+				xtUserNumService.deleteUser(id);
+			}
+		}
+		
+		return "redirect:selectuser.do";
 	}
 }
