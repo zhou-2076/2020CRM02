@@ -524,7 +524,7 @@ public class CgController {
 		@ResponseBody
 		public int changerk(Long id){
 			int i=1;
-			String cpidst="-2";
+			String cpidst="-1";
 			long cpid = Long.parseLong(cpidst);
 			CgOrderDetail selectDetailBycgXqId = cgService.selectDetailBycgXqId(id);
 			selectDetailBycgXqId.setSfRk("已入库");
@@ -548,7 +548,7 @@ public class CgController {
 				@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize,
 				String name) {
 			String yrk="已入库";
-			String cpidst="-2";
+			String cpidst="-1";
 			long cpid = Long.parseLong(cpidst);
 			PageInfo<CgOrderDetail> page = cgService.selectyrk(pageNum, pageSize,name,yrk,cpid);
 			String temp = "yes";
