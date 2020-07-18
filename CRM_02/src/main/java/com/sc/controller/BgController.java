@@ -34,8 +34,8 @@ public class BgController {
 	//分页查询
 	@RequestMapping("selectBgAssessIndex.do")
 	public ModelAndView selectBgAssessIndex(ModelAndView mav,@RequestParam(defaultValue="1") Integer pageNum,@RequestParam(defaultValue="5") Integer pageSize,BgAssessIndex bgAssessIndex,String sousuo){
-		System.out.println("1.进入查询控制器");
-		System.out.println("获取搜索框的值:"+sousuo);
+		System.out.println("---进入查询控制器");
+		System.out.println("---获取搜索框的值:"+sousuo);
 		PageInfo<BgAssessIndex> page= bgService.selectBgAssessIndex(pageNum, pageSize, bgAssessIndex,sousuo);
 		System.out.println(page);
 		mav.addObject("p", page);
@@ -114,7 +114,7 @@ public class BgController {
 	@RequestMapping("selectBgAssessTask.do")
 	public ModelAndView selectBgTaskDetail(ModelAndView mav,@RequestParam(defaultValue="1") Integer pageNum,@RequestParam(defaultValue="7") Integer pageSize,BgAssessTask bgAssessTask,String sousuo){
 		System.out.println("---进入selectBgAssessTask查询控制器");
-		System.out.println("分页查询发布任务");
+		System.out.println("---分页查询发布任务");
 		System.out.println("---获取搜索框的值:"+sousuo);
 		PageInfo<BgAssessTask> pageInfo = bgService.selectBgAssessTask(pageNum, pageSize, bgAssessTask, sousuo);
 		List<XtUserInfo> selectXtUserInfo = bgService.selectXtUserInfo();//在页面通过id获取员工姓名
@@ -126,6 +126,7 @@ public class BgController {
 		mav.setViewName("BG/BgAssessTask");
 		return mav;
 	}
+	
 	
 	//添加
 	//查询考核任务，接受人，返回给添加页供选择
@@ -149,16 +150,36 @@ public class BgController {
 	
 	//终极添加
 	@RequestMapping("addtBgAssessTask.do")
-	public void addtBgAssessTask(ModelAndView mav,BgAssessTask bgAssessTask,BgTaskDetail bgTaskDetail) {
+	public void addtBgAssessTask(ModelAndView mav,BgAssessTask bgAssessTask,BgTaskDetail bgTaskDetail,Long[] id) {
 		System.out.println("---addtBgAssessTask添加方法");
-		System.out.println("--------------------------------独门标记");
-		System.out.println("---"+bgAssessTask);
-		System.out.println("---"+bgTaskDetail);
-		//bgService.addbgAssessTask(bgAssessTask, bgTaskDetail);
-		
-		//Date date = new Date();
-		
+		System.out.println("--------------------------------独门标记");		
+		//添加,考核任务，考核任务详情
+		bgService.addbgAssessTask(bgAssessTask, bgTaskDetail,id);
 		System.out.println();
+	}
+	
+	//删除考核任务,批量删除
+	@RequestMapping("deleteBgAssessTask.do")
+	public ModelAndView deleteBgAssessTask(ModelAndView mav,long[] id) {
+		System.out.println("---删除考核任务，加详情---");
+		if (id != null && id.length > 0) {
+			for (Long taskId : id) {
+				BgAssessTask bgAssessTask=new BgAssessTask();
+				//设置id后，找到删除
+				System.out.println("---(考核任务)主键："+taskId);
+				bgAssessTask.setTaskId(taskId);
+				bgService.deleteBgAssessTask(taskId);
+				
+				//通过关联键找到数据，通过taskId找到数据
+				BgTaskDetail bgTaskDetail = bgService.getBgTaskDetail(taskId);
+				//通过关联的id，找到主键把相应关联表删除;
+				System.out.println("---(考核任务详情)主键，编号:"+bgTaskDetail.getTaskDetailId());
+				bgService.deleteBgTaskDetail(bgTaskDetail.getTaskDetailId());
+			}
+		};
+		
+		mav.setViewName("redirect:selectBgAssessTask.do");
+		return mav;
 	}
 	
 	

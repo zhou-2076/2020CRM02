@@ -31,4 +31,12 @@ public interface BgAssessTaskMapper {
     
     //关联查询
     public List<BgAssessTask> select();
+    
+    //查询最后一条数据，(id最大)
+    public BgAssessTask selectlast();//不适用，已停用
+    
+    //返回此时表中的自增id
+    public Long fanhuiid();
+    
+    
 }

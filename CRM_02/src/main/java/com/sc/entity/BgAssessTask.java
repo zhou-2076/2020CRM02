@@ -3,6 +3,8 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class BgAssessTask implements Serializable {
     private Long taskId;
 
@@ -14,8 +16,10 @@ public class BgAssessTask implements Serializable {
 
     private String assessIndex;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date taskStartTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date taskFinishTime;
 
     private Long companyId;

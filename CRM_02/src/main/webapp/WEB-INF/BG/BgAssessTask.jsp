@@ -48,6 +48,12 @@
 <!-- from表单样式 -->
 <link rel="stylesheet" href="static/from/css/platform-1.css">
 
+<!-- 下拉框多选 -->
+<script src="static/duoxuan/asset/js/select.js"></script>
+<script src="static/duoxuan/verSelector/verSelect.js"></script>
+<script src="static/duoxuan/asset/js/jquery.min.js"></script>
+	
+
 <title>用户管理</title>
 
 <style type="text/css">
@@ -92,6 +98,8 @@ outline: none;
 			<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 			<a href="javascript:;" onclick="add()" class="btn btn-primary radius">
 			<i class="Hui-iconfont">&#xe600;</i> 添加新的任务</a></span>
+			
+			<span class="r">共有数据：<strong>${p.total}</strong> 条</span>
 		</div>
 				
 		<table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -129,13 +137,13 @@ outline: none;
 						</td>
 						<td>
 							<c:forEach items="${selectBgAssessIndex }" var="sbai">
-								<c:if test="${p.assessIndex==sbai.indexId }">
-									${sbai.assessIndex }
+								<c:if test="${p.assessIndex==sbai.indexId }"><!-- 对比id查出考核名称 -->
+									<a title="查看考核指标" onclick="ckxg(${sbai.assessIndex })">${sbai.assessIndex }</a>
 								</c:if>
 							</c:forEach>
 						</td>
-						<td><fmt:formatDate value="${p.taskStartTime}" pattern="yyyy-MM-dd" /></td>
-						<td><fmt:formatDate value="${p.taskFinishTime}" pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${p.taskStartTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><fmt:formatDate value="${p.taskFinishTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td>
 							<c:if test="${p.bgTaskDetail.whetherComplete=='0' }"><span style="color:red">未完成</span></c:if>
 							<c:if test="${p.bgTaskDetail.whetherComplete=='1' }"><span style="color:green">完成</span></c:if>
@@ -199,7 +207,7 @@ outline: none;
 	</div>
 
 	<div id="window-from" class="none">
-		<form style="margin-left: 20px;" id="from" method="post">
+		<form style="margin-left: 20px;" id="from" name="from" method="post">
 			<table>
 				<tr>
 					<td></td>
@@ -215,12 +223,16 @@ outline: none;
 				<tr>
 					<td>考核指标:</td>
 					<td style="width: 539px;height: 51px">
-					<select id="assessIndex" name="assessIndex" style="width: 175px;height: 41px"></select></td>
+					<select id="assessIndex" name="assessIndex" style="width: 150px;height: 37.32px;border-radius: 5px;"></select></td>
 				</tr>
 				<tr>
 					<td>接受者:</td>
 					<td style="width: 539px;height: 46px">
-					<select id="acceptUserId" name="acceptUserId" style="width: 175px;height: 41px;box-sizing:border-box;"></select></td>
+						<select style="width: 150px;height: 37.32px;border-radius: 5px;"
+						id="acceptUserId" name=xianbuyongzheg data-selector data-selector-checks="true">
+							<option>请输入</option>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<td>开始时间:</td>
@@ -236,16 +248,18 @@ outline: none;
 				</tr>
 				<tr>
 					<td>任务标题:</td>
-					<td><input type="text" id="taskTitle" name="taskTitle" onblur="time()"></td>
+					<td><input type="text" id="taskTitle" name="taskTitle"></td>
 				</tr>
 				<tr>
 					<td>任务具体内容:</td> 
 					<td><textarea style="float: left;" rows="5" cols="70" 
 						id="taskSpecificContrnt" name="taskSpecificContrnt"></textarea></td>
 				</tr>
+					<a style="position: absolute;top:440px;left:560px;" class="btn btn-success radius" onclick="tj()">提交 </a>
 			</table>
 		</form>
 	</div>
+	
 
 	<script type="text/javascript">
 		/* 搜索 */
@@ -280,7 +294,7 @@ outline: none;
 			}
 			if (temp == 1) {
 				if (confirm("确认删除吗") == true) {
-					location.href = "<%=basePath%>Bgctrl/.do?" + id;
+					location.href = "<%=basePath%>Bgctrl/deleteBgAssessTask.do?" + id;
 					return true;
 				} else {
 					return false;
@@ -291,13 +305,14 @@ outline: none;
 		/* 单个删除 */
 		function sc(id) {
 			if (confirm("确认删除吗") == true) {
-				location.href = "<%=basePath%>Bgctrl/.do?id=" + id;
+				location.href = "<%=basePath%>Bgctrl/deleteBgAssessTask.do?id=" + id;
 				return true;
 			}
 		}
 		
 		
 		/* 添加 */
+		var index = "";
 		function add() {
 			$.ajax({
 				type : "post",
@@ -312,68 +327,105 @@ outline: none;
 					});
 					$("#assessIndex").html(opg);
 					var op = "";
-					op = "<option>请选择</option>";
 					$.each(data.selectXtUserInfo, function(i, selectXtUserInfo) {
-						op += "<option value='" + selectXtUserInfo.workerId + "'>" + selectXtUserInfo.workerName + "</option>"
+						
+						op += "<option value='" + selectXtUserInfo.workerId + "'>" + selectXtUserInfo.workerName + "</option>"		
+						
 					});
 					$("#acceptUserId").html(op);
 				}
 				});
-			var index = layer.open({
-				type : 1,
-				area : [ '650px', '500px' ],
-				btn : [ '提交', '取消' ],
-				fix : false, //不固定
-				maxmin : true,
-				shade : 0.4,
-				title : '添加',
-				content : $('#window-from'),
-				yes : function() {
-					/* 输出序列后的值，name一定要和bean的一样 */
-					/* alert($('#from').serialize()); */
-					alert("1234")
-					$.ajax({
-						type : "post", //请求方式
-						url : "Bgctrl/addtBgAssessTask.do", //url地址
-						data : $('#from').serialize(), //序列化表单的参数
-						dataType : "json" //响应类型
-					});
-					//提交完成后关闭弹层
-					layer.close(index);
-				},
-				//end是关闭窗口时自动执行
-				end : function() {
-					/* alert("关闭后刷新页面"); */
-					window.location.reload(); //关闭弹窗后刷新页面
-				}
+		index = layer.open({
+			type : 1,
+			area : [ '630px', '530px' ],
+			fix : false, //不固定
+			maxmin : true,
+			shade : 0.4,
+			title : '添加',
+			content : $('#window-from'),
+			//end是关闭窗口时自动执行
+			end : function() {
+				setTimeout(function() {
+				location.replace(location.href);
+			}, 1000)
+			}
+			
 			});
-		//弹层全屏
-		//layer.full(index);
 		}
-		
-		/* 时间判断 ，开始必须小于结束*/
-		function time() {
-		var time1 = document.getElementById("taskStartTime").value;
-		var time2 = document.getElementById("taskFinishTime").value;
-		if (time1 != "" & time2 != "") {
-			if (time2 < time1) {
-				alert("时间选择不规范");
-				 document.getElementById("taskStartTime").value="";
+		function tj() {
+			var id = "";
+			$(".actives").each(function(i, e) {
+				id += "id=" + $(this).attr("data-value") + "&";
+			});
+			var temp1=1;
+			var time1 = document.getElementById("taskStartTime").value;
+			var time2 = document.getElementById("taskFinishTime").value;
+			if (time1 != "" & time2 != "") {/* 时间判断 ，开始必须小于结束*/
+				if (time2 < time1) {
+					alert("时间选择不规范");
+					 document.getElementById("taskStartTime").value="";
+					 temp1=0;
+				};
 			};
-		};
-			if (time1 != "" & time2 != "" & time2 == time1) {
-				alert("时间选择不规范");
-				 document.getElementById("taskStartTime").value="";
-				 document.getElementById("taskFinishTime").value="";
+				if (time1 != "" & time2 != "" & time2 == time1) {
+					alert("时间选择不规范");
+					 document.getElementById("taskStartTime").value="";
+					 document.getElementById("taskFinishTime").value="";
+					 temp1=0;
+				};
+			
+			/* 必须全填才能提交 */
+			if (document.from.taskPromulgator.value==''||
+				document.from.assessIndex.value==''||
+				document.from.acceptUserId.value==''||
+				document.from.taskStartTime.value==''||
+				document.from.taskFinishTime.value==''||
+				document.from.taskTitle.value==''||
+				document.from.taskSpecificContrnt.value=='') {
+				alert('有未填项！');temp1=0;
+				};
+			
+				
+			/* 没有问题可以提交 */
+			if (temp1 == 1) {
+				/* 输出序列后的值，name一定要和bean的一样 */
+				$.ajax({
+					type : "post", //请求方式
+					url : "Bgctrl/addtBgAssessTask.do?"+ id, //url地址
+					data : $('#from').serialize(), //序列化表单的参数
+					dataType : "json" //响应类型
+				});
+				
+				//关闭弹层
+				layer.close(index);
+				
+				layer.msg("添加成功", {
+					icon : 6,
+					time : 2000
+				});
 			};
 			
-			
 		}
+			
+	
+	
+		/*查看考核指标*/
+		function ckxg(sousuo) {
+			$.ajax({
+				type : "post",//请求方式
+				url : "<%=basePath%>Bgctrl/selectBgAssessIndex.do?sousuo=" + sousuo, //请求地址
+				dataType : "json", //响应类型
+				});
+				
+		}
+
 		
 		
 		
 	</script>
-	
+	<script>
+	new verSelector();
+	</script>
 	
 </body>
 </html>

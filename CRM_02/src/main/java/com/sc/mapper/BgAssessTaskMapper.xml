@@ -302,6 +302,7 @@
 		</association>
 	</resultMap>
 	
+	<!-- 关联查询 -->
 	<select id="select" resultMap="BgAssessTaskmap">
 		SELECT T.*,D.*
 		FROM BG_ASSESS_TASK T
@@ -309,5 +310,15 @@
 		ON T.TASK_ID=D.TASK_ID
 	</select>
   
+  	<!-- 查询最后一条数据，ID最大 --><!-- 不适用已停用 -->
+  	           <!-- 方法名 -->  <!-- 返回参数 -->         <!-- 传入参数  parameterType="java.lang.Long"-->  
+  	<select id="selectlast"   resultType="com.sc.entity.BgAssessTask">
+    select * from BG_ASSESS_TASK where TASK_ID in (select max(TASK_ID) from BG_ASSESS_TASK)
+  	</select>
+  	
+  	<!-- 获取自增id -->
+  	<select id="fanhuiid"   resultType="java.lang.Long">
+    select SEQ_BG_ASSESS_TASK_TASK_ID.currval from DUAL
+  	</select>
   
 </mapper>

@@ -1,5 +1,6 @@
 package com.sc.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class BgServiceimpl implements BgService {
 	@Autowired
 	BgTaskDetailMapper bgTaskDetailMapper;
 
+	
+	///////////////////
 	@Override
 	public void addBgAssessIndex(BgAssessIndex bgAssessIndex) {
 		bgAssessIndexMapper.insert(bgAssessIndex);
@@ -80,6 +83,9 @@ public class BgServiceimpl implements BgService {
 		}
 	}
 
+	
+	
+	//////////////////
 	@Override
 	public PageInfo<BgAssessTask> selectBgAssessTask(Integer pageNum, Integer pageSize, BgAssessTask bgAssessTask,
 			String sousuo) {
@@ -109,12 +115,65 @@ public class BgServiceimpl implements BgService {
 		return list;
 	}
 
-	//添加，发布任务
+	//添加，发布任务，并添加任务详情
 	@Override
-	public void addbgAssessTask(BgAssessTask bgAssessTask, BgTaskDetail bgTaskDetail) {
+	public void addbgAssessTask(BgAssessTask bgAssessTask, BgTaskDetail bgTaskDetail,Long[] id) {
+		System.out.println("---页面获取得考核任务"+bgAssessTask);
+		System.out.println("---考核任务详情"+bgTaskDetail);
 		
 		
+		
+			for (Long acceptUserId : id) {
+			
+				//设置最后修改时间
+				Date date=new Date();
+				bgAssessTask.setLastModifyDate(date);
+				bgTaskDetail.setLastModifyDate(date);
+				
+				//添加考核任务
+				bgAssessTaskMapper.insert(bgAssessTask);
+				//获取最新id
+				Long fanhuiid = bgAssessTaskMapper.fanhuiid();
+				System.out.println("已经添加考核任务，再获取自增id，给考核详情");
+				System.out.println("---自增id为："+fanhuiid);
+
+				//设置考核任务详情的taskid，以便关联查询
+				bgTaskDetail.setTaskId(fanhuiid);
+				
+				//设置任务详情中，接受人的id
+				System.out.println("---接受者的id："+acceptUserId);
+				bgTaskDetail.setAcceptUserId(acceptUserId);
+				
+				//任务详情
+				bgTaskDetailMapper.insert(bgTaskDetail);
+			}
+			
 	}
+
+	
+	//根据id查询考核任务详情
+	@Override
+	public BgTaskDetail getBgTaskDetail(Long taskId) {
+		if(taskId!=null){
+			//并非通过主键查询出得
+			return bgTaskDetailMapper.selecttaskIdBgTaskDetail(taskId);
+		}
+		return null;
+	}
+
+	//删除考核任务
+	@Override
+	public void deleteBgAssessTask(Long taskId) {
+		bgAssessTaskMapper.deleteByPrimaryKey(taskId);
+	}
+	//删除任务详情
+	@Override
+	public void deleteBgTaskDetail(Long taskDetailId) {
+		bgTaskDetailMapper.deleteByPrimaryKey(taskDetailId);
+	}
+	
+	
+	
 	
 
 }

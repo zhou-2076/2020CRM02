@@ -11,16 +11,16 @@ import com.sc.entity.XtUserInfo;
 public interface BgService {
 
 //**********//
-	//添加考核任务
+	//添加考核指标
 	public void addBgAssessIndex(BgAssessIndex bgAssessIndex);
 
-	//修改考核任务
+	//修改考核指标
 	public void updateBgAssessIndex(BgAssessIndex bgAssessIndex);
 	
-	//删除考核任务
+	//删除考核指标
 	public void deleteBgAssessIndex(Long indexId);
 		
-	//根据id查询考核任务
+	//根据id查询考核指标
 	public BgAssessIndex getBgAssessIndex(Long indexId);
 	
 	//分页查询
@@ -39,7 +39,14 @@ public interface BgService {
 	//查询user
 	public List<XtUserInfo> selectXtUserInfo();
 	
-	//添加任务
-	public void addbgAssessTask(BgAssessTask bgAssessTask,BgTaskDetail bgTaskDetail);
+	//添加考核任务
+	public void addbgAssessTask(BgAssessTask bgAssessTask,BgTaskDetail bgTaskDetail,Long[] id);
+	
+	//根据id查询考核任务详情
+	public BgTaskDetail getBgTaskDetail(Long taskId);
+	
+	//删除考核任务，加详情
+	public void deleteBgAssessTask(Long taskId);
+	public void deleteBgTaskDetail(Long taskDetailId);
 
 }
