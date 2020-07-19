@@ -188,20 +188,59 @@
 					</ul>
 				</dd>
 			</dl>
+			
 			<dl id="menu-comments">
+			
 				<dt>
-					<i class="Hui-iconfont">&#xe622;</i> 周孙亮<i
+					<i class="Hui-iconfont">&#xe70d;</i> 办公管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
+				
 				<dd>
 					<ul>
-						<li><a data-href="http://h-ui.duoshuo.com/admin/"
-							data-title="评论列表" href="javascript:;">评论列表</a></li>
-						<li><a data-href="feedback-list.html" data-title="意见反馈"
-							href="javascript:void(0)">意见反馈</a></li>
+						<li><a data-href="Bgctrl/selectBgSms.do"
+							data-title="短消息" href="javascript:;">
+							<i class="Hui-iconfont">&#xe6c5;</i>&nbsp;短消息</a></li>
+						<li><a data-href="Bgctrl/selectBgAssessIndex.do"
+							data-title="考核指标" href="javascript:;">
+							<i class="Hui-iconfont">&#xe6b6;</i>&nbsp;考核指标</a></li>
+						<li><a data-href="Bgctrl/selectBgAssessTask.do" 
+							data-title="发布任务" href="javascript:void(0)">
+							<i class="Hui-iconfont">&#xe655;</i>&nbsp;发布任务</a></li>
+						<li><span style="margin-left: 24px;cursor:pointer;"
+							onclick="yangshi()" ><i class="Hui-iconfont">&#xe725;</i>&nbsp;查看任务</span>
+							
+							<ul id="ckrw" style="display: none;">
+								<li><a data-href="Bgctrl/Querystate.do" data-title="查看未读任务"> 
+									<i class="Hui-iconfont">&#xe6c4;</i>&nbsp;查看未读任务
+								</a></li>
+								
+								<li><a data-href="Bgctrl/QueryComplete.do" data-title="查看未完成任务">
+									<i class="Hui-iconfont">&#xe606;</i>&nbsp;查看未完成任务
+								</a></li>
+							</ul>
+							
+							<script>
+							//样式的开启和关闭
+							function yangshi() {
+								var ckrwzt = document.getElementById("ckrw").style.display;
+								if (ckrwzt == "none") {
+									document.getElementById("ckrw").style.display = "block";
+								}
+								if (ckrwzt == "block") {
+									document.getElementById("ckrw").style.display = "none";
+								}
+							}
+							</script>
+							<li><a data-href="<%=basePath%>Bgctrl/cs.do"
+							data-title="个人日程" href="javascript:;">
+							<i class="Hui-iconfont">&#xe72b;</i>&nbsp;个人日程</a></li>
 					</ul>
+					
 				</dd>
+				
 			</dl>
+			
 			<dl>
 				<dt>
 					<i class="Hui-iconfont">&#xe600;</i> 采购管理<i
@@ -262,7 +301,7 @@
 							<li><a data-href="purctrl/purlist.do"
 								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp采购单
 							</a></li>
-							<li><a data-href="purctrl/purlistused.do" data-title="已处理采购单">
+							<li><a data-href="purctrl/purusedlist.do" data-title="已处理采购单">
 									<i class="Hui-iconfont">&#xe623;</i>&nbsp已处理采购单
 							</a></li>
 						</ul>

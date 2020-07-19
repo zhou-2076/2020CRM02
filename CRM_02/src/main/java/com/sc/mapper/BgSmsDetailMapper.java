@@ -1,9 +1,11 @@
 package com.sc.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.sc.entity.BgSmsDetail;
 import com.sc.entity.BgSmsDetailExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface BgSmsDetailMapper {
     int countByExample(BgSmsDetailExample example);
@@ -27,4 +29,7 @@ public interface BgSmsDetailMapper {
     int updateByPrimaryKeySelective(BgSmsDetail record);
 
     int updateByPrimaryKey(BgSmsDetail record);
+    
+    //通过taskId查询到数据，找到主键
+    BgSmsDetail selectsmsIdBgSmsDetail(Long smsId);
 }
