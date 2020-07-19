@@ -85,13 +85,13 @@ outline: none;
 	
 	<div class="page-container">
 	
-		<!-- <div class="text-c">
-			考核指标集名称： <input type="text" id="sousuo" style="width:200px;">
+		<div class="text-c">
+			任务名称： <input type="text" id="sousuo" style="width:200px;">
 			<button type="button" class="btn btn-success radius"
 				onclick="return sousuo()">
-				<i class="Hui-iconfont">&#xe665;</i> 搜索
+				<i class="Hui-iconfont">&#xe683;</i> 搜索
 			</button>
-		</div> 暂时不用搜索 -->
+		</div>
 		
 		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
 			<a href="javascript:;" onclick="return plsc()" class="btn btn-danger radius">
@@ -138,10 +138,10 @@ outline: none;
 						<td>
 							<c:forEach items="${selectBgAssessIndex }" var="sbai">
 								<c:if test="${p.assessIndex==sbai.indexId }"><!-- 对比id查出考核名称 -->
-									<a title="查看考核指标" onclick="ckxg(${sbai.assessIndex })">${sbai.assessIndex }</a>
+									<a title="查看考核指标" onclick='ck(${sbai.indexId })'>${sbai.assessIndex }</a>
 								</c:if>
 							</c:forEach>
-						</td>
+						</td>	
 						<td><fmt:formatDate value="${p.taskStartTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><fmt:formatDate value="${p.taskFinishTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td>
@@ -149,14 +149,8 @@ outline: none;
 							<c:if test="${p.bgTaskDetail.whetherComplete=='1' }"><span style="color:green">完成</span></c:if>
 						</td>
 						<td>
-						<!-- <script type="text/javascript">
-							var t1=${p.taskFinishTime};/* 结束时间 */
-							var t2=new Date();/* 当前时间 */
-							var t3=t1-t2;
-						   document.write(t2);
-						</script> -->
-							<c:if test="${p.bgTaskDetail.state=='0' }"><span style="color:red">无效</span></c:if>
-							<c:if test="${p.bgTaskDetail.state=='1' }"><span style="color:green">有效</span></c:if>
+							<c:if test="${p.bgTaskDetail.state=='0' }"><span style="color:red">未读</span></c:if>
+							<c:if test="${p.bgTaskDetail.state=='1' }"><span style="color:green">已读</span></c:if>
 						</td>	
 						<td>
 							<a title="删除" onclick="return sc(${p.taskId })"><i class="Hui-iconfont">&#xe6e2;</i></a>
@@ -205,14 +199,34 @@ outline: none;
 			</div>
 		</div>
 	</div>
-
+	<div id="window-from1" class="none">
+		<form style="margin-left: 20px;" id="from" method="post">
+			<table>
+				<br>
+				<tr>
+					<td>ID:</td>
+					<td><input type="text" id="indexId" name="indexId" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>考核指标:</td>
+					<td><input type="text" id="assessIndex" name="assessIndex" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>备注:</td> 
+					<td><textarea style="float: left;" rows="5" cols="70" readonly="readonly"
+										id="remark" name="remark"></textarea></td>
+				</tr>
+					
+			</table>
+		</form>
+	</div>
 	<div id="window-from" class="none">
 		<form style="margin-left: 20px;" id="from" name="from" method="post">
 			<table>
 				<tr>
 					<td></td>
 					<td><input type="hidden" id="taskId" name="taskId">
-						<input type="hidden" id="state" name="state" value="1"><!-- 默认是有效 -->
+						<input type="hidden" id="state" name="state" value="0"><!-- 默认是未读 -->
 						<input type="hidden" id="whetherComplete" name="whetherComplete" value="0"><!-- 默认未完成 -->
 					</td>
 				</tr>
@@ -264,10 +278,16 @@ outline: none;
 	<script type="text/javascript">
 		/* 搜索 */
 		function sousuo() {
-		alert(document.getElementById("sousuo").value);
 			var sousuo = document.getElementById("sousuo").value;
+			if(sousuo!=""&&sousuo!=null){
 			location.href = "Bgctrl/selectBgAssessTask.do?sousuo="+sousuo;
+			return true;
+			}else{
+			alert("请输入值");
+			return false;
+			}
 		}
+		
 		/* 批量删除 */
 		var nodeAll = document.getElementById("all-check");
 		nodeAll.onclick = function() {
@@ -393,7 +413,8 @@ outline: none;
 					type : "post", //请求方式
 					url : "Bgctrl/addtBgAssessTask.do?"+ id, //url地址
 					data : $('#from').serialize(), //序列化表单的参数
-					dataType : "json" //响应类型
+					dataType : "json", //响应类型
+					
 				});
 				
 				//关闭弹层
@@ -407,19 +428,38 @@ outline: none;
 			
 		}
 			
-	
-	
+
 		/*查看考核指标*/
-		function ckxg(sousuo) {
+		function ck(id) {
 			$.ajax({
 				type : "post",//请求方式
-				url : "<%=basePath%>Bgctrl/selectBgAssessIndex.do?sousuo=" + sousuo, //请求地址
+				url : "<%=basePath%>Bgctrl/getBgAssessIndex.do?id=" + id, //请求地址
 				dataType : "json", //响应类型
+				success : function(ck) //从前台回调回来的数组，处理后的数据
+				{	
+					$("#indexId").val(ck.indexId);
+					$("#assessIndex").val(ck.assessIndex);
+					$("#remark").val(ck.remark);
+				}
+					});
+					
+			var index = layer.open({
+				type : 1,
+				area : [ '550px', '400px' ],
+				fix : false, //不固定
+				maxmin : true,
+				shade : 0.4,
+				title : '考核指标详情',
+				content : $('#window-from1'),
+				//end是关闭窗口时自动执行
+				end : function() {
+					/* alert("关闭后刷新页面"); */
+					window.location.reload(); //关闭弹窗后刷新页面
+				}
 				});
-				
+					
+					
 		}
-
-		
 		
 		
 	</script>

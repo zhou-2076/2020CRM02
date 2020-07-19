@@ -103,7 +103,6 @@ outline: none;
 					<th width="25"><input type="checkbox" id="all-check"></th>
 					<th width="40">ID</th>
 					<th width="100">考核指标名称</th>
-					<th width="40">公司编号</th>
 					<th width="100">备注</th>
 					<th width="100">最后修改时间</th>
 					<th width="20">操作</th>
@@ -117,7 +116,6 @@ outline: none;
 							value="${p.indexId }"></td>
 						<td>${p.indexId }</td>
 						<td><a onclick="ckxg(${p.indexId })">${p.assessIndex }</a></td>
-						<td>${p.companyId }</td>
 						<td><a onclick="ckxg(${p.indexId })" title="备注详情">${p.remark}</a></td>
 						<td><fmt:formatDate value="${p.lastModifyDtae}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
@@ -177,11 +175,11 @@ outline: none;
 					<td><input type="hidden" id="indexId" name="indexId"></td>
 				</tr>
 				<tr>
-					<td>考核指标名称</td>
+					<td>考核指标:</td>
 					<td><input type="text" id="assessIndex" name="assessIndex"></td>
 				</tr>
 				<tr>
-					<td>备注</td> 
+					<td>备注:</td> 
 					<td><textarea style="float: left;" rows="5" cols="70"
 										id="remark" name="remark"></textarea></td>
 				</tr>
@@ -193,10 +191,16 @@ outline: none;
 	<script type="text/javascript">
 		/* 搜索 */
 		function sousuo() {
-		alert(document.getElementById("sousuo").value);
+		
 			var sousuo = document.getElementById("sousuo").value;
+			if(sousuo!=null&&sousuo!=''){
 			location.href = "Bgctrl/selectBgAssessIndex.do?sousuo="+sousuo;
+			}else{
+				alert("请输入内容")
+			}
+			
 		}
+		
 		/* 批量删除 */
 		var nodeAll = document.getElementById("all-check");
 		nodeAll.onclick = function() {

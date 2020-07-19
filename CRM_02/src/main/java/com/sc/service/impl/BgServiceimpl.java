@@ -12,10 +12,17 @@ import com.sc.entity.BgAssessIndex;
 import com.sc.entity.BgAssessIndexExample;
 import com.sc.entity.BgAssessIndexExample.Criteria;
 import com.sc.entity.BgAssessTask;
+import com.sc.entity.BgAssessTaskExample;
+import com.sc.entity.BgPersonageSchedule;
+import com.sc.entity.BgSms;
+import com.sc.entity.BgSmsDetail;
 import com.sc.entity.BgTaskDetail;
 import com.sc.entity.XtUserInfo;
 import com.sc.mapper.BgAssessIndexMapper;
 import com.sc.mapper.BgAssessTaskMapper;
+import com.sc.mapper.BgPersonageScheduleMapper;
+import com.sc.mapper.BgSmsDetailMapper;
+import com.sc.mapper.BgSmsMapper;
 import com.sc.mapper.BgTaskDetailMapper;
 import com.sc.mapper.XtUserInfoMapper;
 import com.sc.service.BgService;
@@ -32,7 +39,12 @@ public class BgServiceimpl implements BgService {
 	XtUserInfoMapper xtUserInfoMapper;
 	@Autowired
 	BgTaskDetailMapper bgTaskDetailMapper;
-
+	@Autowired
+	BgSmsMapper bgSmsMapper;
+	@Autowired
+	BgSmsDetailMapper bgSmsDetailMapper;
+	@Autowired
+	BgPersonageScheduleMapper bgPersonageScheduleMapper;
 	
 	///////////////////
 	@Override
@@ -85,13 +97,25 @@ public class BgServiceimpl implements BgService {
 
 	
 	
-	//////////////////
+/////////////////////////////
+	
+	//分页查询考核任务，也可模糊查询
 	@Override
-	public PageInfo<BgAssessTask> selectBgAssessTask(Integer pageNum, Integer pageSize, BgAssessTask bgAssessTask,
-			String sousuo) {
-		List<BgAssessTask> list = bgAssessTaskMapper.select();
-		PageInfo<BgAssessTask> page=new PageInfo<BgAssessTask>(list);
-		return page;
+	public PageInfo<BgAssessTask> selectBgAssessTask(Integer pageNum, Integer pageSize, BgAssessTask bgAssessTask,String sousuo) {
+		if(sousuo!=null){
+			BgAssessTaskExample example=new BgAssessTaskExample();
+			com.sc.entity.BgAssessTaskExample.Criteria criteria = example.createCriteria();
+			criteria.andTaskTitleLike("%"+sousuo+"%");
+			List<BgAssessTask> list = bgAssessTaskMapper.selectByExample(example);
+			System.out.println("---模糊查询得到参数："+list);
+			PageInfo<BgAssessTask> page=new PageInfo<BgAssessTask>(list);
+			return page;
+		}else{
+			List<BgAssessTask> list = bgAssessTaskMapper.select();
+			PageInfo<BgAssessTask> page=new PageInfo<BgAssessTask>(list);
+			return page;	
+		}
+		
 	}
 
 	//查询所有发布任务，
@@ -172,7 +196,126 @@ public class BgServiceimpl implements BgService {
 		bgTaskDetailMapper.deleteByPrimaryKey(taskDetailId);
 	}
 	
+	//修改任务详情状态，为已读（1），或者修改为已完成
+	@Override
+	public void updateBgTaskDetail(BgTaskDetail bgTaskDetail) {
+		bgTaskDetailMapper.updateByPrimaryKey(bgTaskDetail);
+		
+	}
 	
+	
+	
+	
+
+//////////////////
+	
+	
+	//sms关联查询
+	@Override
+	public PageInfo<BgSms> selectBgSms(Integer pageNum, Integer pageSize, BgSms bgSms, String sousuo) {
+		List<BgSms> gselect = bgSmsMapper.gselect();
+		System.out.println("---短消息集合："+gselect);
+		PageInfo<BgSms> page=new PageInfo<BgSms>(gselect);
+		return page;
+	}
+
+	@Override
+	public void addBgSms(BgSms bgSms, BgSmsDetail bgSmsDetail, Long[] id) {
+		System.out.println("---关联添加，短消息，短消息详情");
+		System.out.println("---获取的短信息："+bgSms);
+		System.out.println("---获取的短信息详情："+bgSmsDetail);
+		Date date=new Date();
+		
+		for (Long receiverId : id) {
+			bgSms.setLastModifyDate(date);
+			bgSmsDetail.setLastModifyDate(date);
+			
+			//先添加短消息，再获取zzid
+			bgSmsMapper.insert(bgSms);
+			
+			System.out.println("---获取的接受者编号为:"+receiverId);
+			bgSmsDetail.setReceiverId(receiverId);
+			
+			Long zzId = bgSmsMapper.zzId();
+			System.out.println("---sms表中获取的自增id为："+zzId);
+			bgSmsDetail.setSmsId(zzId);
+			
+			bgSmsDetailMapper.insert(bgSmsDetail);
+			
+		}
+	}
+	
+	//id查询短消息详情
+	@Override
+	public BgSmsDetail getBgSmsDetail(Long smsId) {
+		if(smsId!=null){
+			return bgSmsDetailMapper.selectsmsIdBgSmsDetail(smsId);
+		}
+		return null;
+	}
+
+	//修改短消息详情
+	@Override
+	public void updateBgSmsDetail(BgSmsDetail BgSmsDetail) {
+		bgSmsDetailMapper.updateByPrimaryKey(BgSmsDetail);
+		
+	}
+
+	//删除短消息、详情
+	@Override
+	public void deleteBgSms(Long smsId) {
+		bgSmsMapper.deleteByPrimaryKey(smsId);
+	}
+	@Override
+	public void deleteBgSmsDetail(Long detaileId) {
+		bgSmsDetailMapper.deleteByPrimaryKey(detaileId);
+		
+	}
+
+
+	
+	
+	
+	
+////////////////////////
+	
+	//添加日程
+	@Override
+	public void addBgPersonageSchedule(BgPersonageSchedule sche) {
+		bgPersonageScheduleMapper.insert(sche);
+	}
+	
+	//通过id查询
+	@Override
+	public BgPersonageSchedule getBgPersonageScheduleById(Long id) {
+		if(id!=null){
+			bgPersonageScheduleMapper.getBgPersonageScheduleById(id);
+		}
+		return null;
+	}
+
+	//修改日程
+	@Override
+	public void updateBgPersonageSchedule(BgPersonageSchedule sche) {
+		if(sche!=null){
+			bgPersonageScheduleMapper.updateByPrimaryKey(sche);
+		}
+	}
+
+	//删除日程
+	@Override
+	public void delBgPersonageSchedule(BgPersonageSchedule sche) {
+		if(sche!=null){
+			bgPersonageScheduleMapper.deleteByPrimaryKey(sche.getScheduleArrangeId());
+		}
+	}
+
+	//查询所有日程
+	@Override
+	public List<BgPersonageSchedule> getAllBgPersonageSchedule(BgPersonageSchedule sche) {
+		List<BgPersonageSchedule> list = bgPersonageScheduleMapper.selectByExample(null);
+		return list;
+	}
 	
 	
 
