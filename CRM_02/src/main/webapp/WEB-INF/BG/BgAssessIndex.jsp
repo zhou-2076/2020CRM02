@@ -92,15 +92,17 @@ outline: none;
 			<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 			<a href="javascript:;" onclick="add()" class="btn btn-primary radius">
 			<i class="Hui-iconfont">&#xe600;</i> 添加考核任务</a></span>
+			
+			<span class="r">共有数据：<strong>${p.total}</strong> 条</span>
 		</div>
-				
+
+			
 		<table class="table table-border table-bordered table-hover table-bg table-sort">
 			<thead>
 				<tr class="text-c">
 					<th width="25"><input type="checkbox" id="all-check"></th>
 					<th width="40">ID</th>
 					<th width="100">考核指标名称</th>
-					<th width="40">公司编号</th>
 					<th width="100">备注</th>
 					<th width="100">最后修改时间</th>
 					<th width="20">操作</th>
@@ -114,7 +116,6 @@ outline: none;
 							value="${p.indexId }"></td>
 						<td>${p.indexId }</td>
 						<td><a onclick="ckxg(${p.indexId })">${p.assessIndex }</a></td>
-						<td>${p.companyId }</td>
 						<td><a onclick="ckxg(${p.indexId })" title="备注详情">${p.remark}</a></td>
 						<td><fmt:formatDate value="${p.lastModifyDtae}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
@@ -174,11 +175,11 @@ outline: none;
 					<td><input type="hidden" id="indexId" name="indexId"></td>
 				</tr>
 				<tr>
-					<td>考核指标名称</td>
+					<td>考核指标:</td>
 					<td><input type="text" id="assessIndex" name="assessIndex"></td>
 				</tr>
 				<tr>
-					<td>备注</td> 
+					<td>备注:</td> 
 					<td><textarea style="float: left;" rows="5" cols="70"
 										id="remark" name="remark"></textarea></td>
 				</tr>
@@ -190,10 +191,16 @@ outline: none;
 	<script type="text/javascript">
 		/* 搜索 */
 		function sousuo() {
-		alert(document.getElementById("sousuo").value);
+		
 			var sousuo = document.getElementById("sousuo").value;
+			if(sousuo!=null&&sousuo!=''){
 			location.href = "Bgctrl/selectBgAssessIndex.do?sousuo="+sousuo;
+			}else{
+				alert("请输入内容")
+			}
+			
 		}
+		
 		/* 批量删除 */
 		var nodeAll = document.getElementById("all-check");
 		nodeAll.onclick = function() {
@@ -259,6 +266,10 @@ outline: none;
 					});
 					//提交完成后关闭弹层
 					layer.close(index);
+					layer.msg("添加成功", {
+					icon : 6,
+					time : 2000
+				});
 				},
 				//end是关闭窗口时自动执行
 				end : function() {

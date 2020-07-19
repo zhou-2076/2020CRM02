@@ -1,9 +1,12 @@
 package com.sc.mapper;
 
-import com.sc.entity.BgSms;
-import com.sc.entity.BgSmsExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import com.sc.entity.BgSms;
+import com.sc.entity.BgSmsDetail;
+import com.sc.entity.BgSmsExample;
 
 public interface BgSmsMapper {
     int countByExample(BgSmsExample example);
@@ -27,4 +30,11 @@ public interface BgSmsMapper {
     int updateByPrimaryKeySelective(BgSms record);
 
     int updateByPrimaryKey(BgSms record);
+    
+    //关联查询
+    public List<BgSms> gselect();
+    
+    //返回BgSms中自增id，可能以一次无法查询，需要nextval
+    public Long zzId();
+    
 }

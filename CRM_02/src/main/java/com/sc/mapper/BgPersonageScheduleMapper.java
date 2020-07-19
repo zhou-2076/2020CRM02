@@ -27,4 +27,27 @@ public interface BgPersonageScheduleMapper {
     int updateByPrimaryKeySelective(BgPersonageSchedule record);
 
     int updateByPrimaryKey(BgPersonageSchedule record);
+    
+    //添加日程
+	public void addBgPersonageSchedule(BgPersonageSchedule sche);
+	
+    //ͨ通过id查询
+	public BgPersonageSchedule getBgPersonageScheduleById(Long id);
+	
+	//修改日程
+	public void updateBgPersonageSchedule(BgPersonageSchedule sche);
+	
+	//删除日程
+	public void delSchedule(BgPersonageSchedule sche);
+	
+	//查询所有日程
+	public List<BgPersonageSchedule> getAllBgPersonageSchedule(BgPersonageSchedule sche);
+
+	//查询最大idֵ
+	public String getMaxIdoOfficePerSche();
+
+	//查询各自的日程
+	//public List<OOfficePerSche> getOPerAgendaList(OOfficePerSche oOfficePerSche);
+    
+    
 }

@@ -89,4 +89,12 @@ public class BgTaskDetail implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "BgTaskDetail [taskDetailId=" + taskDetailId + ", taskId=" + taskId + ", acceptUserId=" + acceptUserId
+				+ ", whetherComplete=" + whetherComplete + ", state=" + state + ", companyId=" + companyId
+				+ ", lastModifyDate=" + lastModifyDate + "]";
+	}
+    
 }

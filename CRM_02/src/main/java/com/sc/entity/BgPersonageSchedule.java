@@ -111,4 +111,13 @@ public class BgPersonageSchedule implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "BgPersonageSchedule [scheduleArrangeId=" + scheduleArrangeId + ", arrangeCategory=" + arrangeCategory
+				+ ", arrangeTheme=" + arrangeTheme + ", startDate=" + startDate + ", startTime=" + startTime
+				+ ", fillPersommelId=" + fillPersommelId + ", arrangeDescribe=" + arrangeDescribe + ", companyId="
+				+ companyId + ", lastModifyDate=" + lastModifyDate + "]";
+	}
+    
 }

@@ -78,4 +78,11 @@ public class BgSmsDetail implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "BgSmsDetail [detaileId=" + detaileId + ", smsId=" + smsId + ", receiverId=" + receiverId
+				+ ", informationState=" + informationState + ", companyId=" + companyId + ", lastModifyDate="
+				+ lastModifyDate + "]";
+	}
 }

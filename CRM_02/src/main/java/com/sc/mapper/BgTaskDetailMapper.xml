@@ -243,4 +243,12 @@
       LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
     where TASK_DETAIL_ID = #{taskDetailId,jdbcType=DECIMAL}
   </update>
+  
+  	<!-- 通过考核指标编号查询 -->
+  <select id="selecttaskIdBgTaskDetail" resultType="com.sc.entity.BgTaskDetail" parameterType="java.lang.Long" >
+    SELECT * FROM BG_TASK_DETAIL WHERE TASK_ID=#{taskId,jdbcType=DECIMAL}
+  </select>
+  
+  
+  
 </mapper>

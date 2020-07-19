@@ -228,4 +228,11 @@
       LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
     where DETAILE_ID = #{detaileId,jdbcType=DECIMAL}
   </update>
+  
+  <!-- 通过短消息编号查询 -->
+  <select id="selectsmsIdBgSmsDetail" resultType="com.sc.entity.BgSmsDetail" parameterType="java.lang.Long" >
+   SELECT * FROM BG_SMS_DETAIL WHERE SMS_ID=#{smsId,jdbcType=DECIMAL}
+  </select>
+  
+  
 </mapper>
