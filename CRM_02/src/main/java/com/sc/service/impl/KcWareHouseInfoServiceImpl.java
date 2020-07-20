@@ -2,12 +2,15 @@ package com.sc.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sc.entity.KcWarehouseInfo;
+import com.sc.entity.KcWarehouseInfoExample;
+import com.sc.entity.KcWarehouseInfoExample.Criteria;
 import com.sc.mapper.KcWarehouseInfoMapper;
 import com.sc.service.KcWareHouseInfoService;
 @Service
@@ -53,4 +56,6 @@ public class KcWareHouseInfoServiceImpl implements KcWareHouseInfoService {
 		return page;
 	}
 
+	
+	
 }

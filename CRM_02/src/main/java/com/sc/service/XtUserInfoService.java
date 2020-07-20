@@ -1,5 +1,4 @@
 package com.sc.service;
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
@@ -27,4 +26,8 @@ public interface XtUserInfoService {
 	
 	// 根据公司id查到公司信息
 	public XtCompanyInfo selecteCompanyInfoBy(Long companyId);
+	
+	// 模糊查询员工信息
+	public PageInfo<XtUserInfo> selectSup(Integer pageNum, Integer pageSize, String name);
+
 }

@@ -5,7 +5,7 @@ import com.sc.entity.KcWarehouseInfo;
 
 public interface KcWareHouseInfoService {
 
-public void addhouse(KcWarehouseInfo houseInfo);
+    public void addhouse(KcWarehouseInfo houseInfo);
 	
 	public void updatehouse(KcWarehouseInfo houseInfo);
 	
@@ -14,5 +14,5 @@ public void addhouse(KcWarehouseInfo houseInfo);
 	public KcWarehouseInfo gethouse(Long warehouseId);
 	
 	public PageInfo<KcWarehouseInfo> selecthouse(Integer pageNum,Integer pageSize,KcWarehouseInfo houseInfo);
-	
+
 }

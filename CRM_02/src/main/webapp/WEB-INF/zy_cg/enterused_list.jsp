@@ -93,8 +93,11 @@
 		</c:if>
 
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span class="l"> </span> <span class="r">共有数据：<strong>${page.total}</strong>
-				条
+			<span class="l"> <a href="javascript:;"
+				onclick="return plsc()" class="btn btn-danger radius"> <i
+					class="Hui-iconfont">&#xe6e2;</i> 批量删除
+			</a>
+			</span> <span class="r">共有数据：<strong>${page.total}</strong> 条
 			</span>
 		</div>
 		<div class="mt-20">
@@ -102,7 +105,7 @@
 				class="table table-border table-bordered table-hover table-bg table-sort">
 				<thead>
 					<tr class="text-c">
-					<th width="25"><input type="checkbox" id="all-check"></th>
+						<th width="25"><input type="checkbox" id="all-check"></th>
 						<th width="80">ID</th>
 						<th width="100">商品名</th>
 						<th width="100">数量</th>
@@ -114,7 +117,8 @@
 				<tbody>
 					<c:forEach items="${page.list }" var="p">
 						<tr class="text-c">
-						<td><input type="checkbox" name="one-check" value="${p.cgXqId }"></td>
+							<td><input type="checkbox" name="one-check"
+								value="${p.cgXqId }"></td>
 							<td>${p.cgXqId }</td>
 							<td>${p.cpName}</td>
 							<td>${p.cpNum }辆</td>
@@ -124,20 +128,16 @@
 								</c:if> <c:if test="${p.sfRk=='已入库'}">
 									<span class="label label-success radius">${p.sfRk}</span>
 								</c:if></td>
-							<td class="td-manage"><c:if test="${p.sfRk=='未入库'}">
+							<td class="td-manage">
 									<a style="text-decoration:none" onClick="cksjxq(${p.cgXqId })"
 										href="javascript:;" title="查看采购明细"> <i
 										class="Hui-iconfont">&#xe616;</i>
 									</a>
-									<a onclick="change(${p.cgXqId })" title="付款" class="ml-5"
-										style="text-decoration:none;"> <i class="Hui-iconfont">&#xe6e1;</i>
+									<a title="删除" href="javascript:;"
+										onclick="return sc(${p.cgXqId })" class="ml-5"
+										style="text-decoration:none;"> <i class="Hui-iconfont">&#xe6e2;</i>
 									</a>
-								</c:if> <c:if test="${p.sfRk=='已入库'}">
-									<a style="text-decoration:none" onClick="cksjxq(${p.cgXqId })"
-										href="javascript:;" title="查看采购明细"> <i
-										class="Hui-iconfont">&#xe616;</i>
-									</a>
-								</c:if></td>
+								</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -165,7 +165,7 @@
 					<script type="text/javascript">
 				  function sy(){
 				  
-				  location.href="purctrl/enter.do?pageNum="+${page.navigateFirstPage }+
+				  location.href="purctrl/enterused.do?pageNum="+${page.navigateFirstPage }+
 				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
@@ -174,7 +174,7 @@
 					<script type="text/javascript">
 				  function syy(){
 				 
-				  location.href="purctrl/enter.do?pageNum="+${page.prePage}+
+				  location.href="purctrl/enterused.do?pageNum="+${page.prePage}+
 				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
@@ -185,7 +185,7 @@
 					<script type="text/javascript">
 				     function xyy(){
 				  		 
-				      location.href="purctrl/enter.do?pageNum="+${page.nextPage}+
+				      location.href="purctrl/enterused.do?pageNum="+${page.nextPage}+
 				      "&name="+document.getElementById("sousuo").value
 				    }
 				   </script>
@@ -193,7 +193,7 @@
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
 					<script type="text/javascript">
 				     function wy(){
-				     location.href="purctrl/enter.do?pageNum="+${page.navigateLastPage }+
+				     location.href="purctrl/enterused.do?pageNum="+${page.navigateLastPage }+
 				      "&name="+document.getElementById("sousuo").value
 				    }
 				  </script>
@@ -206,7 +206,47 @@
 		/* 搜索 */
 		function sousuo() {
 			var sousuo = document.getElementById("sousuo").value;
-			location.href = "purctrl/enter.do?name=" + sousuo
+			location.href = "purctrl/enterused.do?name=" + sousuo
+		}
+		/* 批量删除 */
+		var nodeAll = document.getElementById("all-check");
+		nodeAll.onclick = function() {
+			//name可以重复id只能有一个
+			var nodes = document.getElementsByName("one-check");
+			var flag = nodeAll.checked;
+			for (var i = 0; i < nodes.length; i++) {
+				nodes[i].checked = flag;
+			}
+		}
+		function plsc() {
+			var id = "";
+			var temp = "";
+			var onecheck = document.getElementsByName("one-check");
+			for (var i = 0; i < onecheck.length; i++) {
+				if (onecheck[i].checked == true) {
+					id += "id=" + onecheck[i].value + "&";
+					temp = 1;
+				}
+			}
+			if (temp != 1) {
+				alert("您未勾选");
+				return false;
+			}
+			if (temp == 1) {
+				if (confirm("确认删除吗") == true) {
+					location.href = "<%=basePath%>purctrl/deletdal.do?" + id;
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		/* 单个删除 */
+		function sc(uid) {
+			if (confirm("确认删除吗") == true) {
+				location.href = "<%=basePath%>purctrl/deletdal.do?id=" + uid;
+				return true;
+			}
 		}
 		/*明细*/
 		function cksjxq(id) {

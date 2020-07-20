@@ -70,4 +70,11 @@ public class XtPermissionRole implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "XtPermissionRole [permissionRoleId=" + permissionRoleId + ", qxId=" + qxId + ", roleId=" + roleId
+				+ ", operaterId=" + operaterId + ", lastModifyDate=" + lastModifyDate + "]";
+	}
+    
 }

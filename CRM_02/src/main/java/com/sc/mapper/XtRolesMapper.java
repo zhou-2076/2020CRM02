@@ -12,14 +12,17 @@ public interface XtRolesMapper {
 
     int deleteByExample(XtRolesExample example);
 
+    //删除
     int deleteByPrimaryKey(Long roleId);
 
+    //添加
     int insert(XtRoles record);
 
     int insertSelective(XtRoles record);
 
     List<XtRoles> selectByExample(XtRolesExample example);
 
+    //通过对象查询
     XtRoles selectByPrimaryKey(Long roleId);
     
     //根据用户id查看角色
@@ -31,5 +34,6 @@ public interface XtRolesMapper {
 
     int updateByPrimaryKeySelective(XtRoles record);
 
+    //修改
     int updateByPrimaryKey(XtRoles record);
 }

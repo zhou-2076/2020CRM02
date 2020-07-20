@@ -17,8 +17,19 @@ public class BgSms implements Serializable {
     private Date lastModifyDate;
 
     private static final long serialVersionUID = 1L;
+    
+    //一对一配置
+    private BgSmsDetail bgSmsDetail;
 
-    public BgSms(Long smsId, String smsTitle, String smsContent, String smsSender, Long companyId, Date lastModifyDate) {
+    public BgSmsDetail getBgSmsDetail() {
+		return bgSmsDetail;
+	}
+
+	public void setBgSmsDetail(BgSmsDetail bgSmsDetail) {
+		this.bgSmsDetail = bgSmsDetail;
+	}
+
+	public BgSms(Long smsId, String smsTitle, String smsContent, String smsSender, Long companyId, Date lastModifyDate) {
         this.smsId = smsId;
         this.smsTitle = smsTitle;
         this.smsContent = smsContent;
@@ -78,4 +89,13 @@ public class BgSms implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "BgSms [smsId=" + smsId + ", smsTitle=" + smsTitle + ", smsContent=" + smsContent + ", smsSender="
+				+ smsSender + ", companyId=" + companyId + ", lastModifyDate=" + lastModifyDate + ", bgSmsDetail="
+				+ bgSmsDetail + "]";
+	}
+
+	
 }

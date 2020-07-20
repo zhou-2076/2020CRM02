@@ -27,4 +27,7 @@ public interface BgTaskDetailMapper {
     int updateByPrimaryKeySelective(BgTaskDetail record);
 
     int updateByPrimaryKey(BgTaskDetail record);
+    
+    //通过taskId查询到数据，找到主键
+    BgTaskDetail selecttaskIdBgTaskDetail(Long taskId);
 }

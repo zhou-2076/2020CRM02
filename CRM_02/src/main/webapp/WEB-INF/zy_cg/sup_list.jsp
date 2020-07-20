@@ -100,7 +100,17 @@
 				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
 					录入供应商信息
 			</a>
-			</span> <span class="r">共有数据：<strong>${page.total}</strong> 条
+			<a href="javascript:;" onclick="daochu()" style="background-color: pink; border: 0px;"
+				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
+					导出到excel
+			</a>
+			</span> 
+			<script type="text/javascript">
+		function daochu(){
+		location.href="<%=basePath%>purctrl/daochu.do"
+		}
+		</script>
+			<span class="r">共有数据：<strong>${page.total}</strong> 条
 			</span>
 		</div>
 		<div class="mt-20">
@@ -112,7 +122,7 @@
 						<th width="80">ID</th>
 						<th width="100">供应商名称</th>
 						<th width="100">地址</th>
-						<th width="40">是否有效</th>
+						<!-- <th width="40">是否有效</th> -->
 						<th width="40">操作</th>
 					</tr>
 				</thead>
@@ -124,7 +134,7 @@
 							<td>${p.gysId }</td>
 							<td>${p.gysName }</td>
 							<td>${p.address }</td>
-							<td>${p.sfYx }</td>
+							<%-- <td>${p.sfYx }</td> --%>
 							<td class="td-manage"><a style="text-decoration:none"
 								onClick="cksjxq(${p.gysId })" href="javascript:;" title="查看采购明细">
 									<i class="Hui-iconfont">&#xe616;</i>

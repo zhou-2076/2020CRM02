@@ -19,10 +19,31 @@ public class XtRoles implements Serializable {
 
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date lastModifyDate;
+   
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemin;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemax;
+    
+    public Date getDatemin() {
+		return datemin;
+	}
+
+	public void setDatemin(Date datemin) {
+		this.datemin = datemin;
+	}
+
+	public Date getDatemax() {
+		return datemax;
+	}
+
+	public void setDatemax(Date datemax) {
+		this.datemax = datemax;
+	}
     
     //拓展属性（将权限装到角色中）
-    
-    private List<XtPermission> xtPermission;
+
+	private List<XtPermission> xtPermission;
 
     private static final long serialVersionUID = 1L;
 

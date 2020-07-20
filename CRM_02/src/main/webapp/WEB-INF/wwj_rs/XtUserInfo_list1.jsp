@@ -69,16 +69,26 @@
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			<input type="text" class="input-text" style="width:250px"
-				placeholder="模糊搜索" id="sousuo">
-			<!-- 每次都带上搜索的值 -->
-			<input type="hidden" id="ssz" value="${ssz}">
-			<!-- 每次都带上搜索的值 -->
+				<from action=""> 
+				<input type="text" value="${ssz}"
+				class="input-text" style="width:250px" placeholder="姓名模糊搜索"
+				id="sousuo">
 			<button type="button" class="btn btn-success radius"
 				onclick="return sousuo()">
 				<i class="Hui-iconfont">&#xe665;</i> 搜索
 			</button>
+			<button onclick="cla()" type="reset"
+				style="background-color: pink;border: 0px;"
+				class="btn btn-success radius">
+				<i class="Hui-iconfont">&#xe68f;</i>重置
+			</button>
+			</from>
 		</div>
+		<script type="text/javascript">
+		function cla(){
+		document.getElementById("sousuo").value="";
+		}
+		</script>
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
 		</c:if>
@@ -91,7 +101,7 @@
 				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
 					录入员工信息
 			</a>
-			</span> <span class="r">共有数据：<strong>${page.total}</strong> 条
+			</span> <span class="r">共有数据：<strong>${p.total}</strong> 条
 			</span>
 		</div>
 		<div class="mt-20">
@@ -101,8 +111,8 @@
 					<tr class="text-c">
 						<th width="25"><input type="checkbox" id="all-check"></th>
 						<th width="80">ID</th>
-						<th width="100">员工姓名</th>
-						<th width="10">性别</th>
+						<th width="60">员工姓名</th>
+						<th width="35">性别</th>
 						<th width="40">员工照片</th>
 						<th width="50">现在住址</th>
 						<th width="40">联系电话</th>
@@ -145,7 +155,7 @@
 				</tbody>
 			</table>
 			<div id="window-from" class="none">
-				<form style="margin-left: 20px;" id="from"  action="Rsctrl/add.do" method="post" enctype="multipart/form-data">
+				<form style="margin-left: 20px;" id="from"   method="post" enctype="multipart/form-data">
 					<table>
 					<tr>
 							<td>员工姓名</td>
@@ -159,7 +169,8 @@
 						<tr>
 							<td>照片</td>
 							<td><input class="inputcl" type="file" name="upload" >
-                             </td>
+							<input type="hidden" id="workerPhoto"name="workerPhoto"></td>
+                             
 							<td>员工身份证号</td>
 							<td><input type="text" id="Sfz" name="idCard">
 							</td>
@@ -202,17 +213,7 @@
 							<td><input type="text" id="companyId" name="companyId" class="selectbyzy">
 							</td>
 						</tr>
-						<tr>
-						    <td></td>
-							<td></td>	
-							<td>修改时间</td>
-							<td>
-							<input type="data" id="lastModifyDate" name="lastModifyDate" class="selectbyzy">
-							<input >
-					       
-					
-							</td>
-						</tr>
+						
 						
 						<tr>
 							<td><div>备注信息</div></td>
@@ -225,7 +226,7 @@
 						</tr>
 						<tr>
 						<td>
-						<input type="button" onclick="tj()" value="提交">
+						<span id="xianshi"></span>
 						</td>
 						</tr>
 					</table>
@@ -257,7 +258,7 @@
 				</div>
 			</div>
 			<br>
-			<div>
+		<div>
 				<span>当前${p.pageNum}/${p.pages}页</span>
 				<div style="float: right;">
 					<button onclick="sy()"
@@ -265,8 +266,8 @@
 					<script type="text/javascript">
 				  function sy(){
 				  
-				  location.href="Rsctrl/selectuserinfo.do?pageNum="+${p.navigateFirstPage }+
-				      "&name="+document.getElementById("ssz").value
+				  location.href="Rsctrl/selectSup.do?pageNum="+${p.navigateFirstPage }+
+				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
 					<button onclick="syy()"
@@ -274,8 +275,8 @@
 					<script type="text/javascript">
 				  function syy(){
 				 
-				  location.href="Rsctrl/selectuserinfo.do?pageNum="+${p.prePage}+
-				      "&name="+document.getElementById("ssz").value
+				  location.href="Rsctrl/selectSup.do?pageNum="+${p.prePage}+
+				      "&name="+document.getElementById("sousuo").value
 				  }
 				  </script>
 					<button disabled="disabled"
@@ -285,32 +286,30 @@
 					<script type="text/javascript">
 				     function xyy(){
 				  		 
-				      location.href="Rsctrl/selectuserinfo.do?pageNum="+${p.nextPage}+
-				      "&name="+document.getElementById("ssz").value
+				      location.href="Rsctrl/selectSup.do?pageNum="+${p.nextPage}+
+				      "&name="+document.getElementById("sousuo").value
 				    }
 				   </script>
 					<button onclick="wy()"
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
 					<script type="text/javascript">
 				     function wy(){
-				     location.href="Rsctrl/selectuserinfo.do?pageNum="+${p.navigateLastPage }+
-				      "&name="+document.getElementById("ssz").value
+				     location.href="Rsctrl/selectSup.do?pageNum="+${p.navigateLastPage }+
+				      "&name="+document.getElementById("sousuo").value
 				    }
 				  </script>
 				</div>
 			</div>
 		</div>
+	</div>
 
 		<script type="text/javascript">
-		   
-		
-		
-		
-		
+
 			/* 搜索 */
 			function sousuo() {
+			alert(document.getElementById("sousuo").value)
 				var sousuo = document.getElementById("sousuo").value;
-				location.href = "Rsctrl/selectuserinfo.do?name=" + sousuo
+				location.href = "Rsctrl/selectSup.do?name=" + sousuo
 			}
 			/* 批量删除 */
 			var nodeAll = document.getElementById("all-check");
@@ -396,8 +395,13 @@
 					content : $('#window-div')
 				});
 			}
+			
 			/* 编辑 */
+			var indexcs="";
 			function bj(id) {
+			document.getElementById("from").action="Rsctrl/updateuserid.do"
+			alert(document.getElementById("from").action)
+			$("#xianshi").html('<input type="button" onclick="xg()" value="提交">')
 				$("#workerId").val($("#ee").val());
 				$.ajax({
 					type : "post",
@@ -405,7 +409,7 @@
 					dataType : "json",
 					success : function(data) //从前台回调回来的数组，处理后的数据
 					{
-					alert(data.workerId+"  "+data.idCard)
+					//alert(data.workerId+"  "+data.idCard)
 						$("#workerId").val(data.workerId);
 						$("#ygXm").val(data.workerName);
 						$("#sex").val(data.workerSex);
@@ -426,30 +430,19 @@
 						$("#companyId").val(data.companyId);
 						$("#bzXx").val(data.orderRemark);
 						$("#lastModifyDate").html(data.lastModifyDate);
-						
-						var date = new Date(data.lastModifyDate);
-						var Y = date.getFullYear() + '-';
-						var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-						var D = date.getDate() + ' ';
-						var H = date.getHours() + ':';
-						var F = date.getMinutes() + ':';
-						var S = date.getSeconds();
-						$("#ll").html("最后修改时间：" + Y + M + D + H + F + S);
 					}
 				});
-		
-				 var index = layer.open({
+		            indexcs = layer.open({
 					type : 1,
 					area : [ '600px', '550px' ],
-					btn : [ '提交', '取消' ], 					
 					fix : false, //不固定
 					maxmin : true,
 					shade : 0.4,
-					title : '编辑',
-					content : $('#window-from'), 
+					title : '修改员工信息',
+					content : $('#window-from'),
 					yes : function() {
 						/* 输出序列后的值，name一定要和bean的一样 */
-						/* alert($('#from').serialize()); */
+						 /* alert($('#from').serialize());  */
 						$.ajax({
 							type : "post", //请求方式
 							url : "Rsctrl/updateuserid.do", //url地址
@@ -472,13 +465,16 @@
 			/* 添加 */
 			var indexcs="";
 			function add() {
+			document.getElementById("from").action="Rsctrl/add.do"
+			alert(document.getElementById("from").action)
+			$("#xianshi").html('<input type="button" onclick="tj()" value="提交">')
 				$("#workerName").val($("#dd").val());
 				$("#workerId").val($("#ee").val());
 				$.ajax({
 					type : "post",
 					url : "<%=basePath%>Rsctrl/selectuserid.do",
 					dataType : "json",
-					success : function(data) //从前台回调回来的数组，处理后的数据
+					 success : function(data) //从前台回调回来的数组，处理后的数据
 					{
 						var h = "";
 						h = "<option>请选择</option>";
@@ -486,7 +482,7 @@
 							h += "<option value='" + comp.companyId + "'>" + comp.companyName + "</option>"
 						});
 						$("#comp").html(h);
-					}
+					} 
 				});
 				indexcs = layer.open({
 					type : 1,
@@ -517,7 +513,11 @@
 			layer.msg("添加成功",{icon:6,time:1000})
 	        }
 			
-	       
+	       function xg(){
+			$("#from").submit();
+			layer.close(indexcs);
+			layer.msg("修改成功",{icon:6,time:1000})
+	        }
 		</script>
 </body>
 </html>

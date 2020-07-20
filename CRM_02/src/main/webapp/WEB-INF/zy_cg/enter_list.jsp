@@ -124,24 +124,74 @@
 								</c:if> <c:if test="${p.sfRk=='已入库'}">
 									<span class="label label-success radius">${p.sfRk}</span>
 								</c:if></td>
-							<td class="td-manage"><c:if test="${p.sfRk=='未入库'}">
-									<a style="text-decoration:none" onClick="cksjxq(${p.cgXqId })"
-										href="javascript:;" title="查看采购明细"> <i
-										class="Hui-iconfont">&#xe616;</i>
-									</a>
-									<a onclick="change(${p.cgXqId })" title="付款" class="ml-5"
+							<td class="td-manage"><a style="text-decoration:none"
+								onClick="cksjxq(${p.cgXqId })" href="javascript:;"
+								title="查看采购明细"> <i class="Hui-iconfont">&#xe616;</i>
+							</a> <c:if test="${p.cpId!=-1}">
+									<a onclick="change(${p.cgXqId})" title="入库" class="ml-5"
 										style="text-decoration:none;"> <i class="Hui-iconfont">&#xe6e1;</i>
 									</a>
-								</c:if> <c:if test="${p.sfRk=='已入库'}">
-									<a style="text-decoration:none" onClick="cksjxq(${p.cgXqId })"
-										href="javascript:;" title="查看采购明细"> <i
-										class="Hui-iconfont">&#xe616;</i>
+								</c:if> <c:if test="${p.cpId==-1}">
+									<a onclick="changexh(${p.cgXqId})" title="入库" class="ml-5"
+										style="text-decoration:none;"><i class="Hui-iconfont">&#xe6e1;</i>
 									</a>
 								</c:if></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+			<div id="window-from" class="none">
+				<form style="margin-left: 20px;" id="from" method="post">
+					<table>
+						<tr>
+							<td>商品名称</td>
+							<td>
+							<input class="inputcl" type="hidden" id="cgxqid">
+							<input readonly="readonly" class="inputcl" type="text"
+								id="spmc" name="productName"></td>
+							<td>商品类别</td>
+							<td><input type="text" id="splb"
+								name="productType"></td>
+						</tr>
+						<tr>
+							<td>库存数量</td>
+							<td><input readonly="readonly" type="text" id="kcsl"
+								name="kcNum"></td>
+
+							<td>规格说明</td>
+							<td><input type="text" id="ggsm" name="ggsm"></td>
+						</tr>
+						<tr>
+							<td>仓库</td>
+							<td><select id="ck" name="warehouseId" class="selectbyzy">
+							</select></td>
+							<td>零售价</td>
+							<td><input type="text" id="lsj"
+								name="renall"></td>
+						</tr>
+						<tr>
+							<td>公司</td>
+							<td><input readonly="readonly" type="text" id="gs">
+								<input type="hidden" id="gsid" name="companyId"></td>
+							<td>成本价</td>
+							<td><input type="text" id="cbj"
+								name="cost"></td>
+						</tr>
+						<tr>
+							<td>单位</td>
+							<td><input type="text" id="dw" name="unit"></td>
+							<td>经销价</td>
+							<td><input type="text" id="jxj"
+								name="sell"></td>
+						</tr>
+						<tr>
+							<td><div>备注信息</div></td>
+							<td colspan="3"><textarea style="float: left;" rows="5"
+									cols="70" id="bzxx" name="orderRemark"></textarea></td>
+						</tr>
+					</table>
+				</form>
+			</div>
 			<div id="window-div" class="none" style="width: 750px;">
 				<div class="hover-buttons">
 					<div class="wrap">
@@ -216,6 +266,7 @@
 				dataType : "json",
 				success : function(data) //从前台回调回来的数组，处理后的数据
 				{
+				
 					$("#a").html("操作人：" + data.czrmc);
 					$("#b").html("公司：" + data.comname);
 					$("#c").html("备注：" + data.bzXx);
@@ -231,7 +282,7 @@
 				content : $('#window-div')
 			});
 		}
-		/* 入库 */
+		/* 补货入库 */
 		function change(id) {
 			$.ajax({
 				type : "post",
@@ -240,13 +291,70 @@
 				success : function(data) //从前台回调回来的数组，处理后的数据
 				{
 					if (data == 1) {
-						layer.msg("操作成功", {
+						layer.msg("此商品补货已完成", {
 							icon : 6
 						});
 						setTimeout(function() {
 							location.replace(location.href);
 						}, 1000)
 					}
+				}
+			});
+		}
+		/* 新货入库 */
+		function changexh(id) {
+			$.ajax({
+				type : "post",
+				url : "<%=basePath%>purctrl/selectdial.do?id=" + id,
+				dataType : "json",
+				success : function(data) //从前台回调回来的数组，处理后的数据
+				{
+				
+				    $("#cgxqid").val(data.cgXqId);
+					$("#spmc").val(data.cpName);
+					$("#kcsl").val(data.cpNum);
+					$("#gs").val(data.comname);
+					$("#gsid").val(data.conpanyId);
+					var op = "";
+					op = "<option>请选择</option>";
+					$.each(data.kcWarehouseInfo, function(i, comp) {
+						op += "<option value='" + comp.warehouseId + "'>" + comp.warehouseName + "</option>"
+					});
+					$("#ck").html(op);
+				}
+			});
+			var index = layer.open({
+				type : 1,
+				area : [ '600px', '530px' ],
+				btn : [ '提交', '取消' ],
+				fix : false, //不固定
+				maxmin : true,
+				shade : 0.4,
+				title : '编辑',
+				content : $('#window-from'),
+				yes : function() {
+					temp = 1;
+					$.ajax({
+						type : "post", //请求方式
+						url : "purctrl/addkcgoods.do?id="+id, //url地址
+						data : $('#from').serialize(), //序列化表单的参数
+						dataType : "json" //响应类型
+					});
+					//提交完成后关闭弹层
+					layer.close(index);
+					if (temp == 1) {
+						layer.msg("新商品入库成功", {
+							icon : 6,
+							time : 2000
+						});
+					}
+				},
+				//end是关闭窗口时自动执行
+				end : function() {
+					/* alert("关闭后刷新页面"); */
+					setTimeout(function() {
+						location.replace(location.href);
+					}, 1000)
 				}
 			});
 		}
