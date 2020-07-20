@@ -539,6 +539,7 @@ public class CgController {
 		CgOrderDetail selectDetailBycgXqId2 = cgService.selectDetailBycgXqId(id);
 		selectDetailBycgXqId2.setSfRk("已入库");
 		selectDetailBycgXqId2.setCpId(cpid);
+		selectDetailBycgXqId2.setCgId(cpid);
 		cgService.addcod(selectDetailBycgXqId2);
 		return i;
 	}
