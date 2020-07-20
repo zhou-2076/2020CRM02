@@ -174,11 +174,13 @@ outline: none;
 							<td><fmt:formatDate value="${p.cgDate }"
 									pattern="yyyy-MM-dd HH:mm:ss" /></td>
 
-							<td><c:if test="${p.fkQk=='未付款'}">
+							<td>
+							<c:if test="${p.fkQk=='未付款'}">
 									<span class="label label-danger radius">${p.fkQk}</span>
 								</c:if> <c:if test="${p.fkQk=='已付款'}">
 									<span class="label label-success radius">${p.fkQk}</span>
-								</c:if></td>
+								</c:if>
+								</td>
 							<td>${p.cgJz}</td>
 							<td class="td-manage">
 							<c:if test="${p.fkQk=='未付款'}">

@@ -294,7 +294,7 @@
 							<li><a data-href="purctrl/purlist.do"
 								data-title="未处理采购单"> <i class="Hui-iconfont">&#xe623;</i>&nbsp采购单
 							</a></li>
-							<li><a data-href="purctrl/purusedlist.do" data-title="已处理采购单">
+							<li><a data-href="purctrl/purlistused.do" data-title="已处理采购单">
 									<i class="Hui-iconfont">&#xe623;</i>&nbsp已处理采购单
 							</a></li>
 						</ul>

@@ -84,9 +84,9 @@
 			</from>
 		</div>
 		<script type="text/javascript">
-		function cla(){
-		document.getElementById("sousuo").value="";
-		}
+			function cla() {
+				document.getElementById("sousuo").value = "";
+			}
 		</script>
 		<c:if test="${temp=='no'}">
 			<h1>暂无数据</h1>
@@ -99,17 +99,17 @@
 			</a> <a href="javascript:;" onclick="add()"
 				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
 					录入供应商信息
-			</a>
-			<a href="javascript:;" onclick="daochu()" style="background-color: pink; border: 0px;"
+			</a> <a href="javascript:;" onclick="daochu()"
+				style="background-color: pink; border: 0px;"
 				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
 					导出到excel
 			</a>
-			</span> 
+			</span>
 			<script type="text/javascript">
-		function daochu(){
-		location.href="<%=basePath%>purctrl/daochu.do"
-		}
-		</script>
+				function daochu() {
+					location.href = "<%=basePath%>purctrl/daochu.do"
+				}
+			</script>
 			<span class="r">共有数据：<strong>${page.total}</strong> 条
 			</span>
 		</div>
@@ -122,7 +122,7 @@
 						<th width="80">ID</th>
 						<th width="100">供应商名称</th>
 						<th width="100">地址</th>
-						<!-- <th width="40">是否有效</th> -->
+						<th width="40">是否有效</th>
 						<th width="40">操作</th>
 					</tr>
 				</thead>
@@ -134,7 +134,11 @@
 							<td>${p.gysId }</td>
 							<td>${p.gysName }</td>
 							<td>${p.address }</td>
-							<%-- <td>${p.sfYx }</td> --%>
+							<td><c:if test="${p.sfYx=='是'}">
+									<span class="label label-success radius">${p.sfYx}</span>
+								</c:if> <c:if test="${p.sfYx=='否'}">
+									<span class="label label-danger radius">${p.sfYx}</span>
+								</c:if></td>
 							<td class="td-manage"><a style="text-decoration:none"
 								onClick="cksjxq(${p.gysId })" href="javascript:;" title="查看采购明细">
 									<i class="Hui-iconfont">&#xe616;</i>
