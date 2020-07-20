@@ -429,8 +429,17 @@ outline: none;
 					url : "Bgctrl/addBgSms.do?"+ id, //url地址
 					data : $('#from').serialize(), //序列化表单的参数
 					dataType : "json", //响应类型
-				})
+				});
+				//关闭弹层
+				layer.close(index);
+				
+				layer.msg("添加成功", {
+					icon : 6,
+					time : 2000
+				});
+				return true;
 			}
+			return false;
 		}
 			
 	
