@@ -3,11 +3,14 @@ package com.sc.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class XsConRecord implements Serializable {
     private Long conRecordId;
 
     private String conTheme;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date conTime;
 
     private Long customId;
@@ -16,8 +19,32 @@ public class XsConRecord implements Serializable {
 
     private Long companyId;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date lastModifyDate;
 
+    //扩展属性 用于日期范围查询
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemin;
+    
+    //扩展属性 用于日期范围查询
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemax;
+    //生成它的set get方法-start
+    public Date getDatemin() {
+		return datemin;
+	}
+
+	public void setDatemin(Date datemin) {
+		this.datemin = datemin;
+	}
+
+	public Date getDatemax() {
+		return datemax;
+	}
+
+	public void setDatemax(Date datemax) {
+		this.datemax = datemax;
+	}//生成它的set get方法-end
     private static final long serialVersionUID = 1L;
 
     public XsConRecord(Long conRecordId, String conTheme, Date conTime, Long customId, String conContent, Long companyId, Date lastModifyDate) {
@@ -89,4 +116,12 @@ public class XsConRecord implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "XsConRecord [conRecordId=" + conRecordId + ", conTheme=" + conTheme + ", conTime=" + conTime
+				+ ", customId=" + customId + ", conContent=" + conContent + ", companyId=" + companyId
+				+ ", lastModifyDate=" + lastModifyDate + "]";
+	}
+    
 }

@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class XsOut implements Serializable {
     private Long saleId;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date makeSaleDate;
 
     private BigDecimal invoice;
@@ -26,9 +29,33 @@ public class XsOut implements Serializable {
     private String outRemark;
 
     private Long companyId;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date lastModifyDate;
 
+    //扩展属性 用于制单日期范围查询
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemin;
+    
+    //扩展属性 用于制单日期范围查询
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datemax;
+    //生成它的set get方法-start
+    public Date getDatemin() {
+		return datemin;
+	}
+
+	public void setDatemin(Date datemin) {
+		this.datemin = datemin;
+	}
+
+	public Date getDatemax() {
+		return datemax;
+	}
+
+	public void setDatemax(Date datemax) {
+		this.datemax = datemax;
+	}//生成它的set get方法-end
     private static final long serialVersionUID = 1L;
 
     public XsOut(Long saleId, Date makeSaleDate, BigDecimal invoice, Long userId, Long customId, BigDecimal saleAmount, String saleOutStatus, String rebate, String orderStatus, String outRemark, Long companyId, Date lastModifyDate) {
@@ -145,4 +172,14 @@ public class XsOut implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "XsOut [saleId=" + saleId + ", makeSaleDate=" + makeSaleDate + ", invoice=" + invoice + ", userId="
+				+ userId + ", customId=" + customId + ", saleAmount=" + saleAmount + ", saleOutStatus=" + saleOutStatus
+				+ ", rebate=" + rebate + ", orderStatus=" + orderStatus + ", outRemark=" + outRemark + ", companyId="
+				+ companyId + ", lastModifyDate=" + lastModifyDate + "]";
+	}
+    
+    
 }

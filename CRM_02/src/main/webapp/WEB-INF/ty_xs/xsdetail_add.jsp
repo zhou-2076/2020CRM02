@@ -1,5 +1,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -31,77 +32,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加联系人信息</title>
+<title>添加销售详情单</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <article class="page-container">
-	<form action="xscustomctrl/addconnect.do" method="post" class="form form-horizontal" id="form-member-add">
+	<form action="xssalectrl/addxsDetail.do" method="post" class="form form-horizontal" id="form-member-add">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">客户编号：</label>
+			<label class="form-label col-xs-4 col-sm-3">销售单ID：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 			    <!-- 如果是添加，则没有id；如果是修改就有id -->
-			    <input type="hidden" value="${connect.connectId }"  id="connectId" name="connectId">
-				<input type="text" class="input-text" value="${connect.customId }" placeholder="请输入客户编号" id="customId" name="customId">
+			    <input type="hidden" value="${xsdetail.saleDetailId }"  id="saleDetailId" name="saleDetailId">
+				<input type="text" class="input-text" value="${xsdetail.saleId }" placeholder="请输入销售单编号" id="saleId" name="saleId">
 			</div>
 		</div>
 		
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">联系人姓名：</label>
+			<label class="form-label col-xs-4 col-sm-3">商品编号：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.connectName }" placeholder="" id="connectName" name="connectName">
+				<input type="text" class="input-text" value="${xsdetail.goodId }" placeholder="" id="goodId" name="goodId">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">英文名：</label>
+			<label class="form-label col-xs-4 col-sm-3">商品数量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.connectEname }" placeholder="" id="connectEname" name="connectEname">
+				<input type="text" class="input-text" value="${xsdetail.goodNum }" placeholder="" id="goodNum" name="goodNum">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">职务：</label>
+			<label class="form-label col-xs-4 col-sm-3">商品价格：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.position }" placeholder="" id="position" name="position">
+				<input type="text" class="input-text" value="${xsdetail.goodPrice }" placeholder="" id="goodPrice" name="goodPrice">
 			</div>
 		</div>
 		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">部门：</label>
+		<label class="form-label col-xs-4 col-sm-3">备注说明：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.depart }" placeholder="" id="depart" name="depart">
+				<input type="text" class="input-text" value="${xsdetail.saleDetailRemark }" placeholder="" id="saleDetailRemark" name="saleDetailRemark">
 			</div>
 		</div>
 		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">手机：</label>
+		<label class="form-label col-xs-4 col-sm-3">公司编号：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.mobilephone }" placeholder="" id="mobilephone" name="mobilephone">
+				<input type="text" class="input-text" value="${xsdetail.companyId }" placeholder="" id="companyId" name="companyId">
 			</div>
 		</div>
-		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">办公电话：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.phoneOffice }" placeholder="" id="phoneOffice" name="phoneOffice">
-			</div>
-		</div>
-		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">电子邮件：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.email }" placeholder="" id="email" name="email">
-			</div>
-		</div>
-		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">地址：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.connectAddress }" placeholder="" id="connectAddress" name="connectAddress">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">备注信息：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="remarkMessage" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)">${connect.connectRemark}</textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
-		</div>
+
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">最后修改时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">

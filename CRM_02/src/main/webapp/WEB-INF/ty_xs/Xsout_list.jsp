@@ -38,7 +38,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>客户管理</title>
+<title>销售管理</title>
 <style type="text/css">
 .none { /* 弹层默认隐藏 */
 	display: none;
@@ -46,14 +46,13 @@
 </style>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 客户管理 <span class="c-gray en">&gt;</span> 客户信息管理 <a class="btn btn-refresh radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 销售管理 <span class="c-gray en">&gt;</span> 销售出库单管理 <a class="btn btn-refresh radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-	<form action="xscustomctrl/selectcustom.do" method="post" id="myform"> <!--  把表单控件包起来-->
-		<div class="text-c"> 日期范围： <!--从什么日期到什么日期，所以搞一个扩展属性只有年月日  --> <!-- 它这里的格式会防止出错，比如最小日期只能在最大日期前面选择 -->
-			<input type="text" value="<fmt:formatDate value="${cus.datemin}" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
+	<form action="xssalectrl/selectxsOut.do" method="post" id="myform"> <!--  把表单控件包起来-->
+		<div class="text-c"> 制单日期范围： <!--从什么日期到什么日期，所以搞一个扩展属性只有年月日  --> <!-- 它这里的格式会防止出错，比如最小日期只能在最大日期前面选择 -->
+			<input type="text" value="<fmt:formatDate value="${out.datemin}" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
 			-
-			<input type="text" value="<fmt:formatDate value="${cus.datemax }" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
-			<input type="text" value="${cus.customName} " class="input-text" style="width:250px" placeholder="输入客户名称进行模糊查询" id="customName" name="customName">
+			<input type="text" value="<fmt:formatDate value="${out.datemax }" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
 			<input type="hidden" name="pageNum" id="pageNum" value="${p.pageNum }"> <!-- 这个隐藏域是用来穿页数重新提交表单的 -->
 			<button type="reset" onclick="chongzhi()" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe6f7;</i> 重置</button>
 				<script type="text/javascript">
@@ -63,54 +62,57 @@
 						document.getElementById("customName").value="";
 					}
 				</script>
-			<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜客户</button>
+			<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜出库单</button>
 		</div>
 	</form>
 	
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> 
 		<span class="l">
 		<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> 
-		<a href="javascript:;" onclick="member_add('添加客户','xscustomctrl/goaddcustom.do','<%-- ${cus.customId} --%>','500','520')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加客户</a>
+		<a href="javascript:;" onclick="member_add('添加出库单','xssalectrl/goaddxsOut.do','${out.saleId }','520')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加出库单</a>
 		</span> 
 		<span class="r">共有数据：<strong>${p.total}</strong> 条</span> 
 	</div>
 	
 
 <div class="mt-20">
-	<form action="xscustomctrl/deletecustomall.do" method="post" id="myform1"> <!-- 这里点击确定不出来是因为你写的name="myform1" -->
+	<form action="xssalectrl/deletexsOutall.do" method="post" id="myform1"> <!-- 这里点击确定不出来是因为你写的name="myform1" -->
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" id=""></th>
-				<th width="30">客户ID</th>
-				<th width="50">客户名称</th>
-				<th width="50">网站</th>
-				<th width="80">最后修改时间</th>
-				<th width="60">联系操作</th>
-				<th width="60">增删改查操作</th>
+				<th width="30">销售单ID</th>
+				<th width="50">制单日期</th>
+				<th width="50">客户编号</th>
+				<th width="80">销售金额</th>
+				<th width="30">销售出库状态</th>
+				<th width="30">备注信息</th>
+				<th width="60">销售详情</th>
+				<th width="60">操作</th>
 			</tr>
 			
 		</thead>
 		<tbody>
 		   <c:forEach items="${p.list }" var="p">
 				<tr class="text-c">
-					<td><input type="checkbox" value="${p.customId }"  name="ids"> </td> <!-- 这里所有的复选框都叫ids -->
-					<td>${p.customId}</td>								<!-- 复选框name=ids，方法参数也要是ids -->
-					<td>${p.customName }</td>
-					<td >${p.website  }</td>
+					<td><input type="checkbox" value="${p.saleId }"  name="ids"> </td> <!-- 这里所有的复选框都叫ids -->
+					<td>${p.saleId }</td>
 					<td>
-					  <fmt:formatDate value="${p.lastModifyDate  }" pattern="yyyy-MM-dd HH:mm:ss"/>
-					</td>
+					  <fmt:formatDate value="${p.makeSaleDate  }" pattern="yyyy-MM-dd HH:mm:ss"/>
+					</td>							<!-- 复选框name=ids，方法参数也要是ids -->
+					<td>${p.customId }</td>
+					<td >${p.saleAmount  }</td>
+					<td >${p.saleOutStatus  }</td>
+					<td >${p.outRemark  }</td>
 					<td >
-						<a style="text-decoration:none"  href="xscustomctrl/selectconnect.do?id=${p.customId }" title="查看客户联系人"><i class="Hui-iconfont">&#xe636;</i></a> 				
-						<a style="text-decoration:none"  href="xscustomctrl/selectconRecord.do?id=${p.customId }" title="查看客户联系记录">	<i class="Hui-iconfont">&#xe616;</i></a> 			
+						<a style="text-decoration:none"  href="xssalectrl/selectxsDetail.do?id=${p.saleId }" title="查看销售详情单"><i class="Hui-iconfont">&#xe636;</i></a> 							
 					</td>
 					<td class="td-manage">
-						<a style="text-decoration:none" onClick="cksjxq(${p.customId })" href="javascript:;" title="查看客户基本信息"><i class="Hui-iconfont">&#xe616;</i>
+						<a style="text-decoration:none" onClick="cksjxq(${p.saleId })" href="javascript:;" title="查看出库详情"><i class="Hui-iconfont">&#xe616;</i>
 										
 						<!-- 根据id来区分是编辑还是删除 -->
-	                    <a title="修改客户基本信息" href="javascript:;" onclick="member_edit('编辑客户信息','xscustomctrl/goaddcustom.do','${p.customId }','520')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  
-						<a title="删除" href="javascript:;" onclick="member_del(this,'${p.customId}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+	                    <a title="修改销售出库单" href="javascript:;" onclick="member_edit('编辑销售出库单','xssalectrl/goaddxsOut.do','${p.saleId }','520')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  
+						<a title="删除" href="javascript:;" onclick="member_del(this,'${p.saleId}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 					</td>
 					</tr>
 			</c:forEach>
@@ -123,8 +125,7 @@
 					<div class="wrap">
 						<div class="bg-effect">
 							<ul class="bt-list">
-								<li><a id="a" class="hvr-back-pulse button">^_^!</a> <a
-									id="b" class="hvr-sweep-to-right button">^_^!</a> <a id="c"
+								<li><a id="a" class="hvr-back-pulse button">^_^!</a>  <a id="c"
 									class="hvr-sweep-to-left button">^_^!</a></li>
 								<li><a id="d" class="hvr-sweep-to-bottom button">^_^!</a> <a
 									id="e" class="hvr-sweep-to-top button">^_^!</a> <a id="f"
@@ -135,20 +136,7 @@
 									id="j" class="hvr-rectangle-out button">^_^!</a></li>
 								<br>
 								<li><a id="k" class="hvr-radial-out button">^_^!</a></li>
-								<li><a id="ll" class="hvr-rectangle-in button">^_^!</a> <a
-									id="mm" class="hvr-rectangle-out button">^_^!</a></li>
-								<li><a id="nn" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="o" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="p" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="q" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="r" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="s" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="t" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="u" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="v" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="w" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="x" class="hvr-rectangle-in button">^_^!</a></li>
-								<li><a id="y" class="hvr-rectangle-in button">^_^!</a></li>
+								<li><a id="ll" class="hvr-rectangle-in button">^_^!</a></li>
 								<li><a id="z" class="hvr-rectangle-in button">^_^!</a></li>
 							</ul>
 						</div>
@@ -232,38 +220,25 @@ $(function(){
 
 /*查看客户基本信息*/
 			 function cksjxq(id) {
-			 alert("拿到的id"+id)
+			/*  alert("拿到的id"+id) */
 				$.ajax({
 					type : "post",
-					url : "<%=basePath%>xscustomctrl/getCustombyid.do?id=" + id,   /*  这里的引号错了*/
+					url : "<%=basePath%>xssalectrl/getxsOutbyid.do?id=" + id,   /*  这里的引号错了*/
 					dataType : "json",
 					success : function(data) //从前台回调回来的数组，处理后的数据
 					{
 				/* 	alert(data.customName); */
-						$("#a").html("客户名称：" + data.customName);
-						$("#b").html("客户属性：" + data.customProperty);
-						$("#c").html("网站：" + data.website);
-						$("#d").html("股票代码：" + data.sharaCode);
-						$("#e").html("上级单位：" + data.superDepart);
-						$("#f").html("所有者：" + data.owner);
-						$("#g").html("员工数：" + data.empNum);
-						$("#h").html("行业编号：" + data.industryId);
-						$("#i").html("客户类型：" + data.customType);
-						$("#j").html("客户状态：" + data.customStatus);
-						$("#k").html("客户来源：" + data.customSource);
-						$("#nn").html("负责人编号：" + data.principalId);
-						$("#mm").html("固定电话：" + data.telephone);
-						$("#o").html("移动电话：" + data.mobilephone);
-						$("#p").html("客户传真：" + data.customFax);
-						$("#q").html("开户银行：" + data.bank);
-						$("#r").html("银行账户：" + data.bankAccount);
-						$("#s").html("电子邮箱：" + data.email);
-						$("#t").html("SIC编码：" + data.sic);
-						$("#u").html("支付方式：" + data.payMethod);
-						$("#v").html("是否有效：" + data.enabled);
-						$("#w").html("详细地址：" + data.address);
-						$("#x").html("备注信息：" + data.customRemark);
-						$("#y").html("公司编号：" + data.companyId);
+						$("#a").html("销售单编号：" + data.saleId);
+						$("#c").html("发票号码：" + data.invoice);
+						$("#d").html("用户编号：" + data.userId);
+						$("#e").html("客户编号：" + data.customId);
+						$("#f").html("销售金额：" + data.saleAmount);
+						$("#g").html("销售出库状态：" + data.saleOutStatus);
+						$("#h").html("是否返利：" + data.rebate);
+						$("#i").html("订单状态：" + data.orderStatus);
+						$("#j").html("备注信息：" + data.outRemark);
+						$("#k").html("公司编号：" + data.companyId);
+						
 						
 						var date = new Date(data.lastModifyDate);
 						var Y = date.getFullYear() + '-';
@@ -274,15 +249,14 @@ $(function(){
 						var S = date.getSeconds();
 						$("#ll").html("最后修改时间：" + Y + M + D + H + F + S);
 						
-						var date1 = new Date(data.nextTime);
-						var Y1 = date1.getFullYear() + '-';
-						var M2 = (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) + '-';
-						var D3 = date1.getDate() + ' ';
-						var H4 = date1.getHours() + ':';
-						var F5 = date1.getMinutes() + ':';
-						var S6 = date1.getSeconds();
-						alert("下次联系时间：" + Y1 + M2 + D3 + H4 + F5 + S6);
-						$("#z").html("下次联系时间：" + Y1 + M2 + D3 + H4 + F5 + S6);
+						var date1 = new Date(data.makeSaleDate);
+						var Y1 = date.getFullYear() + '-';
+						var M2 = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+						var D3 = date.getDate() + ' ';
+						var H4 = date.getHours() + ':';
+						var F5 = date.getMinutes() + ':';
+						var S6 = date.getSeconds();
+						$("#z").html("制单日期：" + Y1 + M2 + D3 + H4 + F5 + S6);
 					}
 				});
 				layer.open({
@@ -296,16 +270,14 @@ $(function(){
 				});
 			} 
 /*客户信息-添加*/
-function member_add(title,url,id,w,h){
-	/* alert(id); 这个id指的是上面括号里给的id，而不是这里url后面的Id*/
-    url=url+"?customId="+id;
+function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
 
 
 /*客户信息-编辑*/
 function member_edit(title,url,id,w,h){
-	url=url+"?customId="+id;
+	url=url+"?saleId="+id;
 	layer_show(title,url,w,h);
 }
 /*客户信息批量-删除*/
@@ -327,8 +299,8 @@ function member_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: 'xscustomctrl/deletecustom.do',
-			data: "customId="+id,
+			url: 'xssalectrl/deletexsOut.do',
+			data: "saleId="+id,
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();
