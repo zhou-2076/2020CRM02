@@ -2,6 +2,7 @@ package com.sc.mapper;
 
 import com.sc.entity.BgAssessTask;
 import com.sc.entity.BgAssessTaskExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,15 @@ public interface BgAssessTaskMapper {
     int updateByPrimaryKeySelective(BgAssessTask record);
 
     int updateByPrimaryKey(BgAssessTask record);
+    
+    //关联查询
+    public List<BgAssessTask> select();
+    
+    //查询最后一条数据，(id最大)
+    public BgAssessTask selectlast();//不适用，已停用
+    
+    //返回此时表中的自增id
+    public Long fanhuiid();
+    
+    
 }

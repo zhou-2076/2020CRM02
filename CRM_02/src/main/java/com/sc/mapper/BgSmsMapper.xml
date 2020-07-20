@@ -228,4 +228,47 @@
       LAST_MODIFY_DATE = #{lastModifyDate,jdbcType=TIMESTAMP}
     where SMS_ID = #{smsId,jdbcType=DECIMAL}
   </update>
+  
+  
+  
+  <!-- 一对一关联查询 -->
+										<!--如果列名和属性名一致，通过autoMapping自动映射-->
+	<resultMap type="com.sc.entity.BgSms" id="BgSmsmap" ><!-- autoMapping="true" -->
+		<!--              列名                                              属性名             -->
+		<result column="SMS_ID" property="smsId"/>
+		<result column="SMS_TITLE" property="smsTitle"/>
+		<result column="SMS_CONTENT" property="smsContent"/>
+		<result column="SMS_SENDER" property="smsSender"/>
+		<result column="COMPANY_ID" property="companyId"/>
+		<result column="LAST_MODIFY_DATE" property="lastModifyDate"/>
+		<!-- 一对一配置 -->
+		<association property="bgSmsDetail" javaType="com.sc.entity.BgSmsDetail">
+			<id column="DETAILE_ID" property="detaileId"/>
+			<result column="SMS_ID" property="smsId"/>
+			<result column="RECEIVER_ID" property="receiverId"/>
+			<result column="INFORMATION_STATE" property="informationState"/>
+			<result column="COMPANY_ID" property="companyId"/>
+			<result column="LAST_MODIFY_DATE" property="lastModifyDate"/>
+		</association>
+	</resultMap>
+	
+	<!-- 关联查询 -->
+	<select id="gselect" resultMap="BgSmsmap">
+		SELECT S.*,D.*
+		FROM BG_SMS S
+		LEFT JOIN BG_SMS_DETAIL D
+		ON S.SMS_ID=D.SMS_ID
+	</select>
+  
+  
+  	<!-- 获取自增id -->
+  	<select id="zzId"   resultType="java.lang.Long">
+    select SEQ_BG_SMS_SMS_ID.currval from DUAL
+  	</select>
+  
+  
+  
+  
+  
+  
 </mapper>

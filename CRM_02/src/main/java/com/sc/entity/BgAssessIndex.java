@@ -67,4 +67,11 @@ public class BgAssessIndex implements Serializable {
     public void setLastModifyDtae(Date lastModifyDtae) {
         this.lastModifyDtae = lastModifyDtae;
     }
+
+	@Override
+	public String toString() {
+		return "BgAssessIndex [indexId=" + indexId + ", assessIndex=" + assessIndex + ", remark=" + remark
+				+ ", companyId=" + companyId + ", lastModifyDtae=" + lastModifyDtae + "]";
+	}
+    
 }

@@ -499,5 +499,16 @@ public class CgServiceImpl implements CgService {
         }
         return wb;
 	}
+
+	@Override
+	public List<KcGoodsInfo> seleGoodsInfosByCpName(String name) {
+		KcGoodsInfoExample e = new KcGoodsInfoExample();
+		com.sc.entity.KcGoodsInfoExample.Criteria c = e.createCriteria();
+		if(name!=null&&!name.equals("")){
+			c.andProductNameEqualTo(name);
+		}
+		List<KcGoodsInfo> list = kcGoodsInfoMapper.selectByExample(e);
+		return list;
+	}
 	
 }

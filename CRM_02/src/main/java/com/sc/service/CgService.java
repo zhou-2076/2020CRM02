@@ -125,6 +125,9 @@ public interface CgService {
 
 	// 库存商品补货
 	public void updatagood(KcGoodsInfo KcGoodsInfo);
+	
+	//根据商品名称查询商品
+	public List<KcGoodsInfo> seleGoodsInfosByCpName(String name);
 
 	// 查询仓库
 	public List<KcWarehouseInfo> selectcklist();

@@ -340,8 +340,11 @@ outline: none;
 						<table>
 							<tr>
 								<td>产品名称</td>
-								<td><input type="text" id="cpName" name="cpName"></td>
-
+								<td><input type="text" id="cpNamejc" onblur="jc()" name="cpName">
+								<span style="color: red;" id="span"></span>
+								<span style="color:green;" id="span1"></span>
+								</td>
+                               
 							</tr>
 							<tr>
 								<td>产品单价</td>
@@ -889,13 +892,35 @@ outline: none;
 					type : "post",
 					url : "<%=basePath%>purctrl/changefkqk.do?id="+id,
 					dataType : "json",
-					success : function(data) //从前台回调回来的数组，处理后的数据
+					success : function(data)
 					{
 					  if(data==1){
 					  layer.msg("操作成功",{icon:6});
 					  setTimeout(function() {
 						location.replace(location.href);
 					}, 1000)
+					  }
+					}
+				});
+			}
+			
+			function jc(){
+			var name=$("#cpNamejc").val();
+			
+			$.ajax({
+					type : "post",
+					url : "<%=basePath%>purctrl/jccpname.do?name="+name,
+					dataType : "json",
+					success : function(data)
+					{
+					  if(data==1){
+					  $("#span").html('<i class="Hui-iconfont">&#xe706;</i>仓库已有该商品');
+					   $("#span1").html('');
+					  $("#cpNamejc").focus();
+					  }
+					  if(data==0){
+					  $("#span1").html('<i class="Hui-iconfont">&#xe676;</i>');
+					  $("#span").html('');
 					  }
 					}
 				});
