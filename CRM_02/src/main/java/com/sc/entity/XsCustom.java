@@ -44,7 +44,7 @@ public class XsCustom<ConnectDetail> implements Serializable {
 
     private String bankAccount;
     
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date nextTime;
     
     

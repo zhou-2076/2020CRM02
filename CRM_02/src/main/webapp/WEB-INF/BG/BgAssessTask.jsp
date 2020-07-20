@@ -200,7 +200,7 @@ outline: none;
 		</div>
 	</div>
 	<div id="window-from1" class="none">
-		<form style="margin-left: 20px;" id="from" method="post">
+		<form style="margin-left: 20px;" id="from1" method="post">
 			<table>
 				<br>
 				<tr>
@@ -237,7 +237,7 @@ outline: none;
 				<tr>
 					<td>考核指标:</td>
 					<td style="width: 539px;height: 51px">
-					<select id="assessIndex" name="assessIndex" style="width: 150px;height: 37.32px;border-radius: 5px;"></select></td>
+					<select id="khzb" name="assessIndex" style="width: 150px;height: 37.32px;border-radius: 5px;"></select></td>
 				</tr>
 				<tr>
 					<td>接受者:</td>
@@ -345,7 +345,7 @@ outline: none;
 					$.each(data.selectBgAssessIndex, function(i, selectBgAssessIndex) {
 						opg += "<option value='" + selectBgAssessIndex.indexId + "'>" + selectBgAssessIndex.assessIndex + "</option>"
 					});
-					$("#assessIndex").html(opg);
+					$("#khzb").html(opg);
 					var op = "";
 					$.each(data.selectXtUserInfo, function(i, selectXtUserInfo) {
 						
@@ -411,7 +411,7 @@ outline: none;
 				/* 输出序列后的值，name一定要和bean的一样 */
 				$.ajax({
 					type : "post", //请求方式
-					url : "Bgctrl/addtBgAssessTask.do?"+ id, //url地址
+					url : "Bgctrl/addBgAssessTask.do?"+ id, //url地址
 					data : $('#from').serialize(), //序列化表单的参数
 					dataType : "json", //响应类型
 					

@@ -164,8 +164,8 @@ public class BgController {
 	
 	
 	//终极添加
-	@RequestMapping("addtBgAssessTask.do")
-	public void addtBgAssessTask(ModelAndView mav,BgAssessTask bgAssessTask,BgTaskDetail bgTaskDetail,Long[] id) {
+	@RequestMapping("addBgAssessTask.do")
+	public void addBgAssessTask(ModelAndView mav,BgAssessTask bgAssessTask,BgTaskDetail bgTaskDetail,Long[] id) {
 		System.out.println("---addtBgAssessTask添加方法");
 		System.out.println("--------------------------------独门标记");		
 		//添加,考核任务，考核任务详情

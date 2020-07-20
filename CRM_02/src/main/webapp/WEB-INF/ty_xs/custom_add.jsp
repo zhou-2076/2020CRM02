@@ -1,5 +1,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -148,10 +149,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>下次联系时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<%-- <input type="text" class="input-text" value="${custom.nextTime }" placeholder="" id="nextTime" name="nextTime"> --%>
-				<input style="width: 180px;height: 37.27px" type="text"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-								class="input-text Wdate" type="text" id="" name="nextTime">
+				<input style="width: 180px;height: 37.27px" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+				 value="<fmt:formatDate value="${custom.nextTime }" pattern="yyyy-MM-dd"/>" 
+				 class="input-text Wdate" type="text" id="" name="nextTime">
+			
 			</div>
+
 		</div>
 		<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>电子邮箱：</label>
