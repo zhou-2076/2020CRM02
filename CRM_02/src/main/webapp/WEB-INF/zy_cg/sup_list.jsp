@@ -187,7 +187,18 @@
 							<td>邮箱</td>
 							<td><input type="text" id="yx" name="emil"></td>
 							<td>开户银行</td>
-							<td><input type="text" id="khyh" name="khYh"></td>
+							<td>
+							<select id="khyh" name="khYh" class="selectbyzy">
+							        <option value="">请选择</option>
+									<option id="gsyh" value="工商银行">工商银行</option>
+									<option id="jsyh" value="建设银行">建设银行</option>
+									<option id="zgyh" value="中国银行">中国银行</option>
+									<option id="zgnyyh" value="中国农业银行">中国农业银行</option>
+									<option id="mgdt" value="摩根大通">摩根大通</option>
+									<option id="fgyh" value="富国银行">富国银行</option>
+							</select>
+							<!-- <input type="text" id="khyh" name="khYh"> -->
+							</td>
 						</tr>
 						<tr>
 							<td>银行账户</td>
@@ -402,6 +413,25 @@
 					$("#yb").val(data.yb);
 					$("#yx").val(data.emil);
 					$("#khyh").val(data.khYh);
+					if (data.khYh == "工商银行") {
+						document.getElementById("gsyh").selected = true;
+					}
+					if (data.khYh == "建设银行") {
+						document.getElementById("jsyh").selected = true;
+					}
+					if (data.khYh == "中国银行") {
+						document.getElementById("zgyh").selected = true;
+					}
+					if (data.khYh == "中国农业银行") {
+						document.getElementById("zgnyyh").selected = true;
+					}
+					if (data.khYh == "摩根大通") {
+						document.getElementById("mgdt").selected = true;
+					}
+					if (data.khYh == "富国银行") {
+						document.getElementById("fgyh").selected = true;
+					}
+					
 					$("#yhzh").val(data.yhZh);
 					$("#gszy").val(data.companyZy);
 					$("#czrname").val(data.xtUserInfo.workerName);
@@ -456,6 +486,7 @@
 					setTimeout(function() {
 						location.replace(location.href);
 					}, 1000)
+					
 				}
 			});
 		//弹层全屏
@@ -512,10 +543,11 @@
 				},
 				//end是关闭窗口时自动执行
 				end : function() {
-					/* alert("关闭后刷新页面"); */
+					if (temp == 1) {
 					setTimeout(function() {
 						location.replace(location.href);
 					}, 1000)
+					}
 	
 				}
 			});
