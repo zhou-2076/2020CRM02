@@ -145,7 +145,7 @@
 			</dl>
 			<dl id="menu-product">
 				<dt>
-					<i class="Hui-iconfont">&#xe620;</i> 涂颖<i
+					<i class="Hui-iconfont">&#xe620;</i> 销售管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
 				<dd>
@@ -157,12 +157,6 @@
 							<ul id="ulty" style="display: none;">
 								<li><a data-href="xscustomctrl/selectcustom.do"
 									data-title="客户信息表"> <i class="Hui-iconfont">&#xe623;</i>&nbsp客户信息管理
-								</a></li>
-								<li><a data-href=" " data-title="客户联系记录表">
-										<i class="Hui-iconfont">&#xe623;</i>&nbsp客户联系记录管理
-								</a></li>
-								<li><a data-href=" " data-title="客户反馈表">
-										<i class="Hui-iconfont">&#xe623;</i>&nbsp客户反馈管理
 								</a></li>
 								<li><a data-href=" " data-title="客户流失表">
 										<i class="Hui-iconfont">&#xe623;</i>&nbsp客户流失管理
@@ -181,10 +175,9 @@
 								}
 							}
 						</script>
-						<li><a data-href="product-category.html" data-title="销售出库管理"
-						href="javascript:void(0)">销售出库管理</a></li>
-						<li><a data-href="product-category.html" data-title="销售详情管理"
-						href="javascript:void(0)">销售详情管理</a></li>
+						<li><a data-href="xssalectrl/selectxsOut.do" data-title="销售出库管理"
+						href="javascript:void(0)">销售管理</a></li>
+						
 					</ul>
 				</dd>
 			</dl>

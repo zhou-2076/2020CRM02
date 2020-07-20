@@ -1,5 +1,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -31,77 +33,89 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加联系人信息</title>
+<title>修改销售出库单</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <article class="page-container">
-	<form action="xscustomctrl/addconnect.do" method="post" class="form form-horizontal" id="form-member-add">
+	<form action="xssalectrl/addxsOut.do" method="post" class="form form-horizontal" id="form-member-add">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">客户编号：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>制单日期：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 			    <!-- 如果是添加，则没有id；如果是修改就有id -->
-			    <input type="hidden" value="${connect.connectId }"  id="connectId" name="connectId">
-				<input type="text" class="input-text" value="${connect.customId }" placeholder="请输入客户编号" id="customId" name="customId">
-			</div>
+			  	<input type="hidden" value="${Xsout.saleId }"  id="saleId" name="saleId">
+				<input style="width: 180px;height: 37.27px" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+				 value="<fmt:formatDate value="${Xsout.makeSaleDate }" pattern="yyyy-MM-dd"/>" 
+				 class="input-text Wdate" type="text" id="makeSaleDate" name="makeSaleDate">
+				
+				</div>  
+			
 		</div>
 		
+	
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">联系人姓名：</label>
+			<label class="form-label col-xs-4 col-sm-3">发票号码：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.connectName }" placeholder="" id="connectName" name="connectName">
+				<input type="text" class="input-text" value="${Xsout.invoice  }" placeholder="" id="invoice" name="invoice">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">英文名：</label>
+			<label class="form-label col-xs-4 col-sm-3">用户编号：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.connectEname }" placeholder="" id="connectEname" name="connectEname">
+				<input type="text" class="input-text" value="${Xsout.userId  }" placeholder="" id="userId" name="userId">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">职务：</label>
+			<label class="form-label col-xs-4 col-sm-3">客户名称：</label> <!-- 这一行在表中是客户ID -->
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.position }" placeholder="" id="position" name="position">
+				<span class="select-box">
+				<select class="select" id="selcustomId" size="1" name="customId">
+					<c:forEach items="${c}" var="c2">
+						<option value="${c2.customId  }"> ${c2.customName  }</option> 
+					</c:forEach>
+				</select>
+				</span>
+				<%-- <input type="text" class="input-text" value="${Xsout.customId  }" placeholder="" id="customId" name="customId"> --%>
 			</div>
 		</div>
 		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">部门：</label>
+			<label class="form-label col-xs-4 col-sm-3">销售金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.depart }" placeholder="" id="depart" name="depart">
+				<input type="text" class="input-text" value="${Xsout.saleAmount  }" placeholder="" id="saleAmount" name="saleAmount">
 			</div>
 		</div>
 		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">手机：</label>
+			<label class="form-label col-xs-4 col-sm-3">销售出库状态：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.mobilephone }" placeholder="" id="mobilephone" name="mobilephone">
+				<input type="text" class="input-text" value="${Xsout.saleOutStatus  }" placeholder="" id="saleOutStatus" name="saleOutStatus">
 			</div>
 		</div>
 		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">办公电话：</label>
+			<label class="form-label col-xs-4 col-sm-3">是否返利：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.phoneOffice }" placeholder="" id="phoneOffice" name="phoneOffice">
+				<input type="text" class="input-text" value="${Xsout.rebate  }" placeholder="" id="rebate" name="rebate">
 			</div>
 		</div>
 		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">电子邮件：</label>
+			<label class="form-label col-xs-4 col-sm-3">订单状态：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.email }" placeholder="" id="email" name="email">
-			</div>
-		</div>
-		<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">地址：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${connect.connectAddress }" placeholder="" id="connectAddress" name="connectAddress">
+				<input type="text" class="input-text" value="${Xsout.orderStatus  }" placeholder="" id="orderStatus" name="orderStatus">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">备注信息：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="remarkMessage" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)">${connect.connectRemark}</textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+				<input type="text" class="input-text" value="${Xsout.outRemark  }" placeholder="" id="outRemark" name="outRemark">
 			</div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">公司编号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${Xsout.companyId  }" placeholder="" id="companyId" name="companyId">
+			</div>
+		</div>
+		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">最后修改时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -113,6 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <%=nowtime %>
 			</div>
 		</div>
+
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -144,9 +159,9 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			/* customId:{
+			makeSaleDate:{
 				required:true,
-			} */
+			}
 		},
 		onkeyup:false,
 		focusCleanup:true,
