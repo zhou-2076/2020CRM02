@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class XsDetail implements Serializable {
     private Long saleDetailId;
 
@@ -18,9 +20,11 @@ public class XsDetail implements Serializable {
     private String saleDetailRemark;
 
     private Long companyId;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date lastModifyDate;
 
+    
     private static final long serialVersionUID = 1L;
 
     public XsDetail(Long saleDetailId, Long saleId, Long goodId, Long goodNum, BigDecimal goodPrice, String saleDetailRemark, Long companyId, Date lastModifyDate) {
@@ -101,4 +105,13 @@ public class XsDetail implements Serializable {
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+	@Override
+	public String toString() {
+		return "XsDetail [saleDetailId=" + saleDetailId + ", saleId=" + saleId + ", goodId=" + goodId + ", goodNum="
+				+ goodNum + ", goodPrice=" + goodPrice + ", saleDetailRemark=" + saleDetailRemark + ", companyId="
+				+ companyId + ", lastModifyDate=" + lastModifyDate + "]";
+	}
+    
+    
 }
