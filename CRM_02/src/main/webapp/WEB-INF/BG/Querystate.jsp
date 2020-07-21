@@ -72,7 +72,7 @@ outline: none;
 } */
 </style>
 </head>
-<body>
+<body onload="pdsj()">
 
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
@@ -425,6 +425,12 @@ outline: none;
 	</script>
 	<script>
 	new verSelector();
+	</script>
+	<script>
+	/*查看考核指标*/
+		function pdsj() {
+			alert("欢迎~")	
+		}
 	</script>
 	
 </body>

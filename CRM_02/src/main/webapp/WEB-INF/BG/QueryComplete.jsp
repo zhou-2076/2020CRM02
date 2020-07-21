@@ -72,22 +72,30 @@ outline: none;
 } */
 </style>
 </head>
-<body>
+<body onload="pdsj()">
 
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		 查看未完成任务 <a
+		 查看任务 <a
 			class="btn btn-success radius r"
 			style="line-height:1.6em;margin-top:3px"
 			href="javascript:location.replace(location.href);" title="刷新"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	
-		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+	
+	
+<!-- 未完成任务 -->
+	<div style="display:block;" id="wwc" class="page-container">
+		<center><h3>未完成任务</h3></center>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> 
+			<span class="l">
 			<a href="javascript:;" onclick="return plyiyue()" class="btn btn-danger radius">
 			选择已完成</a></span>
-		</div>
-				
+			
+		 	<span class="r">
+			<a href="javascript:;" onclick="return suoy()">查看全部任务</a> / <a href="javascript:;" onclick="return shix()">查看已失效任务</a></span>
+		</div>			
 		<table class="table table-border table-bordered table-hover table-bg table-sort">
 			<thead>
 				<tr class="text-c">
@@ -144,10 +152,127 @@ outline: none;
 				</c:forEach>
 			</tbody>
 			
-		</table><br>
-			
-		<%-- <div>
+		</table>
+	</div>
+	
+<!-- 查看所有任务 -->
 		
+	<div style="display:none;" id="suoy" class="page-container">	
+		<center><h3>所有任务</h3></center>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> 
+		 	<span class="r">
+			<a href="javascript:;" onclick="return wwc()">查看未完成任务</a> / <a href="javascript:;" onclick="return shix()">查看已失效任务</a></span>
+		</div>
+		<table class="table table-border table-bordered table-hover table-bg table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width="40">任务标题</th>
+					<th width="100">任务具体内容</th>
+					<th width="40">发布人</th>
+					<th width="40">接受者</th>
+					<th width="60">考核指标</th>
+					<th width="100">任务开始时间</th>
+					<th width="100">任务结束时间</th>
+					<th width="40">是否完成</th>
+					<th width="40">状态</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<c:forEach items="${p.list }" var="p">
+					<c:if test="${p.bgTaskDetail.acceptUserId==user.workerId }">
+						<tr class="text-c">
+							<td>${p.taskTitle }</td>
+							<td><a onclick="" title="详情">${p.taskSpecificContrnt}</a></td>
+							<td>${p.taskPromulgator }</td>
+							<td>${user.workerName }</td>
+							<td>
+								<c:forEach items="${selectBgAssessIndex }" var="sbai">
+									<c:if test="${p.assessIndex==sbai.indexId }"><!-- 对比id查出考核名称 -->
+										<a title="查看考核指标" onclick="ckxg(${sbai.assessIndex })">${sbai.assessIndex }</a>
+									</c:if>
+								</c:forEach>
+							</td>
+							<td><fmt:formatDate value="${p.taskStartTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td><fmt:formatDate value="${p.taskFinishTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>
+								<c:if test="${p.bgTaskDetail.whetherComplete=='0' }"><span style="color:red"><i class="Hui-iconfont">&#xe688;</i>未完成</span></c:if>
+								<c:if test="${p.bgTaskDetail.whetherComplete=='1' }"><span style="color:green">完成</span></c:if>
+							</td>
+							<td>
+								<c:if test="${p.bgTaskDetail.state=='0' }"><span style="color:red">已失效</span></c:if>
+								<c:if test="${p.bgTaskDetail.state=='1' }"><span style="color:green">有效</span></c:if>
+							</td>	
+						</tr>
+					</c:if>
+				</c:forEach>
+			</tbody>
+			
+		</table>
+	</div>	
+		
+	
+	
+	
+<!-- 已失效任务 -->
+	<div style="display:none;" id="shix" class="page-container">
+			<center><h3>已失效任务</h3></center>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> 
+		 	<span class="r">
+			<a href="javascript:;" onclick="return wwc()">查看未完成任务</a> / <a href="javascript:;" onclick="return suoy()">查看所有任务</a></span>
+		</div>			
+		<table class="table table-border table-bordered table-hover table-bg table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width="40">任务标题</th>
+					<th width="100">任务具体内容</th>
+					<th width="40">发布人</th>
+					<th width="40">接受者</th>
+					<th width="60">考核指标</th>
+					<th width="100">任务开始时间</th>
+					<th width="100">任务结束时间</th>
+					<th width="40">是否完成</th>
+					<th width="20">状态</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<c:forEach items="${p.list }" var="p">
+					<c:if test="${p.bgTaskDetail.acceptUserId==user.workerId }">
+					<c:if test="${p.bgTaskDetail.state=='0' }">
+						<tr class="text-c">
+							<td>${p.taskTitle }</td>
+							<td><a onclick="" title="详情">${p.taskSpecificContrnt}</a></td>
+							<td>${p.taskPromulgator }</td>
+							<td>${user.workerName }</td>
+							<td>
+								<c:forEach items="${selectBgAssessIndex }" var="sbai">
+									<c:if test="${p.assessIndex==sbai.indexId }"><!-- 对比id查出考核名称 -->
+										<a title="查看考核指标" onclick="ckxg(${sbai.assessIndex })">${sbai.assessIndex }</a>
+									</c:if>
+								</c:forEach>
+							</td>
+							<td><fmt:formatDate value="${p.taskStartTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td><fmt:formatDate value="${p.taskFinishTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>
+								<c:if test="${p.bgTaskDetail.whetherComplete=='0' }"><span style="color:red"><i class="Hui-iconfont">&#xe688;</i>未完成</span></c:if>
+								<c:if test="${p.bgTaskDetail.whetherComplete=='1' }"><span style="color:green">完成</span></c:if>
+							</td>
+							<td>
+								<c:if test="${p.bgTaskDetail.state=='0' }"><span style="color:red">已失效</span></c:if>
+								<%-- <c:if test="${p.bgTaskDetail.state=='1' }"><span style="color:green">有效</span></c:if> --%>
+							</td>
+						</tr>
+					</c:if>
+					</c:if>
+				</c:forEach>
+			</tbody>
+			
+		</table>
+	</div>
+	
+	
+	<div class="page-container">
 			<span>当前${p.pageNum}/${p.pages}页</span>
 			
 			<div style="float: right;">
@@ -156,14 +281,14 @@ outline: none;
 			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">首页</button>
 			  <script type="text/javascript">
 			  function sy(){
-			  location.href="Bgctrl/selectBgAssessTask.do?pageNum="+${p.navigateFirstPage }}
+			  location.href="Bgctrl/.do?pageNum="+${p.navigateFirstPage }}
 			  </script>
 			  
 			<button onclick="syy()" 
 			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">上一页</button>
 			  <script type="text/javascript">
 			  function syy(){
-			  location.href="Bgctrl/selectBgAssessTask.do?pageNum="+${p.prePage}}
+			  location.href="Bgctrl/.do?pageNum="+${p.prePage}}
 			  </script>
 			  
 			<button disabled="disabled"
@@ -172,18 +297,19 @@ outline: none;
 			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">下一页</button>
 				<script type="text/javascript">
 			    function xyy(){
-			    location.href="Bgctrl/selectBgAssessTask.do?pageNum="+${p.nextPage}}
+			    location.href="Bgctrl/.do?pageNum="+${p.nextPage}}
 			    </script>
 			   
 			<button onclick="wy()"
 			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
 				 <script type="text/javascript">
 			     function wy(){
-			     location.href="Bgctrl/selectBgAssessTask.do?pageNum="+${p.navigateLastPage }}
+			     location.href="Bgctrl/.do?pageNum="+${p.navigateLastPage }}
 			  	 </script>
 			</div>
-		</div>--%>
-
+		</div>
+	
+		
 
 	<script type="text/javascript">
 		
@@ -252,6 +378,43 @@ outline: none;
 	<script>
 	new verSelector();
 	</script>
+	
+	
+		<script>
+		/*查看考核指标*/
+		function pdsj() {
+			alert("欢迎~")	
+		}
+			
+		/*表单显示*/
+		function suoy() {
+		/* alert("切换所有任务") */
+			var xg = document.getElementById("suoy").style.display;
+			if (xg == "none") {
+				document.getElementById("suoy").style.display = "block";
+				document.getElementById("wwc").style.display = "none";
+				document.getElementById("shix").style.display = "none";
+			}
+		}function shix() {
+		/* alert("切换失效任务") */
+			var xg = document.getElementById("shix").style.display;
+			if (xg == "none") {
+				document.getElementById("shix").style.display = "block";
+				document.getElementById("wwc").style.display = "none";
+				document.getElementById("suoy").style.display = "none";
+			}
+		}function wwc() {
+		/* alert("切换未完成任务") */
+			var xg = document.getElementById("wwc").style.display;
+			if (xg == "none") {
+				document.getElementById("wwc").style.display = "block";
+				document.getElementById("shix").style.display = "none";
+				document.getElementById("suoy").style.display = "none";
+			}
+		}	
+			
+			
+		</script>
 	
 </body>
 </html>

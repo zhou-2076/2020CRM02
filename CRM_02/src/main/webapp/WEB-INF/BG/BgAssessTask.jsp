@@ -150,8 +150,12 @@ outline: none;
 							<c:if test="${p.bgTaskDetail.whetherComplete=='1' }"><span style="color:green">完成</span></c:if>
 						</td>
 						<td>
-							<c:if test="${p.bgTaskDetail.state=='0' }"><span style="color:red">未读</span></c:if>
-							<c:if test="${p.bgTaskDetail.state=='1' }"><span style="color:green">已读</span></c:if>
+							<c:if test="${p.bgTaskDetail.state==0}">
+								<span style="color:red">已失效</span>
+							</c:if>
+							<c:if test="${p.bgTaskDetail.state==1}">
+								<span style="color:green">有效</span>
+							</c:if>
 						</td>	
 						<td>
 							<a title="删除" onclick="return sc(${p.taskId })"><i class="Hui-iconfont">&#xe6e2;</i></a>
@@ -228,7 +232,7 @@ outline: none;
 				<tr>
 					<td></td>
 					<td><input type="hidden" id="taskId" name="taskId">
-						<input type="hidden" id="state" name="state" value="0"><!-- 默认是未读 -->
+						<input type="hidden" id="state" name="state" value="1"><!-- 默认是生效 -->
 						<input type="hidden" id="whetherComplete" name="whetherComplete" value="0"><!-- 默认未完成 -->
 						<input type="hidden" id="taskPromulgator" name="taskPromulgator" value="${dluser.workerName }">
 					</td>

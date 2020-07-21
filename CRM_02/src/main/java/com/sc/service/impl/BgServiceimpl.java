@@ -32,6 +32,8 @@ import com.sc.service.BgService;
 public class BgServiceimpl implements BgService {
 	
 	@Autowired
+	BgService bgService;//反复套娃
+	@Autowired
 	BgAssessIndexMapper bgAssessIndexMapper;
 	@Autowired
 	BgAssessTaskMapper bgAssessTaskMapper;
@@ -108,10 +110,58 @@ public class BgServiceimpl implements BgService {
 			criteria.andTaskTitleLike("%"+sousuo+"%");
 			List<BgAssessTask> list = bgAssessTaskMapper.selectByExample(example);
 			System.out.println("---模糊查询得到参数："+list);
+			//将考核任务详情补上，直接模糊查询没有考核任务详情表
+			for (BgAssessTask listxq : list) {
+				System.out.println("---考核任务主键："+listxq.getTaskId());
+				BgTaskDetail bgTaskDetail = bgService.getBgTaskDetail(listxq.getTaskId());
+				System.out.println("---通过非主键查询到的考核任务详情"+bgTaskDetail);
+				//将查询到的关联表，考核任务详情给考核任务
+				listxq.setBgTaskDetail(bgTaskDetail);
+			}
+			Date date=new Date();
+			//判断设置当前考核任务详情任务状态
+			for (BgAssessTask szzt : list) {
+				System.out.println("---最后结束时间："+szzt.getTaskFinishTime());
+				System.out.println("---当前时间："+date);
+				if(date.getTime()>szzt.getTaskFinishTime().getTime()){
+					System.out.println("---当前时间大于结束时间，过期");
+					//先获取当前对应的考核任务详情，在考核任务详情中设置状态
+					BgTaskDetail bgTaskDetail = bgService.getBgTaskDetail(szzt.getTaskId());
+					bgTaskDetail.setState("0");//0，过期
+					szzt.setBgTaskDetail(bgTaskDetail);
+				}else{
+					System.out.println("---当前时间小于结束时间，有效");
+					//先获取当前对应的考核任务详情，在考核任务详情中设置状态
+					BgTaskDetail bgTaskDetail = bgService.getBgTaskDetail(szzt.getTaskId());
+					bgTaskDetail.setState("1");//1，有效
+					szzt.setBgTaskDetail(bgTaskDetail);
+				}
+			}
+			
 			PageInfo<BgAssessTask> page=new PageInfo<BgAssessTask>(list);
 			return page;
 		}else{
 			List<BgAssessTask> list = bgAssessTaskMapper.select();
+			Date date=new Date();
+			//判断设置当前考核任务详情任务状态
+			for (BgAssessTask szzt : list) {
+				System.out.println("---最后结束时间："+szzt.getTaskFinishTime());
+				System.out.println("---当前时间："+date);
+				if(date.getTime()>szzt.getTaskFinishTime().getTime()){
+					System.out.println("---当前时间大于结束时间，过期");
+					//先获取当前对应的考核任务详情，在考核任务详情中设置状态
+					BgTaskDetail bgTaskDetail = bgService.getBgTaskDetail(szzt.getTaskId());
+					bgTaskDetail.setState("0");//0，过期
+					szzt.setBgTaskDetail(bgTaskDetail);
+				}else{
+					System.out.println("---当前时间小于结束时间，有效");
+					//先获取当前对应的考核任务详情，在考核任务详情中设置状态
+					BgTaskDetail bgTaskDetail = bgService.getBgTaskDetail(szzt.getTaskId());
+					bgTaskDetail.setState("1");//1，有效
+					szzt.setBgTaskDetail(bgTaskDetail);
+				}
+			}
+			
 			PageInfo<BgAssessTask> page=new PageInfo<BgAssessTask>(list);
 			return page;	
 		}

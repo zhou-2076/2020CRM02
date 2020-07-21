@@ -152,6 +152,7 @@ public class BgController {
 		XtUserInfo userInof = xtUserInfoService.getXtUserInof(nowuser.getStaffId());
 		System.out.println("---获取的登录员工信息："+userInof);
 		
+		
 		mav.addObject("dluser", userInof);
 		mav.addObject("user", selectXtUserInfo);
 		mav.addObject("selectBgAssessIndex", selectBgAssessIndex);

@@ -92,8 +92,8 @@ outline: none;
 					</tr>
 					<tr>
 						<td><input type="text" id="smsTitle" name="smsTitle" placeholder="标题"></td>
-						<td><input type="hidden" id="smsSender" name="smsSender" placeholder="发布人" value="${user.workerName }"></td>
-						<td style="width: 539px;height: 46px">接收人：
+						<td>接收人：<input type="hidden" id="smsSender" name="smsSender" placeholder="发布人" value="${user.workerName }"></td>
+						<td style="width: 539px;height: 46px">
 							<select style="width: 150px;height: 37.32px;border-radius: 5px;" id="receiverId" name="xianbuyong" data-selector data-selector-checks="true">${option }</select>
 						</td>
 					</tr>
@@ -308,7 +308,44 @@ outline: none;
 		
 	</div>
 	
-	
+	<!-- 分页样式 -->
+	<%-- <div>
+		
+			<span>当前${p.pageNum}/${p.pages}页</span>
+			
+			<div style="float: right;">
+			
+			<button onclick="sy()"
+			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">首页</button>
+			  <script type="text/javascript">
+			  function sy(){
+			  location.href="Bgctrl/selectBgSms.do?pageNum="+${p.navigateFirstPage }}
+			  </script>
+			  
+			<button onclick="syy()" 
+			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">上一页</button>
+			  <script type="text/javascript">
+			  function syy(){
+			  location.href="Bgctrl/selectBgSms.do?pageNum="+${p.prePage}}
+			  </script>
+			  
+			<button disabled="disabled"
+			style=" width:26px;height:26px;background-color: rgb(90, 152, 222);border: 0px;border-radius: 5px;">${p.pageNum}</button>
+			<button onclick="xyy()"
+			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">下一页</button>
+				<script type="text/javascript">
+			    function xyy(){
+			    location.href="Bgctrl/selectBgSms.do?pageNum="+${p.nextPage}}
+			    </script>
+			   
+			<button onclick="wy()"
+			style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
+				 <script type="text/javascript">
+			     function wy(){
+			     location.href="Bgctrl/selectBgSms.do?pageNum="+${p.navigateLastPage }}
+			  	 </script>
+			</div>
+		</div> --%>
 	
 	<script type="text/javascript">
 		/* 搜索 */
