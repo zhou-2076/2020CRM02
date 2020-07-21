@@ -2,7 +2,10 @@ package com.sc.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,9 +13,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -31,12 +36,15 @@ import com.sc.entity.KcGoodsInfo;
 import com.sc.entity.KcWarehouseInfo;
 import com.sc.entity.Massage;
 import com.sc.entity.XsCustom;
+import com.sc.entity.XtCompanyInfo;
 import com.sc.entity.XtDutiesInfo;
 import com.sc.entity.XtSection;
 import com.sc.entity.XtUserInfo;
 import com.sc.service.CgService;
 import com.sc.service.KcGoodsInfoService;
 import com.sc.service.KcWareHouseInfoService;
+import com.sc.service.XtCompanyInfoService;
+import com.sc.service.XtDutiesInfoServic;
 import com.sc.service.XtDutiesInfoService;
 import com.sc.service.XtSectionService;
 import com.sc.service.XtUserInfoService;
@@ -54,7 +62,13 @@ public class RsController {
 	
 	@Autowired
 	KcGoodsInfoService kcGoodsInfoService;
-
+	
+	//职务
+	@Autowired
+	XtDutiesInfoServic xtDutiesInfoServic;
+	//公司
+	@Autowired
+	XtCompanyInfoService xtCompanyInfoService;
 	
 	//.添加部门信息  XT_SECTION 系统部门表
 	@Autowired
@@ -337,28 +351,32 @@ public class RsController {
 			public ModelAndView selectgoodsInfo(ModelAndView mav,
 					@RequestParam(defaultValue = "1") Integer pageNum,//假如没有传参数，给一个默认值
 					@RequestParam(defaultValue = "10") Integer pageSize,
-					KcGoodsInfo goodsInfo){
-				
+					KcGoodsInfo goodsInfo,String name,Long id){
+				PageInfo<KcGoodsInfo> suplist =kcGoodsInfoService.selectGoodsInfoByid1(pageNum, pageSize, name, id);
 				System.out.println("进入查询客户信息表的分页方法了"+goodsInfo);
-				System.out.println("--------------最小输入时间"+goodsInfo.getDatemin());//因为扩展属性是后加的，随意这里单独打印出来作为调试
-				System.out.println("--------------最大输入时间"+goodsInfo.getDatemax());
-				
-				PageInfo<KcGoodsInfo> page= kcGoodsInfoService.selectGoodsInfo(pageNum, pageSize, goodsInfo);
-				
-				for (KcGoodsInfo cc : page.getList()) {
-					System.out.println("@@@@@@@@@@@@@@@@@"+cc);
+				for (KcGoodsInfo cs : suplist.getList()) {
+					System.out.println("@@@@@@@"+cs);
+				}
+				String temp = "yes";
+				List<KcGoodsInfo> list = suplist.getList();
+				if (list.size() == 0) {
+					temp = "no";
+				}
+				if (name != null) {
+					mav.addObject("ssz", name);
+				}
+				if (id != null) {
+					mav.addObject("ssz", id);
 				}
 				
-				
-				mav.addObject("p", page);
-				//要往页面上访问数据就往模型里装
-				mav.addObject("g", goodsInfo);//前属性名，后属性值
+				mav.addObject("temp", temp);
+				mav.addObject("p", suplist);	
 				mav.setViewName("wwj_rs/KcGoodsInfo_list"); //在application.yml里面配置了，   前缀/WEB-INF  /   ty/custom_list    .jsp后缀
 				return mav;
 			}
 			
 			
-			
+			//根据仓库的id查询所在仓库的商品
 			@RequestMapping("/gogoods.do")
 			public ModelAndView goGoods(ModelAndView mav,KcWarehouseInfo huseInfo,HttpSession session,
 					@RequestParam(defaultValue = "1") Integer pageNum,//假如没有传参数，给一个默认值
@@ -416,6 +434,9 @@ public class RsController {
 			@RequestMapping("/updategoods.do")
 			public ModelAndView updategoods(ModelAndView mav, KcGoodsInfo goodsInfo) {
 				goodsInfo.setLastModifyDate(new Date());
+				
+				System.out.println("*******"+goodsInfo);
+				System.out.println("测试一下");
 				kcGoodsInfoService.updateGoodsInfo(goodsInfo);
 				mav.setViewName("redirect:selectgoodsInfo.do");
 				return mav;
@@ -446,7 +467,205 @@ public class RsController {
 					}
 //<<<<<<<<<<<<<<<<<<<<<商品表的操作《》《》《》《》《》《》《》《》《》《》《》《》
 	
+//<<<<<<<<<<<<<<<<<<<<<公司表的操作《》《》《》《》《》《》《》《》《》《》《》《》
+					
+	// 模糊查询公司
+	@RequestMapping("/selectCompany.do")
+	public ModelAndView selectCompany(ModelAndView mav,
+			@RequestParam(defaultValue = "1") Integer pageNum,//假如没有传参数，给一个默认值
+			@RequestParam(defaultValue = "10") Integer pageSize,
+			XtCompanyInfo companyInfo,String name){
+		PageInfo<XtCompanyInfo> suplist =xtCompanyInfoService.selectCompanyInfo(pageNum, pageSize, name);
+		System.out.println("进入查询客户信息表的分页方法了"+companyInfo);
+		for (XtCompanyInfo cs : suplist.getList()) {
+			System.out.println("@@@@@@@"+cs);
+		}
+		String temp = "yes";
+		List<XtCompanyInfo> list = suplist.getList();
+		if (list.size() == 0) {
+			temp = "no";
+		}
+		if (name != null) {
+			mav.addObject("ssz", name);
+		}
+		mav.addObject("temp", temp);
+		mav.addObject("page", suplist);	
+		mav.setViewName("wwj_rs/XtCompanyInfo_list"); //在application.yml里面配置了，   前缀/WEB-INF  /   ty/custom_list    .jsp后缀
+		return mav;
+	}				
 	
-			
+
+	//查询公司的信息明细
+	@RequestMapping("/selectCompanyid.do")
+	@ResponseBody
+	public XtCompanyInfo selectCompanyid(Long id ){
+		System.out.println("进入公司详情页面");
+		XtCompanyInfo CompanyInfo = xtCompanyInfoService.getCompanyInfo(id);
+		return CompanyInfo;
+	}				
+	
+	// 修改商品
+	@RequestMapping("/updateCompany.do")
+	public ModelAndView updateCompany(ModelAndView mav, XtCompanyInfo CompanyInfo) {
+		CompanyInfo.setLastModifyDate(new Date());
+		
+		System.out.println("*******"+CompanyInfo);
+		System.out.println("测试一下");
+		xtCompanyInfoService.updateCompanyInfo(CompanyInfo);
+		mav.setViewName("redirect:selectCompany.do");
+		return mav;
+	}					
+	
+	// 录入公司信息
+		@RequestMapping("/addCompany.do")
+		public ModelAndView addCompany(ModelAndView mav, XtCompanyInfo CompanyInfo) {
+			CompanyInfo.setLastModifyDate(new Date());
+			xtCompanyInfoService.addCompanyInfo(CompanyInfo);
+			mav.setViewName("redirect:selectCompany.do");
+			return mav;
+		}	
+		
+		
+		// 供应批量删除+删除
+				@RequestMapping("/deletsup1.do")
+				public ModelAndView deletsup1(ModelAndView mav, Long[] id) {
+					
+					System.out.println("%%%%%%%%%%%%");
+					if (id != null && id.length > 0) {
+						for (Long long1 : id) {
+							xtCompanyInfoService.delectCompanyInfo(long1);
+						}
+					}
+					mav.setViewName("redirect:selectCompany.do");
+					return mav;
+				}
+	
+				
+				// 商品导出excel
+				@RequestMapping("/daochu.do")
+				public void goodsExcel(HttpServletResponse response) {
+					XSSFWorkbook wb = kcGoodsInfoService.show();
+					String fileName = "商品信息.xlsx";// 后缀要加创建出来的文件形式才是以xlsx后最的文件
+					OutputStream outputStream = null;// 字符输出流
+					try {
+						fileName = URLEncoder.encode(fileName, "UTF-8");
+						// 设置ContentType请求信息格式
+						response.setContentType("application/vnd.ms-excel");
+						response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+						outputStream = response.getOutputStream();
+						wb.write(outputStream);
+						outputStream.flush();
+						outputStream.close();
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+	
+//<<<<<<<<<<<<<<<<<<<<<公司表的操作《》《》《》《》《》《》《》《》《》《》《》《》
+				
+//<<<<<<<<<<<<<<<<<<<<<职务表的操作《》《》《》《》《》《》《》《》《》《》《》《》
+// 模糊查询职务
+@RequestMapping("/selectDuties.do")
+public ModelAndView selectDutiesy(ModelAndView mav,
+		@RequestParam(defaultValue = "1") Integer pageNum,//假如没有传参数，给一个默认值
+		@RequestParam(defaultValue = "10") Integer pageSize,
+		XtDutiesInfo DutiesInfo,String name){
+	PageInfo<XtDutiesInfo> suplist =xtDutiesInfoServic.selectDutiesInfo(pageNum, pageSize, DutiesInfo, name);
+	System.out.println("进入查询客户信息表的分页方法了"+DutiesInfo);
+	for (XtDutiesInfo cs : suplist.getList()) {
+		System.out.println("@@@@@@@"+cs);
+	}
+	String temp = "yes";
+	List<XtDutiesInfo> list = suplist.getList();
+	if (list.size() == 0) {
+		temp = "no";
+	}
+	if (name != null) {
+		mav.addObject("ssz", name);
+	}
+	mav.addObject("temp", temp);
+	mav.addObject("page", suplist);	
+	mav.setViewName("wwj_rs/XtDutiesInfo_list"); //在application.yml里面配置了，   前缀/WEB-INF  /   ty/custom_list    .jsp后缀
+	return mav;
+}		
+				
+				
+//查询职务的信息明细
+	@RequestMapping("/selectDutiesInfo1.do")
+	@ResponseBody
+	public XtDutiesInfo selectDutiesInfo1(Long id ){
+		System.out.println("进入公司详情页面");
+		XtDutiesInfo DutiesInfo = xtDutiesInfoServic.getDutiesInfo(id);
+		return DutiesInfo;
+	}				
+	
+	// 修改商品
+	@RequestMapping("/updateDutiesInfo.do")
+	public ModelAndView updateDutiesInfo(ModelAndView mav, XtDutiesInfo DutiesInfo) {
+		DutiesInfo.setLastModifyDate(new Date());
+		
+		System.out.println("*******"+DutiesInfo);
+		System.out.println("测试一下");
+		xtDutiesInfoServic.updateDutiesInfo(DutiesInfo);
+		mav.setViewName("redirect:selectDutiesInfo.do");
+		return mav;
+	}					
+	
+	// 录入职务信息
+		@RequestMapping("/addDutiesInfo.do")
+		public ModelAndView addDutiesInfo(ModelAndView mav, XtDutiesInfo DutiesInfo) {
+			DutiesInfo.setLastModifyDate(new Date());
+			xtDutiesInfoServic.addDutiesInfo(DutiesInfo);
+			mav.setViewName("redirect:selectDuties.do");
+			return mav;
+		}	
+		
+		
+		// 供应批量删除+删除
+				@RequestMapping("/deletsup2.do")
+				public ModelAndView deletsup2(ModelAndView mav, Long[] id) {
+					
+					System.out.println("%%%%%%%%%%%%");
+					if (id != null && id.length > 0) {
+						for (Long long1 : id) {
+							xtDutiesInfoServic.delectDutiesInfo(long1);
+						}
+					}
+					mav.setViewName("redirect:selectDuties.do");
+					return mav;
+				}
+					
+				
+				
+				
+//<<<<<<<<<<<<<<<<<<<<<职务表的操作《》《》《》《》《》《》《》《》《》《》《》《》		
+//<<<<<<<<<<<<<<<<<<<<<多表的操作的操作《》《》《》《》《》《》《》《》《》《》《》《》			
+				//根据仓库的id查询所在仓库的商品
+				@RequestMapping("/gogouser.do")
+				public ModelAndView gouser(ModelAndView mav,XtCompanyInfo CompanyInfo,HttpSession session,
+						@RequestParam(defaultValue = "1") Integer pageNum,//假如没有传参数，给一个默认值
+						@RequestParam(defaultValue = "10") Integer pageSize,
+						XtUserInfo UserInfo ){
+					
+					
+					//把BigDecimal 转换成 Long数据类型
+					//获取到商品表中仓库的编号，并且把BigDecimal 转换成 Long数据类型（这里商品表中仓库的编号和仓库表中商品的编号不同
+					                                               //所以要转换）
+			        Long gsId = UserInfo.getCompanyId().longValue();
+				    //获取到仓库ID
+			        XtCompanyInfo getCompany = xtCompanyInfoService.getCompanyInfo(gsId);
+				    
+					PageInfo<XtUserInfo> page= xtUserInfoService.selectXtUserInof(pageNum, pageSize, UserInfo);
+					mav.addObject("ck", UserInfo);
+					mav.addObject("p", page);
+					mav.setViewName("wwj_rs/KcGoodsInfo_list");	
+					session.setAttribute("nowhuseInfoid", UserInfo.getCompanyId());//session.getAttribute("nowhuseInfoid")
+					
+					return mav;
+				}	
+							
+				
 }
 

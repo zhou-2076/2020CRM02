@@ -3,16 +3,22 @@ package com.sc.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sc.entity.CgSupMsg;
 import com.sc.entity.KcGoodsInfo;
 import com.sc.entity.KcGoodsInfoExample;
 import com.sc.entity.XsCustom;
 import com.sc.entity.XsCustomExample;
+import com.sc.entity.XtUserInfo;
+import com.sc.entity.XtUserInfoExample;
 import com.sc.entity.XsCustomExample.Criteria;
 import com.sc.mapper.KcGoodsInfoMapper;
 import com.sc.service.KcGoodsInfoService;
@@ -65,6 +71,30 @@ public class KcGoodsInfoServiceImpl implements KcGoodsInfoService {
 		PageInfo<KcGoodsInfo> page=new PageInfo<KcGoodsInfo>(list);
 		return page;
 	}
+	
+	
+	
+	
+	public PageInfo<KcGoodsInfo> selectGoodsInfoByid1(Integer pageNum, Integer pageSize, String name,Long warehouseId) {
+		PageHelper.startPage(pageNum, pageSize);
+		KcGoodsInfoExample kcGoodsInfoExample = new KcGoodsInfoExample();
+
+		com.sc.entity.KcGoodsInfoExample.Criteria createCriteria = kcGoodsInfoExample.createCriteria();
+
+		if (name != null) {
+			createCriteria.andProductNameLike("%" + name + "%");
+		}
+		
+		if (warehouseId != null) {
+			createCriteria.andCompanyIdGreaterThanOrEqualTo(warehouseId);
+		}
+		
+		kcGoodsInfoExample.setOrderByClause("PRODUCT_ID");
+		List<KcGoodsInfo> list = kcGoodsInfoMapper.selectByExample(kcGoodsInfoExample);
+		PageInfo<KcGoodsInfo> page = new PageInfo<KcGoodsInfo>(list);
+		return page;
+	}
+
 
 	@Override
 	public void updateGoodsInfo(KcGoodsInfo goodsInfo) {
@@ -91,18 +121,7 @@ public class KcGoodsInfoServiceImpl implements KcGoodsInfoService {
 				return null;
 			}
 
-	@Override
-	public PageInfo<KcGoodsInfo> selectGoodsInfoByid(Integer pageNum, Integer pageSize, Long warehouseId) {
-		PageHelper.startPage(pageNum, pageSize);
-		KcGoodsInfoExample example=new KcGoodsInfoExample();
-		com.sc.entity.KcGoodsInfoExample.Criteria criteria = example.createCriteria();
-		
-		criteria.andProductIdEqualTo(warehouseId);
-		
-		List<KcGoodsInfo> list=kcGoodsInfoMapper.selectByExample(example);//之前这里面放的是空
-		PageInfo<KcGoodsInfo> page=new PageInfo<KcGoodsInfo>(list);
-		return page;
-	}
+	
 
 	@Override
 	public void deletehouse(Long productId) {
@@ -110,6 +129,42 @@ public class KcGoodsInfoServiceImpl implements KcGoodsInfoService {
 			kcGoodsInfoMapper.deleteByPrimaryKey(productId);
 		}
 
+	}
+
+
+
+
+	
+
+
+
+
+	@Override
+	public XSSFWorkbook show() {
+		List<KcGoodsInfo> list = kcGoodsInfoMapper.selectByExample(null);//查出数据库数据
+        XSSFWorkbook wb = new XSSFWorkbook();//创建一个工作簿
+        Sheet sheet = wb.createSheet();//创建一张表
+        Row titleRow = sheet.createRow(0);//创建第一行，起始为0
+        titleRow.createCell(0).setCellValue("商品编号");
+        titleRow.createCell(1).setCellValue("商品名称");
+        titleRow.createCell(2).setCellValue("商品类别");
+        titleRow.createCell(3).setCellValue("库存数量");
+        titleRow.createCell(4).setCellValue("成本价");
+        titleRow.createCell(5).setCellValue("零售价");
+        titleRow.createCell(5).setCellValue("仓库编号");
+        int cell = 1;
+        for (KcGoodsInfo csm : list) {
+            Row row = sheet.createRow(cell);//从第二行开始保存数据
+            row.createCell(0).setCellValue(csm.getProductId());//将数据库的数据遍历出来
+            row.createCell(1).setCellValue(csm.getProductName());
+            row.createCell(2).setCellValue(csm.getProductType());
+//            row.createCell(3).setCellValue(csm.getKcNum());
+//            row.createCell(4).setCellValue(csm.getCost());
+//            row.createCell(5).setCellValue(csm.getRenall());
+ //           row.createCell(5).setCellType(csm.getWarehouseId());
+            cell++;
+        }
+        return wb;
 	}
 	
 
