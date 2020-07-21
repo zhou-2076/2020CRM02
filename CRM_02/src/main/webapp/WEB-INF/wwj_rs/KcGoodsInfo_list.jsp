@@ -52,31 +52,47 @@
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>商品管理 (仓库编号:${sessionScope.nowhuseInfoid })<span class="c-gray en">&gt;</span>商品信息管理 <a class="btn btn-refresh radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-	<form action="Rsctrl/selectgoodsInfo.do" method="post" id="myform"> <!--  把表单控件包起来-->
-		<div class="text-c"> 日期范围： <!--从什么日期到什么日期，所以搞一个扩展属性只有年月日  --> <!-- 它这里的格式会防止出错，比如最小日期只能在最大日期前面选择 -->
-			<input type="text" value="<fmt:formatDate value="${g.datemin}" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
-			-
-			<input type="text" value="<fmt:formatDate value="${g.datemax }" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
-			<input type="text" value="${g.productName} " class="input-text" style="width:250px" placeholder="输入商品名称进行模糊查询" id="productName" name="productName">
-			<input type="hidden" name="pageNum" id="pageNum" value="${p.pageNum }"> <!-- 这个隐藏域是用来穿页数重新提交表单的 -->
-			<button type="reset" onclick="chongzhi()" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe6f7;</i> 重置</button>
-				<script type="text/javascript">
-					function chongzhi(){
-						document.getElementById("datemin").value="";
-						document.getElementById("datemax").value="";
-						document.getElementById("customName").value="";
-					}
-				</script> 
-			<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+	<div class="page-container">
+		<div class="text-c">
+				<from action=""> 
+				<input type="text" value="${ssz}"
+				class="input-text" style="width:250px" placeholder="商品名称模糊搜索"
+				id="sousuo">
+			<button type="button" class="btn btn-success radius"
+				onclick="return sousuo()">
+				<i class="Hui-iconfont">&#xe665;</i> 搜索
+			</button>
+			<button id="cz" onclick="cla()" type="reset"
+				style="background-color: pink;border: 0px;"
+				class="btn btn-success radius">
+				<i class="Hui-iconfont">&#xe68f;</i>重置
+			</button>
+			</from>
 		</div>
-	</form>
+		
+		<script type="text/javascript">
+		function cla(){
+		  document.getElementById("sousuo").value="";
+		}
+		
+		</script>
 	
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> 
 		<span class="l">
 		<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> 
 		<a href="Rsctrl/selectdepot.do"  class="btn btn-primary radius"><i class="Hui-iconfont">&#xe6f7;</i> 返回仓库</a>
 		<!-- <a href="javascript:;" onclick="member_add('添加客户','xscustomctrl/goaddcustom.do','','520')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加客户</a> -->
+		</a> <a href="javascript:;" onclick="daochu()"
+				style="background-color: pink; border: 0px;"
+				class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe600;</i>
+					导出到excel
+			</a>
 		</span> 
+		<script type="text/javascript">
+				function daochu() {
+					location.href = "<%=basePath%>Rsctrl/daochu.do"
+				}
+			</script>
 		<span class="r">共有数据：<strong>${p.total}</strong> 条</span> 
 	</div>
 	
@@ -165,20 +181,43 @@
 	<div>
 				<span>当前${p.pageNum}/${p.pages}页</span>
 				<div style="float: right;">
-					<button onclick="gopage(${p.navigateFirstPage })"
+					<button onclick="sy()"
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">首页</button>
-					
-					<button onclick="gopage(${p.prePage })"
+					<script type="text/javascript">
+				  function sy(){
+				  
+				  location.href="Rsctrl/selectgoodsInfo.do?pageNum="+${p.navigateFirstPage }+
+				      "&name="+document.getElementById("sousuo").value
+				  }
+				  </script>
+					<button onclick="syy()"
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">上一页</button>
-					
+					<script type="text/javascript">
+				  function syy(){
+				 
+				  location.href="Rsctrl/selectgoodsInfo.do?pageNum="+${p.prePage}+
+				      "&name="+document.getElementById("sousuo").value
+				  }
+				  </script>
 					<button disabled="disabled"
 						style=" width:26px;height:26px;background-color: rgb(90, 152, 222);border: 0px;border-radius: 5px;">${p.pageNum}</button>
-					<button onclick="gopage(${p.nextPage })"
+					<button onclick="xyy()"
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">下一页</button>
-					
-					<button onclick="gopage(${p.navigateLastPage })"
+					<script type="text/javascript">
+				     function xyy(){
+				  		 
+				      location.href="Rsctrl/selectgoodsInfo.do?pageNum="+${p.nextPage}+
+				      "&name="+document.getElementById("sousuo").value
+				    }
+				   </script>
+					<button onclick="wy()"
 						style="height: 26px;width: 50px;border: 0px;border-radius: 5px;">尾页</button>
-					
+					<script type="text/javascript">
+				     function wy(){
+				     location.href="Rsctrl/selectgoodsInfo.do?pageNum="+${p.navigateLastPage }+
+				      "&name="+document.getElementById("sousuo").value
+				    }
+				  </script>
 				</div>
 				<script type="text/javascript">
 					function gopage(pageNum){
@@ -195,8 +234,16 @@
 				<form style="margin-left: 20px;" id="from"  >
 					<table>
 					<tr>
+					<td>商品编号</td>
+					<td><input type="text" id="productId" name="productId"></td>
+					
+					</tr>
+					
+					
+					<tr>
 							<td>商品名称</td>
-							<td><input type="text" id="productName" name="productName"></td>
+							<td><input type="text" id="productName" name="productName">
+							</td>
 							<td>商品类别</td>
 							<td><input type="text" id="productType" name="productType">
 							</td>
@@ -286,6 +333,12 @@ $(function(){
 	
 });
 
+/* 搜索 */
+			function sousuo() {
+			alert(document.getElementById("sousuo").value)
+				var sousuo = document.getElementById("sousuo").value;
+				location.href = "Rsctrl/selectgoodsInfo.do?name=" + sousuo
+			}
 
 
 /*查看客户基本信息*/
@@ -298,6 +351,7 @@ $(function(){
 					success : function(data) //从前台回调回来的数组，处理后的数据
 					{
 				 	//alert(data.productName); 
+				 		$("#a").html("商品编号：" + data.productId);
 						$("#a").html("商品名称：" + data.productName);
 						$("#b").html("商品类别 ：" + data.productType);
 						$("#c").html("规格说明：" + data.ggsm);
@@ -379,14 +433,15 @@ function member_del(obj,id){
 /* 编辑 */
 		function bj(id) {
 			var temp = 0;
-			$("#productId").val($("#ee").val());
+			$("#productId").val($("#ee").val()); 
 			$.ajax({
 				type : "post",
 				url : "<%=basePath%>Rsctrl/selectgoodsxq.do?id=" + id,
 				dataType : "json",
 				success : function(data) //从前台回调回来的数组，处理后的数据
 				{
-					$("#productName").val(data.productName);
+				        $("#productId").val(data.productId);
+					    $("#productName").val(data.productName);
 						$("#productType").val(data.productType);
 						$("#ggsm").val(data.ggsm);
 						$("#unit").val(data.unit);
@@ -428,10 +483,10 @@ function member_del(obj,id){
 				yes : function() {
 					temp = 1;
 					/* 输出序列后的值，name一定要和bean的一样 */
-					/* alert($('#from').serialize()); */
+					//alert($('#from').serialize());
 					$.ajax({
 						type : "post", //请求方式
-						url : "Rsctrl/updategoods.do", //url地址
+						url : "<%=basePath%>Rsctrl/updategoods.do", //url地址
 						data : $('#from').serialize(), //序列化表单的参数
 						dataType : "json" //响应类型
 					});
