@@ -1,8 +1,10 @@
 package com.sc.service;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.github.pagehelper.PageInfo;
 import com.sc.entity.KcGoodsInfo;
-import com.sc.entity.XtUserInfo;
+
 
 public interface KcGoodsInfoService {
 	
@@ -19,6 +21,9 @@ public interface KcGoodsInfoService {
 		//根据ID查询商品信息
 	    public KcGoodsInfo getGoodsInfo(Long productId);
 	    
-	    public PageInfo<KcGoodsInfo> selectGoodsInfoByid(Integer pageNum, Integer pageSize,Long productId);
+	  //导出供应商excel表
+		public XSSFWorkbook show();
+	    
+	    public PageInfo<KcGoodsInfo> selectGoodsInfoByid1(Integer pageNum, Integer pageSize,String name,Long warehouseId);
 }
 
